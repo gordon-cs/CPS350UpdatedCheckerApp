@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="WpfApplication2.SignInPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApplication2"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Width="600" Height="800">
+    <Grid>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Center" Margin="64.5,0" TextWrapping="Wrap" Text="GORDON COLLEGE Chapel Checker Sign-In" VerticalAlignment="Top" Height="268" Width="471" TextAlignment="Center" FontSize="42.667" FontFamily="Lucida Fax" Foreground="White" FontWeight="Bold"/>
+        <TextBlock x:Name="textBlock_Copy" HorizontalAlignment="Center" Margin="129.5,254,129.5,0" TextWrapping="Wrap" Text="Scan to Sign in" VerticalAlignment="Top" Height="59" Width="341" TextAlignment="Center" FontSize="42.667" FontFamily="Lucida Fax" Foreground="White" FontWeight="Bold"/>
+        <Button x:Name="buttonScan" Content="Sign in" HorizontalAlignment="Center" Margin="180,337,170,0" VerticalAlignment="Top" Width="250" Height="100" Click="buttonScan_Click" BorderThickness="3" Cursor="Hand" Background="#FF2EC935" FontSize="42.667" FontFamily="DengXian" Panel.ZIndex="1"/>
+        <TextBlock x:Name="labelID" HorizontalAlignment="Left" Margin="180,490,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="83" Width="250" FontFamily="DengXian" FontSize="18.667" Foreground="White"/>
+
+    </Grid>
+</UserControl>
