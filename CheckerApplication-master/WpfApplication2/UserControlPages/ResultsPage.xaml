@@ -9,7 +9,8 @@
     <Grid>
         <TextBlock x:Name="textBlockResults" HorizontalAlignment="Center" Margin="64,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="208" Width="472" TextAlignment="Center" FontSize="42.667" FontFamily="Lucida Fax" Foreground="White" FontWeight="Bold"><Run Text="GORDON COLLEGE Chapel Checker"/><LineBreak/><Run/><LineBreak/><Run Text="Results"/></TextBlock>
         <Button x:Name="buttonBack" Content="Back to Sign-in" HorizontalAlignment="Center" Margin="0,550,0,0" VerticalAlignment="Center" Width="400" Height="80" FontSize="42.667" FontFamily="DengXian" Click="buttonBack_Click" BorderBrush="Black" Cursor="Hand"/>
-        <TextBlock x:Name="textBlockSaveFile" HorizontalAlignment="Center" Margin="64,245,64,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="208" Width="472" TextAlignment="Center" FontSize="32" FontFamily="Lucida Fax" Foreground="White" FontWeight="Bold" Text="attendance file saved as "/>
+        <TextBlock x:Name="textBlockSaveFile" HorizontalAlignment="Center" Margin="64,245,64,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="193" Width="472" TextAlignment="Center" FontSize="32" FontFamily="Lucida Fax" Foreground="White" FontWeight="Bold" Text="attendance file saved as "/>
+        <Button x:Name="buttonOpenText" Content="Open Text File" HorizontalAlignment="Center" Margin="100,516,100,204" VerticalAlignment="Center" Width="400" Height="80" FontSize="42.667" FontFamily="DengXian" BorderBrush="Black" Cursor="Hand" Click="buttonOpenText_Click"/>
 
     </Grid>
 </UserControl>

@@ -31,6 +31,8 @@ namespace WpfApplication2
         System.Timers.Timer aTimer;
         int counter = 0;
         Boolean noCreditChecked = false;
+        private SoundPlayer happyPlayer = new SoundPlayer("../../Assets/blip.wav");
+        private SoundPlayer failPlayer = new SoundPlayer("../../Assets/failure_beep.wav");
 
         public ScanPage()
         {
@@ -137,6 +139,7 @@ namespace WpfApplication2
                         labelID.Text = counter + ": The prox ID " + proxID + " will receive credit.";
                     });
                     attendanceWriter.setNoCredit(0);
+                    happyPlayer.Play();
                 }
                 else
                 {
@@ -148,9 +151,10 @@ namespace WpfApplication2
                     });
                     attendanceWriter.setNoCredit(1);
                     noCreditChecked = false;
+                    failPlayer.Play();
                 }
 
-                SystemSounds.Beep.Play();
+                //SystemSounds.Beep.Play();
 
 
                 attendanceWriter.WriteTextFile(proxID);

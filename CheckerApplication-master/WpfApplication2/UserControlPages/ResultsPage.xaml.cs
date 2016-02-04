@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace WpfApplication2
 {
@@ -34,6 +35,11 @@ namespace WpfApplication2
         private void buttonBack_Click(object sender, RoutedEventArgs e)
         {
             MainWindow.AppWindow.GoToSignInPage();
+        }
+
+        private void buttonOpenText_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(attendanceWriter.getFilePath());
         }
     }
 }

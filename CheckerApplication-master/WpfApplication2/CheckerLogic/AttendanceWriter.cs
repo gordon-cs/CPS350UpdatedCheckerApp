@@ -20,6 +20,7 @@ namespace WpfApplication2
         private string hexChapelCheckerID;
         private string uniqueDeviceID;
 
+
         public AttendanceWriter()
         {
         }

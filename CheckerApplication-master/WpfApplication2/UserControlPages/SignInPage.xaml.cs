@@ -29,6 +29,8 @@ namespace WpfApplication2
         System.Timers.Timer aTimer;
         int counter = 0;
         string chapelCheckerId;
+        private SoundPlayer happyPlayer = new SoundPlayer(@"../../Assets/blip.wav");
+        private SoundPlayer failPlayer = new SoundPlayer(@"../../Assets/failure_beep.wav");
 
 
         public SignInPage()
@@ -74,7 +76,7 @@ namespace WpfApplication2
             if (nBits > 0)
             {
 
-                SystemSounds.Beep.Play();
+                //SystemSounds.Beep.Play();
 
                 String s = nBits.ToString() + " Bit ID [0]..[7]: ";
                 String proxID = "";
@@ -99,12 +101,14 @@ namespace WpfApplication2
                         attendanceWriter.setChapelCheckerID(proxID);
                         successfulSignIn();
                     });
+                    happyPlayer.Play();
                 }
                 else
                 {
                     Dispatcher.Invoke(() => {
                         labelID.Text = counter + ": The prox ID: " + proxID + " is not authorized";
                     });
+                    failPlayer.Play();
                 }
 
             }
