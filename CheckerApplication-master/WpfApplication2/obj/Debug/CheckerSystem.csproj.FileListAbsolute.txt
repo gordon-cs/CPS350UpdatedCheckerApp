@@ -128,3 +128,5 @@ C:\Users\Jonny\Documents\GitHub\CheckerApp\CheckerApplication-master\WpfApplicat
 C:\Users\Jonny\Documents\GitHub\CheckerApp\CheckerApplication-master\WpfApplication2\obj\Debug\CheckerSystem.Properties.Resources.resources
 C:\Users\Jonny\Documents\GitHub\CheckerApp\CheckerApplication-master\WpfApplication2\obj\Debug\CheckerSystem.csproj.GenerateResource.Cache
 C:\Users\Jonny\Documents\GitHub\CheckerApp\CheckerApplication-master\WpfApplication2\obj\Debug\CheckerSystem_Content.g.cs
+C:\Users\Jonny\Documents\GitHub\CheckerApp\CheckerApplication-master\WpfApplication2\obj\Debug\CheckerSystem.csprojResolveAssemblyReference.cache
+C:\Users\Jonny\Documents\GitHub\CheckerApp\CheckerApplication-master\WpfApplication2\bin\Debug\App.config

@@ -1,0 +1,63 @@
+﻿91912,Undergraduate Research Convocation,2016-01-29 10:25:00.000,2016-01-29 11:10:00.000
+91778,Chapel: Rev. Tom Haugen ,2016-02-01 10:25:00.000,2016-02-01 11:10:00.000
+91801,Chapel: Dr. Rex Keener,2016-02-03 10:25:00.000,2016-02-03 11:10:00.000
+91847,CECulture Lecture: Confident Pluralism ,2016-02-04 16:30:00.000,2016-02-04 17:30:00.000
+94020,GCSA Convocation featuring Micheal Flaherty, filmmaker,2016-02-05 10:25:00.000,2016-02-05 11:10:00.000
+91802,Chapel: Bill Paige,2016-02-08 10:25:00.000,2016-02-08 11:10:00.000
+91779,Chapel: Bill Mooney-McCoy,2016-02-10 10:25:00.000,2016-02-10 11:10:00.000
+92948,Ash Wednesday Mass (Hosted by Catholic Student Fellowship),2016-02-10 19:00:00.000,2016-02-10 20:00:00.000
+91913,Convocation: Lessons in Optometry from Study Abroad,2016-02-12 10:25:00.000,2016-02-12 11:10:00.000
+92966,Bob Bowdon: The Bitter Fight For & Against School Choice,2016-02-12 17:30:00.000,2016-02-12 19:20:00.000
+91809,DEEP FAITH Week: Skye Jethani,2016-02-15 10:25:00.000,2016-02-15 11:10:00.000
+91810,DEEP FAITH Week Evening Chapel: Skye Jethani,2016-02-15 21:00:00.000,2016-02-15 22:00:00.000
+91811,DEEP FAITH Week Evening Chapel: Skye Jethani,2016-02-16 21:00:00.000,2016-02-16 22:00:00.000
+91812,DEEP FAITH Week: Skye Jethani,2016-02-17 10:25:00.000,2016-02-17 11:10:00.000
+35494,FSU: Brian Johnson, Tuskegee University "Race and Higher Education: The State of Our National Conversation",2016-02-18 16:00:00.000,2016-02-18 18:00:00.000
+91914,Convocation: The Christian Life in Dialogue: Reconciling the Racial Divide - speaker: Professor Walter Strickland,2016-02-19 10:25:00.000,2016-02-19 11:10:00.000
+91848,Redeemed Mosaic,2016-02-19 19:00:00.000,2016-02-19 21:00:00.000
+91849,Redeemed Mosaic,2016-02-20 08:00:00.000,2016-02-20 16:30:00.000
+91780,Chapel: Rev. Tom Haugen,2016-02-22 10:25:00.000,2016-02-22 11:10:00.000
+91803,Chapel: Virginia Ward,2016-02-22 10:25:00.000,2016-02-22 11:10:00.000
+91921,Conversation with the President: Rich and Sharon McClure,2016-02-22 12:30:00.000,2016-02-22 13:30:00.000
+93010,Carry the Love Tour Worship Event,2016-02-22 19:30:00.000,2016-02-22 21:30:00.000
+36921,Gordon College Job & Internship Fair,2016-02-25 15:00:00.000,2016-02-25 17:30:00.000
+91915,A Conversation with the President Convocation: Vocational Journey:  Sharing the Drive,2016-02-26 10:25:00.000,2016-02-26 11:10:00.000
+91868,Q Commons,2016-03-03 17:00:00.000,2016-03-03 22:00:00.000
+91804,Evening Chapel: Q Union,2016-03-14 21:00:00.000,2016-03-14 22:00:00.000
+91805,Chapel: Q Union,2016-03-16 10:25:00.000,2016-03-16 11:10:00.000
+94033,Evans Family Seder,2016-03-16 21:15:00.000,2016-03-16 22:15:00.000
+35495,FSU: Dr. William Hurlbut will give the Tak Yan Lee lecture,2016-03-17 16:00:00.000,2016-03-17 18:00:00.000
+91916,Departmental Convocations,2016-03-18 10:25:00.000,2016-03-18 11:10:00.000
+91782,Chapel: Dr. Graeme Bird,2016-03-30 10:25:00.000,2016-03-30 11:10:00.000
+91806,Chapel: Stephanie Clark,2016-04-04 10:25:00.000,2016-04-04 11:10:00.000
+91947,Student Government Forum ,2016-04-05 18:15:00.000,2016-05-02 20:00:00.000
+91807,Chapel: Multicultural Worship,2016-04-06 10:25:00.000,2016-04-06 11:10:00.000
+35496,FSU: Molly Worthen will give the Annual Crum lecture,2016-04-07 16:00:00.000,2016-04-07 18:00:00.000
+91917,Convocation: How is God's Creation Calling You Into Relationship - Speaker: Professor Frank Molteno,2016-04-08 10:25:00.000,2016-04-08 11:10:00.000
+35636,Gospel Experience Weekend 2016,2016-04-08 20:00:00.000,2016-04-08 22:00:00.000
+91855,Inextricably Bound Conference ,2016-04-09 09:00:00.000,2016-04-09 14:00:00.000
+35637,Gospel Experience Weekend 2016,2016-04-09 19:30:00.000,2016-04-09 21:30:00.000
+91784,Evening Chapel,2016-04-11 21:00:00.000,2016-04-11 22:00:00.000
+91948,Student Government Forum ,2016-04-12 18:15:00.000,2016-05-02 20:00:00.000
+91783,Chapel: Rev. Tom Haugen,2016-04-13 10:25:00.000,2016-04-13 11:10:00.000
+91572,Peter Barnes delivers the annual Franz Lecture,2016-04-14 16:00:00.000,2016-04-14 18:00:00.000
+91918,Convocation: Founders Day,2016-04-15 10:25:00.000,2016-04-15 11:10:00.000
+91785,Chapel: President D. Michael Lindsay,2016-04-18 10:25:00.000,2016-04-18 11:10:00.000
+91949,Student Government Forum ,2016-04-19 18:15:00.000,2016-05-02 20:00:00.000
+91829,JAF Debate ,2016-04-19 19:00:00.000,2016-04-19 20:00:00.000
+91808,Chapel: Troy Dobbs,2016-04-20 10:25:00.000,2016-04-20 11:10:00.000
+35497,FSU:Mark Roche, University of Notre Dame,2016-04-21 16:00:00.000,2016-04-21 18:00:00.000
+91574,Symposium Keynote: Mark Roche,2016-04-21 16:30:00.000,2016-04-21 17:30:00.000
+91919,Convocation: Honors Convocation,2016-04-22 10:25:00.000,2016-04-22 23:10:00.000
+91786,Chapel: Rev. Tom Haugen,2016-04-25 10:25:00.000,2016-04-25 11:10:00.000
+91950,Student Government Forum ,2016-04-26 18:15:00.000,2016-05-02 20:00:00.000
+91787,Chapel: Paul Edwards,2016-04-27 10:25:00.000,2016-04-27 11:10:00.000
+91788,Senior Testimony Chapel,2016-05-02 10:25:00.000,2016-05-02 11:10:00.000
+91789,Chapel: Rev. Tom Haugen,2016-05-04 10:25:00.000,2016-05-04 11:10:00.000
+91539,Dr. Jennifer Wiseman | The 2016  Herrmann Lectures on Faith and Science,2016-11-09 16:00:00.000,2016-11-11 18:30:00.000
+91951,Dr. Jennifer Wiseman | The 2016  Herrmann Lectures on Faith and Science,2016-11-10 16:00:00.000,2016-11-11 18:30:00.000
+91952,Dr. Jennifer Wiseman | The 2016  Herrmann Lectures on Faith and Science,2016-11-11 16:00:00.000,2016-11-11 18:30:00.000
+
+    (59 row(s) affected)
+    
+
