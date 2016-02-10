@@ -5,13 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Management;
+using RFIDeas_pcProxAPI;
 
 namespace WpfApplication2
 {
     public class AttendanceWriter
     {
 
-        private String attendancePath;
+        private string attendancePath;
+        private string eventsPath;
+        private string checkersPath;
+        private string studentsPath;
         private string line;
         private string chapelCheckerID;
         private string eventID;
@@ -27,29 +31,33 @@ namespace WpfApplication2
 
         private string getUniqueID()
         {
-            string cpuInfo = string.Empty;
-            ManagementClass mc = new ManagementClass("win32_processor");
-            ManagementObjectCollection moc = mc.GetInstances();
-
-            foreach (ManagementObject mo in moc)
-            {
-                cpuInfo = mo.Properties["processorID"].Value.ToString();
-                break;
-            }
-
-            string drive = "C";
-            ManagementObject dsk = new ManagementObject(
-                @"win32_logicaldisk.deviceid=""" + drive + @":""");
-            dsk.Get();
-            string volumeSerial = dsk["VolumeSerialNumber"].ToString();
-
-            string uniqueID = cpuInfo + volumeSerial;
-            this.uniqueDeviceID = uniqueID;
+            string uniqueID = pcProxDLLAPI.GetSN().ToString();
 
             return uniqueID;
         }
 
         public void CreateAttendanceTextFile()
+        {
+            this.attendancePath = "Attendance_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + getUniqueID() + ".txt";
+            File.Create(attendancePath).Close();
+
+        }
+
+        public void CreateEventsTextFile()
+        {
+            this.attendancePath = "Attendance_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + getUniqueID() + ".txt";
+            File.Create(attendancePath).Close();
+
+        }
+
+        public void CreateCheckersTextFile()
+        {
+            this.attendancePath = "Attendance_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + getUniqueID() + ".txt";
+            File.Create(attendancePath).Close();
+
+        }
+
+        public void CreateAllStudentsTextFile()
         {
             this.attendancePath = "Attendance_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + getUniqueID() + ".txt";
             File.Create(attendancePath).Close();
