@@ -23,12 +23,19 @@ namespace WpfApplication2
     {
         //int to determine which page is currently active
         AttendanceWriter attendanceWriter;
+        SQLPuller sqlPuller;
         public static MainWindow AppWindow;
         Boolean deviceConnected = false;
 
         public MainWindow()
         {
             attendanceWriter = new AttendanceWriter();
+            sqlPuller = new SQLPuller();
+            
+            sqlPuller.pullAuthorizedCheckers();
+            sqlPuller.pullEvents();
+            sqlPuller.pullStudents();
+
             pcProxDLLAPI.USBDisconnect();
             AppWindow = this;
 
@@ -79,6 +86,11 @@ namespace WpfApplication2
         public AttendanceWriter getAttendanceWriter()
         {
             return attendanceWriter;
+        }
+
+        public SQLPuller getSQLPuller()
+        {
+            return sqlPuller;
         }
 
         public Boolean getDeviceConnected()

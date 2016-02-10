@@ -25,7 +25,11 @@ namespace WpfApplication2
     {
 
         AttendanceWriter attendanceWriter = MainWindow.AppWindow.getAttendanceWriter();
-        List<string> authorizedCheckersList;
+        SQLPuller sqlPuller = MainWindow.AppWindow.getSQLPuller();
+        List<Tuple<string, string, string>> authorizedCheckers;
+        Tuple<string, string, string> checkerTuple;
+        List<string> authorizedCheckerIDs;
+        List<string> temporaryCheckersList;
         System.Timers.Timer aTimer;
         int counter = 0;
         string chapelCheckerId;
@@ -40,7 +44,11 @@ namespace WpfApplication2
 
         private void buttonScan_Click(object sender, RoutedEventArgs e)
         {
-            getAuthorizedCheckers();
+            authorizedCheckers = new List<Tuple<string, string, string>>();
+            authorizedCheckers = sqlPuller.getAuthorizedCheckers();
+            authorizedCheckerIDs = new List<string>();
+            authorizedCheckerIDs = sqlPuller.getAuthorizedIDs();
+            getTemporaryCheckers();
 
             //Comment out this to skip authorization of sign in
             
@@ -55,10 +63,12 @@ namespace WpfApplication2
             buttonScan.IsEnabled = false;
         }
 
-        private void getAuthorizedCheckers()
+        
+        private void getTemporaryCheckers()
         {
-            this.authorizedCheckersList = attendanceWriter.getAuthorizedFromTextFile();
+            this.temporaryCheckersList = attendanceWriter.getAuthorizedFromTextFile();
         }
+        
 
         private void successfulSignIn()
         {
@@ -87,7 +97,8 @@ namespace WpfApplication2
                     proxID += String.Format("{0:X2}", Id[i]);
                 }
 
-                if (authorizedCheckersList.Contains(proxID))
+
+                if (temporaryCheckersList.Contains(proxID) || authorizedCheckerIDs.Contains(proxID))
                 {
                     Dispatcher.Invoke(() => {
                         labelID.Text = counter + ": The prox ID: " + proxID + " is an authorized chapel checker";

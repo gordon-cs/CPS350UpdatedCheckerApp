@@ -12,18 +12,7 @@
         <Button x:Name="buttonBack" Content="Back" HorizontalAlignment="Left" Margin="64,651,0,0" VerticalAlignment="Top" Width="176" Height="60" FontSize="42.667" FontFamily="DengXian" Click="buttonBack_Click" Cursor="Hand"/>
         <TextBlock x:Name="labelID" HorizontalAlignment="Center" Margin="0,300,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Height="78" Width="350" FontFamily="DengXian" FontSize="18.667" Foreground="White"/>
         <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="321" Margin="64,167,0,0" VerticalAlignment="Top" Width="472" BorderBrush="Black" SelectionChanged="ListBox_SelectionChanged" Cursor="Hand">
-            <ListBoxItem Height="40" Content="EventID: abcd" FontSize="24"/>
-            <ListBoxItem Height="40" Content="EventID: efgh" FontSize="24"/>
-            <ListBoxItem Height="40" Content="EventID: ijkl" FontSize="24"/>
-            <ListBoxItem Height="40" Content="EventID: mnop" FontSize="24"/>
-            <ListBoxItem Height="40" Content="EventID: qrst" FontSize="24"/>
-            <ListBoxItem Height="40" Content="EventID: uvwx" FontSize="24"/>
-            <ListBoxItem Height="40" Content="EventID: yz00" FontSize="24"/>
-            <ListBoxItem Height="40" Content="EventID: yz00" FontSize="24"/>
-            <ListBoxItem Height="40" Content="EventID: yz00" FontSize="24"/>
-            <ListBoxItem Height="40" Content="EventID: yz00" FontSize="24"/>
-            <ListBoxItem Height="40" Content="EventID: yz00" FontSize="24"/>
-            <ListBoxItem Height="40" Content="EventID: yz00" FontSize="24"/>
+            <ListBoxItem x:Name="yz00" Height="40" Content="TEST EVENT ID: abcde" FontSize="24"/>
         </ListBox>
 
     </Grid>

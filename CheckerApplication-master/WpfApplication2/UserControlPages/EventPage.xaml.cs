@@ -23,20 +23,60 @@ namespace WpfApplication2
     {
 
         AttendanceWriter attendanceWriter = MainWindow.AppWindow.getAttendanceWriter();
+        SQLPuller sqlPuller = MainWindow.AppWindow.getSQLPuller();
+        List<Tuple<string, string, string, string>> eventList;
+        Tuple<string, string, string, string> eventTuple;
         private string eventID;
         Boolean listBoxItemClicked;
 
         public EventPage()
         {
             InitializeComponent();
+
+            eventList = new List<Tuple<string, string, string, string>>();
+            eventList = sqlPuller.getEvents();
+
+            /*
+            for (int x = 0; x <= 9; x++)
+            {
+                ListBoxItem tempItem = new ListBoxItem();
+                tempItem.FontSize = 24;
+                tempItem.Content = "Event ID: abc" + x;
+                tempItem.Height = 40;
+                listBox.Items.Add(tempItem);
+            }
+            for (int x = 0; x <= 9; x++)
+            {
+                ListBoxItem tempItem = new ListBoxItem();
+                tempItem.FontSize = 24;
+                tempItem.Content = "Event ID: def" + x;
+                tempItem.Height = 40;
+                listBox.Items.Add(tempItem);
+            }
+            */
+            
+            
+            for(int i = 0; i < eventList.Count; i++)
+            {
+
+                ListBoxItem tempItem = new ListBoxItem();
+                tempItem.FontSize = 24;    
+                tempItem.Height = 40;
+                tempItem.Content = (eventList[i].Item3 + " - " + eventList[i].Item2 + " - " + eventList[i].Item1);
+                listBox.Items.Add(tempItem);
+
+            }
+            
+            
+
         }
 
         private void ListBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
             // ... Get RadioButton reference.
-            string listBoxItem = listBox.SelectedItem.ToString();
-            int listBoxItemLength = listBoxItem.Length;
-            string id = listBoxItem.Substring(listBoxItemLength - 4, 4);
+            string listBoxContent = listBox.SelectedItem.ToString();
+            int listBoxItemLength = listBoxContent.Length;
+            string id = listBoxContent.Substring(listBoxItemLength - 5, 5);
 
             // ... Display button content as title.
             this.eventID = id;
