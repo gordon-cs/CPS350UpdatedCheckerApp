@@ -11,7 +11,7 @@ namespace WpfApplication2
     public class AttendanceWriter
     {
 
-        private String path;
+        private String attendancePath;
         private string line;
         private string chapelCheckerID;
         private string eventID;
@@ -49,10 +49,10 @@ namespace WpfApplication2
             return uniqueID;
         }
 
-        public void CreateTextFile()
+        public void CreateAttendanceTextFile()
         {
-            this.path = "Attendance_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + getUniqueID() + ".txt";
-            File.Create(path).Close();
+            this.attendancePath = "Attendance_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + getUniqueID() + ".txt";
+            File.Create(attendancePath).Close();
 
         }
 
@@ -72,11 +72,11 @@ namespace WpfApplication2
             this.noCredit = a;
         }
 
-        public void WriteTextFile(String s)
+        public void WriteAttendanceTextFile(String s)
         {
             this.hexStudentID = Int32.Parse(s, System.Globalization.NumberStyles.HexNumber).ToString();
             string dateTime = DateTime.Now.ToString("yyyyMMddHHmmss");
-            StreamWriter file = new StreamWriter(path, true);
+            StreamWriter file = new StreamWriter(attendancePath, true);
 
             file.WriteLine(hexStudentID + "," + hexChapelCheckerID + "," + noCredit + "," + eventID + "," + dateTime);
             file.Close();
@@ -86,14 +86,14 @@ namespace WpfApplication2
 
         public string getFilePath()
         {
-            return this.path;
+            return this.attendancePath;
         }
 
         public void omitMultipleEntries()
         {
 
             // Read the file and find all prox ids 
-            StreamReader sr = new StreamReader(path);
+            StreamReader sr = new StreamReader(attendancePath);
             List<string> proxIdList = new List<string>();
             List<string> fullLineList = new List<string>();
             
@@ -129,7 +129,7 @@ namespace WpfApplication2
 
                 //sw.WriteLine(s);
 
-                sr = new StreamReader(path);
+                sr = new StreamReader(attendancePath);
                 
 
 
@@ -174,8 +174,8 @@ namespace WpfApplication2
 
             sw.Close();
 
-            File.Delete(path);
-            File.Move(tempPath, path);
+            File.Delete(attendancePath);
+            File.Move(tempPath, attendancePath);
 
 
             sw.Close();

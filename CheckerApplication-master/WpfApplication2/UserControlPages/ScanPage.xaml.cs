@@ -51,7 +51,7 @@ namespace WpfApplication2
 
             if (textFileCreated == false)
             {
-                attendanceWriter.CreateTextFile();
+                attendanceWriter.CreateAttendanceTextFile();
                 this.textFileCreated = true;
             }
 
@@ -157,7 +157,7 @@ namespace WpfApplication2
                 //SystemSounds.Beep.Play();
 
 
-                attendanceWriter.WriteTextFile(proxID);
+                attendanceWriter.WriteAttendanceTextFile(proxID);
             }
             else
             {
