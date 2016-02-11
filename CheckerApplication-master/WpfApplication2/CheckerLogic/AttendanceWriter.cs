@@ -13,16 +13,15 @@ namespace WpfApplication2
     {
 
         private string attendancePath;
-        private string eventsPath;
-        private string checkersPath;
-        private string studentsPath;
+        private const string EVENTSPATH = "Events.claw";
+        private const string CHECKERSPATH = "Checkers.claw";
+        private const string STUDENTSPATH = "Students.claw";
         private string line;
         private string chapelCheckerID;
         private string eventID;
         private int noCredit;
         private string hexStudentID;
         private string hexChapelCheckerID;
-        private string uniqueDeviceID;
 
 
         public AttendanceWriter()
@@ -38,35 +37,31 @@ namespace WpfApplication2
 
         public void CreateAttendanceTextFile()
         {
-            this.attendancePath = "Attendance_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + getUniqueID() + ".txt";
+            this.attendancePath = "Attendance_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + getUniqueID() + ".claw";
             File.Create(attendancePath).Close();
 
         }
 
         public void CreateEventsTextFile()
         {
-            this.attendancePath = "Attendance_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + getUniqueID() + ".txt";
-            File.Create(attendancePath).Close();
+            File.Create(EVENTSPATH).Close();
 
         }
 
         public void CreateCheckersTextFile()
         {
-            this.attendancePath = "Attendance_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + getUniqueID() + ".txt";
-            File.Create(attendancePath).Close();
+            File.Create(CHECKERSPATH).Close();
 
         }
 
-        public void CreateAllStudentsTextFile()
+        public void CreateStudentsTextFile()
         {
-            this.attendancePath = "Attendance_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + getUniqueID() + ".txt";
-            File.Create(attendancePath).Close();
+            File.Create(STUDENTSPATH).Close();
 
         }
 
         public void setChapelCheckerID(string id)
         {
-            this.hexChapelCheckerID = Int32.Parse(id, System.Globalization.NumberStyles.HexNumber).ToString();
             this.chapelCheckerID = id;
         }
 
@@ -80,21 +75,58 @@ namespace WpfApplication2
             this.noCredit = a;
         }
 
-        public void WriteAttendanceTextFile(String s)
+        public void WriteAttendanceTextFile(string studentID)
         {
-            this.hexStudentID = Int32.Parse(s, System.Globalization.NumberStyles.HexNumber).ToString();
+
             string dateTime = DateTime.Now.ToString("yyyyMMddHHmmss");
             StreamWriter file = new StreamWriter(attendancePath, true);
 
-            file.WriteLine(hexStudentID + "," + hexChapelCheckerID + "," + noCredit + "," + eventID + "," + dateTime);
+            file.WriteLine(chapelCheckerID + "," + studentID + "," + noCredit + "," + eventID + "," + dateTime);
             file.Close();
-            
-
         }
 
-        public string getFilePath()
+        public void WriteEventsTextFile(string eventID, string eventTitle, string eventStart, string eventEnd)
+        {
+            StreamWriter file = new StreamWriter(EVENTSPATH, true);
+
+            file.WriteLine(eventID + "," + eventTitle + "," + eventStart + "," + eventEnd);
+            file.Close();
+        }
+
+        public void WriteCheckersTextFile(string checkerID, string checkerBarcode, string lastName, string firstName)
+        {
+            StreamWriter file = new StreamWriter(CHECKERSPATH, true);
+
+            file.WriteLine(checkerID + "," + checkerBarcode + "," + lastName + "," + firstName);
+            file.Close();
+        }
+
+        public void WriteStudentsTextFile(string studentID, string studentBarcode, string lastName, string firstName)
+        {
+            StreamWriter file = new StreamWriter(STUDENTSPATH, true);
+
+            file.WriteLine(studentID + "," + studentBarcode + "," + lastName + "," + firstName);
+            file.Close();
+        }
+
+        public string getAttendanceFilePath()
         {
             return this.attendancePath;
+        }
+
+        public string getEventsFilePath()
+        {
+            return EVENTSPATH;
+        }
+
+        public string getCheckersFilePath()
+        {
+            return CHECKERSPATH;
+        }
+
+        public string getStudentsFilePath()
+        {
+            return STUDENTSPATH;
         }
 
         public void omitMultipleEntries()
@@ -190,17 +222,17 @@ namespace WpfApplication2
 
         }
 
-        public List<string> getAuthorizedFromTextFile()
+        public List<string> getTempCheckersFromTextFile()
         {
 
-            string checkerPath = "authorized_checkers_list.txt";
+            string tempCheckerPath = "authorized_checkers_list.txt";
 
-            if (!File.Exists(checkerPath))
+            if (!File.Exists(tempCheckerPath))
             {
-                File.Create(checkerPath).Close();
+                File.Create(tempCheckerPath).Close();
             }
             
-            StreamReader sr = new StreamReader(checkerPath);
+            StreamReader sr = new StreamReader(tempCheckerPath);
             List<string> authorizedList = new List<string>();
 
             while ((line = sr.ReadLine()) != null)
@@ -209,6 +241,69 @@ namespace WpfApplication2
             }
 
             return authorizedList;
+        }
+
+        public List<string> getAuthorizedCheckersFromTextFile()
+        {
+
+            if (!File.Exists(CHECKERSPATH))
+            {
+                File.Create(CHECKERSPATH).Close();
+            }
+
+            StreamReader sr = new StreamReader(CHECKERSPATH);
+            List<string> authorizedList = new List<string>();
+
+            while ((line = sr.ReadLine()) != null)
+            {
+                authorizedList.Add(line.Substring(0,5));
+            }
+
+            return authorizedList;
+        }
+
+        public string getAuthorizedCheckersName(string checkerID)
+        {
+
+            if (!File.Exists(CHECKERSPATH))
+            {
+                File.Create(CHECKERSPATH).Close();
+            }
+
+            StreamReader sr = new StreamReader(CHECKERSPATH);
+            string checkersName = "";
+            string[] values = new string[5];
+
+            while ((line = sr.ReadLine()) != null)
+            {
+                if(line.Contains(checkerID))
+                     values = line.Split(',');
+                checkersName = (values[2] + " " + values[3]);
+            }
+
+            return checkersName;
+        }
+
+        public string getStudentsName(string checkerID)
+        {
+
+            if (!File.Exists(STUDENTSPATH))
+            {
+                File.Create(STUDENTSPATH).Close();
+            }
+
+            StreamReader sr = new StreamReader(STUDENTSPATH);
+            string studentsName = "";
+            string[] values = new string[5];
+
+            while ((line = sr.ReadLine()) != null)
+            {
+                if (line.Contains(checkerID))
+                    values = line.Split(',');
+                studentsName = (values[2] + " " + values[3]);
+            }
+
+            return studentsName;
         }
 
     }

@@ -29,7 +29,7 @@ namespace WpfApplication2
         {
             InitializeComponent();
             attendanceWriter.omitMultipleEntries();
-            textBlockSaveFile.Text += attendanceWriter.getFilePath();
+            textBlockSaveFile.Text += attendanceWriter.getAttendanceFilePath();
         }
 
         private void buttonBack_Click(object sender, RoutedEventArgs e)
@@ -39,7 +39,7 @@ namespace WpfApplication2
 
         private void buttonOpenText_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start(attendanceWriter.getFilePath());
+            Process.Start(attendanceWriter.getAttendanceFilePath());
         }
     }
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApplication2"
         mc:Ignorable="d"
-        Title="Gordon College Chapel Checker System" Height="800" Width="600" Background="#FF3368DA" ResizeMode="CanMinimize">
+        Title="Gordon College Chapel Christian Life and Worship Credit System" Height="800" Width="600" Background="#FF3368DA">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -13,8 +13,8 @@
         </Grid.RowDefinitions>
 
         <ContentControl x:Name="contentControl" Grid.Row="1"/>
-        <ToolBarTray HorizontalAlignment="Left" Height="38" Margin="0,731,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="592"/>
-        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Grid.Row="1" TextWrapping="Wrap" Text="Ready.." Width="161" FontSize="21.333" Margin="0,731,0,0"/>
-        <TextBox x:Name="textBox2" HorizontalAlignment="Left" Height="40" Margin="161,731,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Waiting for Connection" VerticalAlignment="Top" Width="433" FontSize="21.333"/>
+        <ToolBarTray Height="40" Margin="0" Grid.RowSpan="2" VerticalAlignment="Bottom"/>
+        <TextBox x:Name="textBox1" Grid.Row="1" TextWrapping="Wrap" Text="Ready.." Width="592" FontSize="21.333" Margin="0" VerticalAlignment="Bottom" Height="40" HorizontalAlignment="Left"/>
+        <TextBox x:Name="textBox2" Height="40" Margin="0" Grid.Row="1" TextWrapping="Wrap" Text="Waiting for Connection" VerticalAlignment="Bottom" FontSize="21.333" Width="304" HorizontalAlignment="Right"/>
     </Grid>
 </Window>

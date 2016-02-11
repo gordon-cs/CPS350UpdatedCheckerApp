@@ -23,7 +23,6 @@ namespace WpfApplication2
     {
 
         AttendanceWriter attendanceWriter = MainWindow.AppWindow.getAttendanceWriter();
-        SQLPuller sqlPuller = MainWindow.AppWindow.getSQLPuller();
         List<Tuple<string, string, string, string>> eventList;
         Tuple<string, string, string, string> eventTuple;
         private string eventID;
@@ -34,36 +33,12 @@ namespace WpfApplication2
             InitializeComponent();
 
             eventList = new List<Tuple<string, string, string, string>>();
-            eventList = sqlPuller.getEvents();
-
-            /*
-            for (int x = 0; x <= 9; x++)
-            {
-                ListBoxItem tempItem = new ListBoxItem();
-                tempItem.FontSize = 24;
-                tempItem.Content = "Event ID: abc" + x;
-                tempItem.Height = 40;
-                listBox.Items.Add(tempItem);
-            }
-            for (int x = 0; x <= 9; x++)
-            {
-                ListBoxItem tempItem = new ListBoxItem();
-                tempItem.FontSize = 24;
-                tempItem.Content = "Event ID: def" + x;
-                tempItem.Height = 40;
-                listBox.Items.Add(tempItem);
-            }
-            */
             
             
             for(int i = 0; i < eventList.Count; i++)
             {
 
-                ListBoxItem tempItem = new ListBoxItem();
-                tempItem.FontSize = 24;    
-                tempItem.Height = 40;
-                tempItem.Content = (eventList[i].Item3 + " - " + eventList[i].Item2 + " - " + eventList[i].Item1);
-                listBox.Items.Add(tempItem);
+
 
             }
             

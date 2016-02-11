@@ -25,9 +25,7 @@ namespace WpfApplication2
     {
 
         AttendanceWriter attendanceWriter = MainWindow.AppWindow.getAttendanceWriter();
-        SQLPuller sqlPuller = MainWindow.AppWindow.getSQLPuller();
-        List<Tuple<string, string, string>> authorizedCheckers;
-        Tuple<string, string, string> checkerTuple;
+
         List<string> authorizedCheckerIDs;
         List<string> temporaryCheckersList;
         System.Timers.Timer aTimer;
@@ -35,6 +33,7 @@ namespace WpfApplication2
         string chapelCheckerId;
         private SoundPlayer happyPlayer = new SoundPlayer(@"../../Assets/blip.wav");
         private SoundPlayer failPlayer = new SoundPlayer(@"../../Assets/failure_beep.wav");
+        string lastID = "";
 
 
         public SignInPage()
@@ -44,11 +43,13 @@ namespace WpfApplication2
 
         private void buttonScan_Click(object sender, RoutedEventArgs e)
         {
-            authorizedCheckers = new List<Tuple<string, string, string>>();
-            authorizedCheckers = sqlPuller.getAuthorizedCheckers();
-            authorizedCheckerIDs = new List<string>();
-            authorizedCheckerIDs = sqlPuller.getAuthorizedIDs();
             getTemporaryCheckers();
+
+            authorizedCheckerIDs = new List<string>();
+
+            authorizedCheckerIDs = attendanceWriter.getAuthorizedCheckersFromTextFile();
+            
+            
 
             //Comment out this to skip authorization of sign in
             
@@ -66,7 +67,7 @@ namespace WpfApplication2
         
         private void getTemporaryCheckers()
         {
-            this.temporaryCheckersList = attendanceWriter.getAuthorizedFromTextFile();
+            this.temporaryCheckersList = attendanceWriter.getTempCheckersFromTextFile();
         }
         
 
@@ -90,52 +91,92 @@ namespace WpfApplication2
 
                 String s = nBits.ToString() + " Bit ID [0]..[7]: ";
                 String proxID = "";
+                string checkerID = "";
+                string checkersName = "";
+                
                 for (short i = 1; i > -1; i--)
                 {
                     Id[i] = pcProxDLLAPI.getActiveID_byte(i);
                     s = s + String.Format("{0:X2}.", Id[i]);
                     proxID += String.Format("{0:X2}", Id[i]);
+                    checkerID = Int32.Parse(proxID, System.Globalization.NumberStyles.HexNumber).ToString();
                 }
 
 
-                if (temporaryCheckersList.Contains(proxID) || authorizedCheckerIDs.Contains(proxID))
+                if (!lastID.Equals(checkerID))
                 {
-                    Dispatcher.Invoke(() => {
-                        labelID.Text = counter + ": The prox ID: " + proxID + " is an authorized chapel checker";
-                    });
 
-                    this.chapelCheckerId = proxID;
-
-                    aTimer.Stop();
-                    Dispatcher.Invoke(() =>
+                    if (authorizedCheckerIDs.Contains(checkerID))
                     {
-                        attendanceWriter.setChapelCheckerID(proxID);
-                        successfulSignIn();
-                    });
-                    happyPlayer.Play();
+                        lastID = checkerID;
+
+                        Dispatcher.Invoke(() =>
+                        {
+                            labelID.Foreground = new SolidColorBrush(Colors.LightGreen);
+                            checkersName = attendanceWriter.getAuthorizedCheckersName(checkerID);
+                            labelID.Text = checkersName + " is an authorized Christian Life and Worship Credit Checker";
+                            labelID_Counter.Text = "";
+                            Panel.SetZIndex(buttonProceed, 1);
+                        });
+
+                        this.chapelCheckerId = checkerID;
+
+                        aTimer.Stop();
+                        Dispatcher.Invoke(() =>
+                        {
+                            attendanceWriter.setChapelCheckerID(checkerID);
+                            //successfulSignIn();
+                            
+                        });
+                        happyPlayer.Play();
+                    }
+                    else
+                    {
+                        lastID = checkerID;
+                        Dispatcher.Invoke(() =>
+                        {
+                            checkersName = attendanceWriter.getStudentsName(checkerID);
+                            labelID.Text = checkersName + " is not an authorized Christian Life and Worship Credit Checker";
+                            labelID_Counter.Text = counter.ToString();
+                        });
+                        failPlayer.Play();
+                    }
                 }
+
                 else
                 {
                     Dispatcher.Invoke(() => {
-                        labelID.Text = counter + ": The prox ID: " + proxID + " is not authorized";
+                        labelID_Counter.Text = counter.ToString();
                     });
-                    failPlayer.Play();
                 }
 
             }
+
             else
             {
-                    Dispatcher.Invoke(() => {
-                        labelID.Text = counter + ": No Card Found";
-                    });
+                Dispatcher.Invoke(() => {
+                    labelID_Counter.Text = counter.ToString();
+                });
             }
+
 
             if (counter > 98)
                 this.counter = 0;
 
         }
 
-        
+        private void buttonUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            SQLPuller sqlPuller = new SQLPuller();
+            sqlPuller.pullEvents();
+            sqlPuller.pullAuthorizedCheckers();
+            sqlPuller.pullStudents();
+            buttonUpdateStudentInfo.IsEnabled = false;
+        }
 
+        private void buttonProceed_Click(object sender, RoutedEventArgs e)
+        {
+            successfulSignIn();
+        }
     }
 }
