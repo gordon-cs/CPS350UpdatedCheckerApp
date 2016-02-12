@@ -62,6 +62,7 @@ namespace WpfApplication2
 
         public void setChapelCheckerID(string id)
         {
+            id = getStudentsBarcode(id);
             this.chapelCheckerID = id;
         }
 
@@ -77,7 +78,7 @@ namespace WpfApplication2
 
         public void WriteAttendanceTextFile(string studentID)
         {
-
+            studentID = getStudentsBarcode(studentID);
             string dateTime = DateTime.Now.ToString("yyyyMMddHHmmss");
             StreamWriter file = new StreamWriter(attendancePath, true);
 
@@ -299,6 +300,71 @@ namespace WpfApplication2
             while ((line = sr.ReadLine()) != null)
             {
                 if (line.Contains(checkerID))
+                    values = line.Split(',');
+                studentsName = (values[2] + " " + values[3]);
+            }
+
+            return studentsName;
+        }
+
+        public string getStudentsBarcode(string scannedID)
+        {
+
+            if (!File.Exists(STUDENTSPATH))
+            {
+                File.Create(STUDENTSPATH).Close();
+            }
+
+            StreamReader sr = new StreamReader(STUDENTSPATH);
+            string studentsBarcode = "";
+            string[] values = new string[5];
+
+            while ((line = sr.ReadLine()) != null)
+            {
+                if (line.Contains(scannedID))
+                    values = line.Split(',');
+                studentsBarcode = (values[1]);
+            }
+
+            return studentsBarcode;
+        }
+
+        public List<string> getEventInformation()
+        {
+
+            if (!File.Exists(EVENTSPATH))
+            {
+                File.Create(EVENTSPATH).Close();
+            }
+
+            StreamReader sr = new StreamReader(EVENTSPATH);
+            List<string> events = new List<string>();
+            string[] values = new string[5];
+
+            while ((line = sr.ReadLine()) != null)
+            {
+                values = line.Split(',');
+                events.Add(values[2] + " - " + values[1]);
+            }
+
+            return events;
+        }
+
+        public string getEventID(string eventTitleWithDate)
+        {
+
+            if (!File.Exists(STUDENTSPATH))
+            {
+                File.Create(STUDENTSPATH).Close();
+            }
+
+            StreamReader sr = new StreamReader(STUDENTSPATH);
+            string studentsName = "";
+            string[] values = new string[5];
+
+            while ((line = sr.ReadLine()) != null)
+            {
+                if (line.Contains(eventTitleWithDate))
                     values = line.Split(',');
                 studentsName = (values[2] + " " + values[3]);
             }

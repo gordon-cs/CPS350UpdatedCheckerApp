@@ -26,22 +26,18 @@ namespace WpfApplication2
     {
 
         AttendanceWriter attendanceWriter = MainWindow.AppWindow.getAttendanceWriter();
-        Boolean textFileCreated = false;
-        Boolean deviceConnected = false;
+        bool textFileCreated = false;
+        bool deviceConnected = false;
         System.Timers.Timer aTimer;
         int counter = 0;
-        Boolean noCreditChecked = false;
+        bool noCreditChecked = false;
+        string lastID = "";
         private SoundPlayer happyPlayer = new SoundPlayer("../../Assets/blip.wav");
         private SoundPlayer failPlayer = new SoundPlayer("../../Assets/failure_beep.wav");
 
         public ScanPage()
         {
             InitializeComponent();
-
-            if(MainWindow.AppWindow.getDeviceConnected())
-            {
-                this.deviceConnected = true;
-            }
 
             buttonScan.IsEnabled = true;
             buttonStopScan.IsEnabled = false;
@@ -69,6 +65,29 @@ namespace WpfApplication2
             buttonBlacklistYes.IsEnabled = false;
             buttonBlacklistNo.IsEnabled = false;
 
+            deviceConnected = MainWindow.AppWindow.getDeviceConnected();
+
+            if (!deviceConnected)
+            {
+                long DeviceID = 0;
+                int rc = 0;
+                rc = pcProxDLLAPI.usbConnect();
+                if (rc == 1)
+                {
+                    DeviceID = pcProxDLLAPI.GetDID();
+                    ushort proxDevice = pcProxDLLAPI.writeDevCfgToFile("prox_device_configuration");
+                    MainWindow.AppWindow.textBox2.Text = "Connected to DeviceID: " + DeviceID;
+                    this.deviceConnected = true;
+                    MainWindow.AppWindow.setDeviceConnected(true);
+                    labelID.Text = "USB Scanning Device Found.";
+                }
+                else
+                {
+                    MainWindow.AppWindow.textBox2.Text = "No devices found to connect with";
+                    labelID.Text = "USB Scanning Device Not Found: \n\n Please Connect the USB Scanning Device.";
+                }
+            }
+
         }
 
         private void buttonScan_Click(object sender, RoutedEventArgs e)
@@ -85,6 +104,8 @@ namespace WpfApplication2
                     ushort proxDevice = pcProxDLLAPI.writeDevCfgToFile("prox_device_configuration");
                     MainWindow.AppWindow.textBox2.Text = "Connected to DeviceID: " + DeviceID;
                     this.deviceConnected = true;
+                    MainWindow.AppWindow.setDeviceConnected(true);
+                    labelID.Text = "USB Scanning Device Found.";
                 }
                 else
                 {
@@ -117,6 +138,8 @@ namespace WpfApplication2
             counter++;
             Byte[] Id = new Byte[8];
             int nBits = pcProxDLLAPI.getActiveID(8);
+            string scannedID = "";
+            string studentName = "";
 
             // MainWindow.AppWindow.textBox2.Text = nBits.ToString();
 
@@ -129,40 +152,59 @@ namespace WpfApplication2
                     Id[i] = pcProxDLLAPI.getActiveID_byte(i);
                     s = s + String.Format("{0:X2}.", Id[i]);
                     proxID += String.Format("{0:X2}", Id[i]);
+                    scannedID = Int32.Parse(proxID, System.Globalization.NumberStyles.HexNumber).ToString();
                 }
 
-                if (!noCreditChecked)
+                if (!lastID.Equals(scannedID))
                 {
-                    Dispatcher.Invoke(() =>
+                    if (!noCreditChecked)
                     {
-                        labelID.Foreground = new SolidColorBrush(Colors.White);
-                        labelID.Text = counter + ": The prox ID " + proxID + " will receive credit.";
-                    });
-                    attendanceWriter.setNoCredit(0);
-                    happyPlayer.Play();
+                        lastID = scannedID;
+                        Dispatcher.Invoke(() =>
+                        {
+                            studentName = attendanceWriter.getStudentsName(scannedID);
+                            labelID.Foreground = new SolidColorBrush(Colors.White);
+                            labelID.Text = studentName + " will receive credit.";
+                            labelID_Counter.Text = counter.ToString();
+                        });
+                        attendanceWriter.setNoCredit(0);
+                        happyPlayer.Play();
+                    }
+                    else
+                    {
+                        lastID = scannedID;
+                        Dispatcher.Invoke(() =>
+                        {
+                            studentName = attendanceWriter.getStudentsName(scannedID);
+                            labelID.Foreground = new SolidColorBrush(Colors.Red);
+                            labelID.Text = studentName + " will not receive credit.";
+                            labelID_Counter.Text = counter.ToString();
+                            checkBoxNoCredit.IsChecked = false;
+                        });
+                        attendanceWriter.setNoCredit(1);
+                        noCreditChecked = false;
+                        failPlayer.Play();
+                    }
+
+                    //SystemSounds.Beep.Play();
+
+
+                    attendanceWriter.WriteAttendanceTextFile(scannedID);
                 }
                 else
                 {
                     Dispatcher.Invoke(() =>
                     {
-                        labelID.Foreground = new SolidColorBrush(Colors.Red);
-                        labelID.Text = counter + ": The prox ID " + proxID + " will receive no credit.";
-                        checkBoxNoCredit.IsChecked = false;
+                        labelID_Counter.Text = counter.ToString();
                     });
-                    attendanceWriter.setNoCredit(1);
-                    noCreditChecked = false;
-                    failPlayer.Play();
                 }
 
-                //SystemSounds.Beep.Play();
-
-
-                attendanceWriter.WriteAttendanceTextFile(proxID);
             }
             else
             {
-                Dispatcher.Invoke(() => {
-                    labelID.Text = counter + ": No Card Found";
+                Dispatcher.Invoke(() =>
+                {
+                    labelID_Counter.Text = counter.ToString();
                 });
             }
 

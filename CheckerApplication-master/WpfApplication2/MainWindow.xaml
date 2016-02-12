@@ -15,6 +15,6 @@
         <ContentControl x:Name="contentControl" Grid.Row="1"/>
         <ToolBarTray Height="40" Margin="0" Grid.RowSpan="2" VerticalAlignment="Bottom"/>
         <TextBox x:Name="textBox1" Grid.Row="1" TextWrapping="Wrap" Text="Ready.." Width="592" FontSize="21.333" Margin="0" VerticalAlignment="Bottom" Height="40" HorizontalAlignment="Left"/>
-        <TextBox x:Name="textBox2" Height="40" Margin="0" Grid.Row="1" TextWrapping="Wrap" Text="Waiting for Connection" VerticalAlignment="Bottom" FontSize="21.333" Width="304" HorizontalAlignment="Right"/>
+        <TextBox x:Name="textBox2" Height="40" Margin="0,0,1,0" Grid.Row="1" TextWrapping="Wrap" Text="Waiting for Connection" VerticalAlignment="Bottom" FontSize="21.333" Width="350" HorizontalAlignment="Right"/>
     </Grid>
 </Window>

@@ -23,23 +23,24 @@ namespace WpfApplication2
     {
 
         AttendanceWriter attendanceWriter = MainWindow.AppWindow.getAttendanceWriter();
-        List<Tuple<string, string, string, string>> eventList;
-        Tuple<string, string, string, string> eventTuple;
         private string eventID;
-        Boolean listBoxItemClicked;
+        List<string> events;
+        bool listBoxItemClicked;
 
         public EventPage()
         {
             InitializeComponent();
 
-            eventList = new List<Tuple<string, string, string, string>>();
             
             
-            for(int i = 0; i < eventList.Count; i++)
+            events = attendanceWriter.getEventInformation();          
+            
+            for(int i = 0; i < events.Count; i++)
             {
-
-
-
+                ListBoxItem listBoxItem = new ListBoxItem();
+                listBoxItem.FontSize = 16;
+                listBoxItem.Content = events[i];
+                listBox.Items.Add(listBoxItem);
             }
             
             

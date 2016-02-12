@@ -24,7 +24,7 @@ namespace WpfApplication2
         //int to determine which page is currently active
         AttendanceWriter attendanceWriter;
         public static MainWindow AppWindow;
-        Boolean deviceConnected = false;
+        bool deviceConnected = false;
 
         public MainWindow()
         {
@@ -42,8 +42,9 @@ namespace WpfApplication2
 
             InitializeComponent();
             GoToSignInPage();
-                 
-            
+            //GoToEventsPage();     
+            //GoToScanPage();
+            //GoToResultsPage();
 
             
             long DeviceID = 0;
@@ -89,9 +90,15 @@ namespace WpfApplication2
             return attendanceWriter;
         }
 
-        public Boolean getDeviceConnected()
+        public bool getDeviceConnected()
         {
             return deviceConnected;
         }
+
+        public void setDeviceConnected(bool value)
+        {
+            deviceConnected = value;
+        }
+
     }
 }

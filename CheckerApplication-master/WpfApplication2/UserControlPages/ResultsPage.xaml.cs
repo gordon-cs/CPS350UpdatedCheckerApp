@@ -28,7 +28,7 @@ namespace WpfApplication2
         public ResultsPage()
         {
             InitializeComponent();
-            attendanceWriter.omitMultipleEntries();
+            //attendanceWriter.omitMultipleEntries();
             textBlockSaveFile.Text += attendanceWriter.getAttendanceFilePath();
         }
 
