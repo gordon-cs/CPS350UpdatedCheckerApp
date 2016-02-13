@@ -162,7 +162,7 @@ namespace WpfApplication2
 
                             Dispatcher.Invoke(() =>
                             {
-                                labelID.Foreground = new SolidColorBrush(Colors.LightGreen);
+                                labelID.Foreground = new SolidColorBrush(Colors.ForestGreen);
                                 checkersName = attendanceWriter.getAuthorizedCheckersName(checkerID);
                                 labelID.Text = checkersName + " is an authorized Christian Life and Worship Credit Checker";
                                 labelID_Counter.Text = "";

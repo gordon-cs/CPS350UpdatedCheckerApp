@@ -28,8 +28,9 @@ namespace WpfApplication2
         public ResultsPage()
         {
             InitializeComponent();
-            //attendanceWriter.omitMultipleEntries();
+            attendanceWriter.omitMultipleEntries();
             textBlockSaveFile.Text += attendanceWriter.getAttendanceFilePath();
+            labelEventTitle.Text = MainWindow.AppWindow.getEventName();
         }
 
         private void buttonBack_Click(object sender, RoutedEventArgs e)

@@ -25,6 +25,7 @@ namespace WpfApplication2
         AttendanceWriter attendanceWriter;
         public static MainWindow AppWindow;
         bool deviceConnected = false;
+        string eventTitle = "";
 
         public MainWindow()
         {
@@ -35,6 +36,7 @@ namespace WpfApplication2
 
             //sqlPuller.pullAuthorizedCheckers();
             //sqlPuller.pullEvents();
+            //sqlPuller.pullStudents();
 
 
             pcProxDLLAPI.USBDisconnect();
@@ -98,6 +100,16 @@ namespace WpfApplication2
         public void setDeviceConnected(bool value)
         {
             deviceConnected = value;
+        }
+
+        public string getEventName()
+        {
+            return eventTitle;
+        }
+
+        public void setEventName(string value)
+        {
+            eventTitle = value;
         }
 
     }

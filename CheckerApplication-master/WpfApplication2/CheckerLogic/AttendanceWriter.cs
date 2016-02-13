@@ -22,6 +22,7 @@ namespace WpfApplication2
         private int noCredit;
         private string hexStudentID;
         private string hexChapelCheckerID;
+        private const char SC = '†';
 
 
         public AttendanceWriter()
@@ -86,11 +87,11 @@ namespace WpfApplication2
             file.Close();
         }
 
-        public void WriteEventsTextFile(string eventID, string eventTitle, string eventStart, string eventEnd)
+        public void WriteEventsTextFile(string eventID, string eventTitle, string shortTitle, string eventStart, string eventEnd)
         {
             StreamWriter file = new StreamWriter(EVENTSPATH, true);
 
-            file.WriteLine(eventID + "," + eventTitle + "," + eventStart + "," + eventEnd);
+            file.WriteLine(eventID + SC + eventTitle + SC + shortTitle + SC + eventStart + SC + eventEnd);
             file.Close();
         }
 
@@ -98,7 +99,7 @@ namespace WpfApplication2
         {
             StreamWriter file = new StreamWriter(CHECKERSPATH, true);
 
-            file.WriteLine(checkerID + "," + checkerBarcode + "," + lastName + "," + firstName);
+            file.WriteLine(checkerID + SC + checkerBarcode + SC + lastName + SC + firstName);
             file.Close();
         }
 
@@ -106,7 +107,7 @@ namespace WpfApplication2
         {
             StreamWriter file = new StreamWriter(STUDENTSPATH, true);
 
-            file.WriteLine(studentID + "," + studentBarcode + "," + lastName + "," + firstName);
+            file.WriteLine(studentID + SC + studentBarcode + SC + lastName + SC + firstName);
             file.Close();
         }
 
@@ -135,43 +136,42 @@ namespace WpfApplication2
 
             // Read the file and find all prox ids 
             StreamReader sr = new StreamReader(attendancePath);
-            List<string> proxIdList = new List<string>();
-            List<string> fullLineList = new List<string>();
-            
+            List<string> listBarcode = new List<string>();
+            string[] values = new string[5];
 
 
             while ((line = sr.ReadLine()) != null)
             {
-
-                string proxId = line.Substring(0, 5);
-                proxIdList.Add(proxId);
-                fullLineList.Add(line);
+                values = line.Split(',');
+                string barcode = values[1];
+                listBarcode.Add(barcode);
             }
 
             sr.Close();
 
             // find all the unique prox ids and put them in a list
 
-            List<string> proxIdListUnique = proxIdList.Distinct().ToList();
+            List<string> listBarcodeUnique = listBarcode.Distinct().ToList();
 
             string tempPath = "temp.txt";
 
-            
+
             StreamWriter sw = new StreamWriter(tempPath);
 
             string superLine = "";
             Boolean doesContainId = false;
             Boolean doesContainNoCredit = false;
             int noCredit = 0;
+            
 
 
-            foreach (string s in proxIdListUnique)
+            foreach (string s in listBarcodeUnique)
             {
 
                 //sw.WriteLine(s);
 
                 sr = new StreamReader(attendancePath);
-                
+
 
 
 
@@ -179,18 +179,18 @@ namespace WpfApplication2
                 while ((line = sr.ReadLine()) != null && !doesContainNoCredit)
                 {
 
-                        noCredit = Int32.Parse(line.Substring(12, 1));
-                        //sw.WriteLine(line + "HERE: " + noCredit);
-                    
-                    
+                    values = line.Split(',');
+                    //sw.WriteLine(line + "HERE: " + noCredit);
 
-                    if (line.Substring(0,5).Contains(s) && !doesContainId && noCredit == 0 && !doesContainNoCredit)
+
+
+                    if (values[1].Contains(s) && !doesContainId && values[2].Equals("0") && !doesContainNoCredit)
                     {
                         //sw.WriteLine(line + " contains " + s + "and is the first occurence of" + line + "and is for credit" + noCredit + "and noCredit hasnt arrived" + doesContainNoCredit);
                         superLine = line;
-                        doesContainId = true;                        
+                        doesContainId = true;
                     }
-                    else if(line.Substring(0, 5).Contains(s) && noCredit == 1 && !doesContainNoCredit)
+                    else if (values[1].Contains(s) && values[2].Equals("1") && !doesContainNoCredit)
                     {
                         //sw.WriteLine("OMITTED LINE: " + line + "because it does not contain" + s + " or it is a duplicate" );
                         superLine = line;
@@ -200,9 +200,9 @@ namespace WpfApplication2
                     {
 
                     }
-                    
+
                 }
-                
+
 
                 sw.WriteLine(superLine);
                 sr.Close();
@@ -232,7 +232,7 @@ namespace WpfApplication2
             {
                 File.Create(tempCheckerPath).Close();
             }
-            
+
             StreamReader sr = new StreamReader(tempCheckerPath);
             List<string> authorizedList = new List<string>();
 
@@ -257,7 +257,7 @@ namespace WpfApplication2
 
             while ((line = sr.ReadLine()) != null)
             {
-                authorizedList.Add(line.Substring(0,5));
+                authorizedList.Add(line.Substring(0, 5));
             }
 
             return authorizedList;
@@ -277,8 +277,8 @@ namespace WpfApplication2
 
             while ((line = sr.ReadLine()) != null)
             {
-                if(line.Contains(checkerID))
-                     values = line.Split(',');
+                if (line.Contains(checkerID))
+                    values = line.Split(SC);
                 checkersName = (values[2] + " " + values[3]);
             }
 
@@ -300,7 +300,7 @@ namespace WpfApplication2
             while ((line = sr.ReadLine()) != null)
             {
                 if (line.Contains(checkerID))
-                    values = line.Split(',');
+                    values = line.Split(SC);
                 studentsName = (values[2] + " " + values[3]);
             }
 
@@ -322,14 +322,14 @@ namespace WpfApplication2
             while ((line = sr.ReadLine()) != null)
             {
                 if (line.Contains(scannedID))
-                    values = line.Split(',');
+                    values = line.Split(SC);
                 studentsBarcode = (values[1]);
             }
 
             return studentsBarcode;
         }
 
-        public List<string> getEventInformation()
+        public List<string> getEventInformationList()
         {
 
             if (!File.Exists(EVENTSPATH))
@@ -343,33 +343,38 @@ namespace WpfApplication2
 
             while ((line = sr.ReadLine()) != null)
             {
-                values = line.Split(',');
-                events.Add(values[2] + " - " + values[1]);
+                values = line.Split(SC);
+                int length = values[3].Count();
+                if(length == 20)
+                    events.Add(values[3] + "    " + values[2]);
+                if (length == 21)
+                    events.Add(values[3] + "  " + values[2]);
+                if (length == 22)
+                    events.Add(values[3] + " " + values[2]);
             }
 
             return events;
         }
 
-        public string getEventID(string eventTitleWithDate)
+        public List<string> getEventIDList()
         {
 
-            if (!File.Exists(STUDENTSPATH))
+            if (!File.Exists(EVENTSPATH))
             {
-                File.Create(STUDENTSPATH).Close();
+                File.Create(EVENTSPATH).Close();
             }
 
-            StreamReader sr = new StreamReader(STUDENTSPATH);
-            string studentsName = "";
+            StreamReader sr = new StreamReader(EVENTSPATH);
+            List<string> eventIDList = new List<string>();
             string[] values = new string[5];
 
             while ((line = sr.ReadLine()) != null)
             {
-                if (line.Contains(eventTitleWithDate))
-                    values = line.Split(',');
-                studentsName = (values[2] + " " + values[3]);
+                values = line.Split(SC);
+                eventIDList.Add(values[0]);
             }
 
-            return studentsName;
+            return eventIDList;
         }
 
     }

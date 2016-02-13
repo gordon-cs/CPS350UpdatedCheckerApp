@@ -31,10 +31,11 @@ namespace WpfApplication2
             connectionString = "Data Source=adminprodsql; Initial Catalog=Attendum; Integrated Security=SSPI;";
 
 
-            sql = @"select sEventID, sTitle, dtStart, dtEnd
+            sql = @"select sEventID, sTitle, case when len(sTitle) > 40 then left(sTitle,40)+'...' else sTitle end as Truncated_sTitle, dtStart, dtEnd
                     from Attendum.dbo.Events
-                    where abs(datediff(day, dtStart, dtEnd)) <= (31 * 1)
-                    and dtStart >= getdate() - 8
+                    where abs( datediff(day, dtStart, dtEnd) ) <= (31 * 1)
+                    and dtStart >= convert(varchar, getdate() -7, 101)
+                    and dtStart <= case when month(getdate()) in ('1','2','3','4','5') then concat('06/30/', year(getdate())) else concat('12/31/', year(getdate())) end
                     order by dtStart";
             connection = new SqlConnection(connectionString);
             try
@@ -50,7 +51,8 @@ namespace WpfApplication2
                 {
 
                     attendanceWriter.WriteEventsTextFile(dataReader.GetValue(0).ToString(), dataReader.GetValue(1).ToString(),
-                                                        dataReader.GetValue(2).ToString(), dataReader.GetValue(3).ToString());
+                                                        dataReader.GetValue(2).ToString(), dataReader.GetValue(3).ToString(),
+                                                        dataReader.GetValue(4).ToString());
 
                 }
                 dataReader.Close();

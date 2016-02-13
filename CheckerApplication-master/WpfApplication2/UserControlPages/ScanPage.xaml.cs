@@ -32,6 +32,11 @@ namespace WpfApplication2
         int counter = 0;
         bool noCreditChecked = false;
         string lastID = "";
+        string lastNoCreditID = "";
+        string lastNoLongerID = "";
+        string lastAlreadyID = "";
+        List <string> creditList;
+        List <string> noCreditList;
         private SoundPlayer happyPlayer = new SoundPlayer("../../Assets/blip.wav");
         private SoundPlayer failPlayer = new SoundPlayer("../../Assets/failure_beep.wav");
 
@@ -39,10 +44,15 @@ namespace WpfApplication2
         {
             InitializeComponent();
 
+            labelEventTitle.Text = MainWindow.AppWindow.getEventName();
+
+            noCreditList = new List<string>();
+            creditList = new List<string>();
             buttonScan.IsEnabled = true;
             buttonStopScan.IsEnabled = false;
             Panel.SetZIndex(buttonScan, 1);
             Panel.SetZIndex(buttonStopScan, 0);
+
 
 
             if (textFileCreated == false)
@@ -59,13 +69,18 @@ namespace WpfApplication2
             confirmationBox2.Opacity = 0;
             buttonBlacklistNo.Opacity = 0;
             buttonBlacklistYes.Opacity = 0;
+            buttonCancelNoCredit.Opacity = 0;
 
             buttonDoneScanningYes.IsEnabled = false;
             buttonDoneScanningNo.IsEnabled = false;
             buttonBlacklistYes.IsEnabled = false;
             buttonBlacklistNo.IsEnabled = false;
+            buttonCancelNoCredit.IsEnabled = false;
 
             deviceConnected = MainWindow.AppWindow.getDeviceConnected();
+
+            labelID.Foreground = new SolidColorBrush(Colors.DarkSlateBlue);
+            labelID.Text = "Next Scan Will Receive Credit.";
 
             if (!deviceConnected)
             {
@@ -155,59 +170,94 @@ namespace WpfApplication2
                     scannedID = Int32.Parse(proxID, System.Globalization.NumberStyles.HexNumber).ToString();
                 }
 
-                if (!lastID.Equals(scannedID))
+                
+                if (!lastID.Equals(scannedID) && !noCreditChecked && !noCreditList.Contains(scannedID) && !creditList.Contains(scannedID))
                 {
-                    if (!noCreditChecked)
-                    {
-                        lastID = scannedID;
-                        Dispatcher.Invoke(() =>
-                        {
-                            studentName = attendanceWriter.getStudentsName(scannedID);
-                            labelID.Foreground = new SolidColorBrush(Colors.White);
-                            labelID.Text = studentName + " will receive credit.";
-                            labelID_Counter.Text = counter.ToString();
-                        });
-                        attendanceWriter.setNoCredit(0);
-                        happyPlayer.Play();
-                    }
-                    else
-                    {
-                        lastID = scannedID;
-                        Dispatcher.Invoke(() =>
-                        {
-                            studentName = attendanceWriter.getStudentsName(scannedID);
-                            labelID.Foreground = new SolidColorBrush(Colors.Red);
-                            labelID.Text = studentName + " will not receive credit.";
-                            labelID_Counter.Text = counter.ToString();
-                            checkBoxNoCredit.IsChecked = false;
-                        });
-                        attendanceWriter.setNoCredit(1);
-                        noCreditChecked = false;
-                        failPlayer.Play();
-                    }
-
-                    //SystemSounds.Beep.Play();
-
-
-                    attendanceWriter.WriteAttendanceTextFile(scannedID);
-                }
-                else
-                {
+                    lastID = scannedID;
+                    lastNoLongerID = "";
+                    lastNoCreditID = "";
+                    lastAlreadyID = "";
                     Dispatcher.Invoke(() =>
                     {
-                        labelID_Counter.Text = counter.ToString();
+                        studentName = attendanceWriter.getStudentsName(scannedID);
+                        labelID.Foreground = new SolidColorBrush(Colors.DarkSlateBlue);
+                        labelID.Text = studentName + " will receive credit.";
                     });
+                    creditList.Add(scannedID);
+                    attendanceWriter.setNoCredit(0);
+                    attendanceWriter.WriteAttendanceTextFile(scannedID);
+                    happyPlayer.Play();
+
+                }
+                else if (!lastNoCreditID.Equals(scannedID) && noCreditChecked && !noCreditList.Contains(scannedID))
+                {
+                    lastNoCreditID = scannedID;
+                    lastNoLongerID = "";
+                    lastAlreadyID = "";
+                    lastID = "";
+                    Dispatcher.Invoke(() =>
+                    {
+                        studentName = attendanceWriter.getStudentsName(scannedID);
+                        labelID.Foreground = new SolidColorBrush(Colors.Red);
+                        labelID.Text = studentName + " will not receive credit.";
+                        labelID_Counter.Text = counter.ToString();
+                        checkBoxNoCredit.IsChecked = false;
+                        Panel.SetZIndex(buttonCancelNoCredit, -1);
+                        buttonCancelNoCredit.Opacity = 0;
+                        buttonCancelNoCredit.IsEnabled = false;
+                    });
+                    noCreditList.Add(scannedID);
+                    attendanceWriter.setNoCredit(1);
+                    attendanceWriter.WriteAttendanceTextFile(scannedID);
+                    noCreditChecked = false;
+                    failPlayer.Play();
+                }
+                else if (!lastNoLongerID.Equals(scannedID) && noCreditList.Contains(scannedID))
+                {
+                    lastNoLongerID = scannedID;
+                    lastAlreadyID = "";
+                    lastNoCreditID = "";
+                    lastID = "";
+                    Dispatcher.Invoke(() =>
+                    {
+                        studentName = attendanceWriter.getStudentsName(scannedID);
+                        labelID.Foreground = new SolidColorBrush(Colors.Red);
+                        labelID.Text = studentName + " can no longer receive credit.";
+                        checkBoxNoCredit.IsChecked = false;
+                        Panel.SetZIndex(buttonCancelNoCredit, -1);
+                        buttonCancelNoCredit.Opacity = 0;
+                        buttonCancelNoCredit.IsEnabled = false;
+                    });
+                    noCreditChecked = false;
+                    failPlayer.Play();
+                }
+                else if (!lastAlreadyID.Equals(scannedID) && creditList.Contains(scannedID) && !noCreditList.Contains(scannedID))
+                {
+                    lastAlreadyID = scannedID;
+                    lastNoLongerID = "";
+                    lastNoCreditID = "";
+                    lastID = "";
+                    Dispatcher.Invoke(() =>
+                    {
+                        studentName = attendanceWriter.getStudentsName(scannedID);
+                        labelID.Foreground = new SolidColorBrush(Colors.DarkSlateBlue);
+                        labelID.Text = studentName + " has already received credit.";
+                    });
+                    happyPlayer.Play();
                 }
 
-            }
-            else
-            {
-                Dispatcher.Invoke(() =>
-                {
-                    labelID_Counter.Text = counter.ToString();
-                });
-            }
 
+                //SystemSounds.Beep.Play();
+
+            }
+           
+
+            Dispatcher.Invoke(() =>
+            {
+                labelID_Counter.Text = counter.ToString();
+            });
+            
+            
             if (counter > 98)
                 this.counter = 0;
 
@@ -266,6 +316,8 @@ namespace WpfApplication2
 
             buttonBlacklistYes.IsEnabled = true;
             buttonBlacklistNo.IsEnabled = true;
+
+            
         }
 
         private void buttonBlacklistYes_Click(object sender, RoutedEventArgs e)
@@ -281,6 +333,17 @@ namespace WpfApplication2
 
             buttonBlacklistYes.IsEnabled = false;
             buttonBlacklistNo.IsEnabled = false;
+
+            labelID.Foreground = new SolidColorBrush(Colors.Red);
+            labelID.Text = "Next Scan Will Give No Credit.";
+            lastNoLongerID = "";
+            lastAlreadyID = "";
+            lastNoCreditID = "";
+            lastID = "";
+
+            Panel.SetZIndex(buttonCancelNoCredit, 2);
+            buttonCancelNoCredit.Opacity = 100;
+            buttonCancelNoCredit.IsEnabled = true;
 
             this.noCreditChecked = true;
         }
@@ -300,6 +363,16 @@ namespace WpfApplication2
             buttonBlacklistNo.IsEnabled = false;
 
             checkBoxNoCredit.IsChecked = false;
+        }
+
+        private void buttonCancelNoCredit_Click(object sender, RoutedEventArgs e)
+        {
+            noCreditChecked = false;
+            checkBoxNoCredit.IsChecked = false;
+            Panel.SetZIndex(buttonCancelNoCredit, -1);
+            buttonCancelNoCredit.Opacity = 0;
+            buttonCancelNoCredit.IsEnabled = false;
+            labelID.Text = "Next Scan Will Receive Credit.";
         }
     }
 }

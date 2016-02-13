@@ -24,22 +24,25 @@ namespace WpfApplication2
 
         AttendanceWriter attendanceWriter = MainWindow.AppWindow.getAttendanceWriter();
         private string eventID;
-        List<string> events;
-        bool listBoxItemClicked;
+        List<string> listEvents;
+        List<string> listEventIDs;
+        bool listBoxItemClicked = false;
 
         public EventPage()
         {
+            
             InitializeComponent();
 
             
             
-            events = attendanceWriter.getEventInformation();          
+            listEvents = attendanceWriter.getEventInformationList();
+            listEventIDs = attendanceWriter.getEventIDList();
             
-            for(int i = 0; i < events.Count; i++)
+            for(int i = 0; i < listEvents.Count; i++)
             {
                 ListBoxItem listBoxItem = new ListBoxItem();
                 listBoxItem.FontSize = 16;
-                listBoxItem.Content = events[i];
+                listBoxItem.Content = listEvents[i];
                 listBox.Items.Add(listBoxItem);
             }
             
@@ -50,13 +53,18 @@ namespace WpfApplication2
         private void ListBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
             // ... Get RadioButton reference.
-            string listBoxContent = listBox.SelectedItem.ToString();
-            int listBoxItemLength = listBoxContent.Length;
-            string id = listBoxContent.Substring(listBoxItemLength - 5, 5);
+            int listBoxItemLocation = listBox.SelectedIndex;
+            string id = listEventIDs[listBoxItemLocation];
+
+            string eventTitle = listEvents[listBoxItemLocation];
+            MainWindow.AppWindow.setEventName(eventTitle);
+
+            
 
             // ... Display button content as title.
             this.eventID = id;
             attendanceWriter.setEventID(eventID);
+            
             listBoxItemClicked = true;
         }
 
