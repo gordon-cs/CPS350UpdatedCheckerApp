@@ -65,6 +65,8 @@ namespace WpfApplication2
 
         private void buttonScan_Click(object sender, RoutedEventArgs e)
         {
+            buttonScan.IsEnabled = false;
+            buttonUpdateStudentInfo.IsEnabled = false;
             deviceConnected = MainWindow.AppWindow.getDeviceConnected();
 
             if (!deviceConnected)
@@ -167,6 +169,7 @@ namespace WpfApplication2
                                 labelID.Text = checkersName + " is an authorized Christian Life and Worship Credit Checker";
                                 labelID_Counter.Text = "";
                                 Panel.SetZIndex(buttonProceed, 1);
+                                buttonProceed.IsEnabled = true;
                             });
 
                             this.chapelCheckerId = checkerID;

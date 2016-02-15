@@ -73,7 +73,6 @@
     </ApplicationDefinition>
     <Compile Include="CheckerLogic\AttendanceWriter.cs" />
     <Compile Include="CheckerLogic\SQLPuller.cs" />
-    <Compile Include="CheckerLogic\MainWindowViewModel.cs" />
     <Compile Include="CheckerLogic\RFIDeas_pcProxAPI.cs" />
     <Compile Include="UserControlPages\SignInPage.xaml.cs">
       <DependentUpon>SignInPage.xaml</DependentUpon>

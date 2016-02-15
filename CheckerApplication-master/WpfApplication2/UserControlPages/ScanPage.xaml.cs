@@ -107,7 +107,7 @@ namespace WpfApplication2
 
         private void buttonScan_Click(object sender, RoutedEventArgs e)
         {
-
+            buttonScan.IsEnabled = false;
             if (!deviceConnected)
             {
                 long DeviceID = 0;
@@ -212,7 +212,7 @@ namespace WpfApplication2
                     noCreditChecked = false;
                     failPlayer.Play();
                 }
-                else if (!lastNoLongerID.Equals(scannedID) && noCreditList.Contains(scannedID))
+                else if (!lastNoLongerID.Equals(scannedID) && !lastNoCreditID.Equals(scannedID) && noCreditList.Contains(scannedID))
                 {
                     lastNoLongerID = scannedID;
                     lastAlreadyID = "";
@@ -231,7 +231,7 @@ namespace WpfApplication2
                     noCreditChecked = false;
                     failPlayer.Play();
                 }
-                else if (!lastAlreadyID.Equals(scannedID) && creditList.Contains(scannedID) && !noCreditList.Contains(scannedID))
+                else if (!lastAlreadyID.Equals(scannedID) && !lastID.Equals(scannedID) && creditList.Contains(scannedID) && !noCreditList.Contains(scannedID))
                 {
                     lastAlreadyID = scannedID;
                     lastNoLongerID = "";
@@ -266,6 +266,7 @@ namespace WpfApplication2
 
         private void buttonStopScan_Click(object sender, RoutedEventArgs e)
         {
+            buttonStopScan.IsEnabled = false;
             confirmationTextBlock.Opacity = 100;
             confirmationBox.Opacity = 100;
             buttonDoneScanningNo.Opacity = 100;
@@ -296,6 +297,7 @@ namespace WpfApplication2
             Panel.SetZIndex(buttonDoneScanningNo, -1);
             buttonDoneScanningYes.IsEnabled = false;
             buttonDoneScanningNo.IsEnabled = false;
+            buttonStopScan.IsEnabled = true;
         }
 
         public void setDeviceConnected(Boolean b)
