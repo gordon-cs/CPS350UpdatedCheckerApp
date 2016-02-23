@@ -11,24 +11,28 @@ namespace WpfApplication2
 {
     public class AttendanceWriter
     {
-
+        //variables for the attendanceWriter
         private string attendancePath;
-        private const string EVENTSPATH = "Events.claw";
-        private const string CHECKERSPATH = "Checkers.claw";
-        private const string STUDENTSPATH = "Students.claw";
         private string line;
         private string chapelCheckerID;
         private string eventID;
         private int noCredit;
-        private string hexStudentID;
-        private string hexChapelCheckerID;
+
+        //constant file paths
+        private const string EVENTSPATH = "Events.claw";
+        private const string CHECKERSPATH = "Checkers.claw";
+        private const string STUDENTSPATH = "Students.claw";
+
+        //unique character used to separate values in the sql data tables,
+        //otherwise separating the values can be erroneous
         private const char SC = '†';
 
-
+        //constructor for hte attendanceWriter object
         public AttendanceWriter()
         {
         }
 
+        //function that gets a unique ID for the attendance text file from the usb device
         private string getUniqueID()
         {
             string uniqueID = pcProxDLLAPI.GetSN().ToString();
@@ -36,6 +40,7 @@ namespace WpfApplication2
             return uniqueID;
         }
 
+        //functions to create text files for the attendance file and the various SQL data text files
         public void CreateAttendanceTextFile()
         {
             this.attendancePath = "Attendance_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + getUniqueID() + ".claw";
@@ -61,6 +66,7 @@ namespace WpfApplication2
 
         }
 
+        //functions to set variables for the attendance text file
         public void setChapelCheckerID(string id)
         {
             id = getStudentsBarcode(id);
@@ -77,6 +83,9 @@ namespace WpfApplication2
             this.noCredit = a;
         }
 
+        //writes attendance text file by taking current scannedID from scanPage,
+        //the current dateTime, noCredit boolean, the event id, and the claw checkers id
+        //and writes a line to the attendance text file
         public void WriteAttendanceTextFile(string studentID)
         {
             studentID = getStudentsBarcode(studentID);
@@ -87,6 +96,7 @@ namespace WpfApplication2
             file.Close();
         }
 
+        //functions that write the various text files from SQL pulls containing data for the checker system
         public void WriteEventsTextFile(string eventID, string eventTitle, string shortTitle, string eventStart, string eventEnd)
         {
             StreamWriter file = new StreamWriter(EVENTSPATH, true);
@@ -111,6 +121,7 @@ namespace WpfApplication2
             file.Close();
         }
 
+        //gets various paths for different text files containing information
         public string getAttendanceFilePath()
         {
             return this.attendancePath;
@@ -131,98 +142,106 @@ namespace WpfApplication2
             return STUDENTSPATH;
         }
 
+        //this function removes any duplicate entries, and if there is an entry for someone
+        //for credit and no credit, only the entry for no credit will be kept
         public void omitMultipleEntries()
         {
 
-            // Read the file and find all prox ids 
+            //initialize variables for the omit entries function
             StreamReader sr = new StreamReader(attendancePath);
             List<string> listBarcode = new List<string>();
             string[] values = new string[5];
 
-
+            // Read through the file and find all the barcodeIDs
             while ((line = sr.ReadLine()) != null)
             {
                 values = line.Split(',');
                 string barcode = values[1];
                 listBarcode.Add(barcode);
             }
-
             sr.Close();
 
-            // find all the unique prox ids and put them in a list
-
+            // find all the unique barcode ids and put them in a list
             List<string> listBarcodeUnique = listBarcode.Distinct().ToList();
 
+            // a temporary path for the deDuplicated text file
             string tempPath = "temp.txt";
 
-
+            //initializes streamWriter
             StreamWriter sw = new StreamWriter(tempPath);
 
+            //initializes variables used for deduplicating
             string superLine = "";
             Boolean doesContainId = false;
-            Boolean doesContainNoCredit = false;
-            int noCredit = 0;
-            
+            Boolean doesContainNoCredit = false;          
 
-
+            //for each barcode in the unique barcode list
             foreach (string s in listBarcodeUnique)
             {
-
-                //sw.WriteLine(s);
-
+                //initializes new stream reader in the attendance text file
                 sr = new StreamReader(attendancePath);
 
-
-
-
-
+                //reads through each line of attendance text file and stops reading
+                //if it finds an entry for the current barcode that has no credit
                 while ((line = sr.ReadLine()) != null && !doesContainNoCredit)
                 {
-
+                    //splits the attendance text file by a ',' to get the individual values
                     values = line.Split(',');
-                    //sw.WriteLine(line + "HERE: " + noCredit);
 
-
-
+                    //if statement that stores the current line into the superLine string if
+                    //
+                    //the current line contains the current barcode from the unique list
+                    //
+                    //a line for credit has not already been found in the text file
+                    //
+                    //the no credit value is 0, so the entry is for credit
+                    //
+                    //an entry for no credit has not been found yet
+                    //
                     if (values[1].Contains(s) && !doesContainId && values[2].Equals("0") && !doesContainNoCredit)
                     {
-                        //sw.WriteLine(line + " contains " + s + "and is the first occurence of" + line + "and is for credit" + noCredit + "and noCredit hasnt arrived" + doesContainNoCredit);
                         superLine = line;
                         doesContainId = true;
                     }
+
+                    //if statement that stores the current line into the superLine string if
+                    //
+                    //the current line contains the current barcode from the unique list
+                    //
+                    //the no credit value is 1, so the entry is for credit
+                    //
+                    //an entry for no credit has not been found yet
+                    //
                     else if (values[1].Contains(s) && values[2].Equals("1") && !doesContainNoCredit)
                     {
-                        //sw.WriteLine("OMITTED LINE: " + line + "because it does not contain" + s + " or it is a duplicate" );
                         superLine = line;
                         doesContainNoCredit = true;
                     }
-                    else
-                    {
-
-                    }
-
                 }
 
-
+                //writes the super line to the temporary text file and closes the reader
                 sw.WriteLine(superLine);
                 sr.Close();
+
+                //sets up the variables for the next unique ID
                 superLine = "";
                 doesContainId = false;
                 doesContainNoCredit = false;
-                noCredit = 0;
 
             }
 
+            //closes the stream writer
             sw.Close();
 
+            //deletes the previous attendance text file
             File.Delete(attendancePath);
+            //copies over the new attendance text file into the 
+            //the previous text files path
             File.Move(tempPath, attendancePath);
 
-
-            sw.Close();
-
         }
-
+        
+        //function that returns a list of a select few temporary checkers
         public List<string> getTempCheckersFromTextFile()
         {
 
@@ -244,6 +263,7 @@ namespace WpfApplication2
             return authorizedList;
         }
 
+        //function that returns a list of the actual authorized checkers
         public List<string> getAuthorizedCheckersFromTextFile()
         {
 
@@ -263,6 +283,8 @@ namespace WpfApplication2
             return authorizedList;
         }
 
+        //function that returns the name string of authorized checkers
+        //given their scannedID
         public string getAuthorizedCheckersName(string checkerID)
         {
 
@@ -285,6 +307,8 @@ namespace WpfApplication2
             return checkersName;
         }
 
+        //function that returns the name string of any scanned student
+        //given their scannedID
         public string getStudentsName(string checkerID)
         {
 
@@ -306,7 +330,9 @@ namespace WpfApplication2
 
             return studentsName;
         }
-
+        
+        //function that gets the barcode string of a student,
+        //given the scannedID
         public string getStudentsBarcode(string scannedID)
         {
 
@@ -329,6 +355,7 @@ namespace WpfApplication2
             return studentsBarcode;
         }
 
+        //function that gets a list of event descriptions for the events page
         public List<string> getEventInformationList()
         {
 
@@ -356,6 +383,7 @@ namespace WpfApplication2
             return events;
         }
 
+        //function that gets a list of all the eventIDs 
         public List<string> getEventIDList()
         {
 
