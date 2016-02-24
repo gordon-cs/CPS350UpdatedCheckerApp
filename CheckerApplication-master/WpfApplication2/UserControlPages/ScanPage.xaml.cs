@@ -194,9 +194,12 @@ namespace WpfApplication2
                     Id[i] = pcProxDLLAPI.getActiveID_byte(i);
                     s = s + String.Format("{0:X2}.", Id[i]);
                     proxID += String.Format("{0:X2}", Id[i]);
-                    scannedID = Int32.Parse(proxID, System.Globalization.NumberStyles.HexNumber).ToString();
                 }
 
+                //Console.Out.WriteLine("proxID is:" + proxID);
+                scannedID = Int32.Parse(proxID, System.Globalization.NumberStyles.HexNumber).ToString();
+                //Console.Out.WriteLine("scannedID is:" + scannedID);
+                
                 //performs a successful scan for credit if the following:
                 //
                 //the last id for credit does not equal the currently scannedID

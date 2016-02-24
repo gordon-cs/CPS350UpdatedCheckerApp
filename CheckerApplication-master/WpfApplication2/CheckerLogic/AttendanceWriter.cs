@@ -89,7 +89,7 @@ namespace WpfApplication2
         public void WriteAttendanceTextFile(string studentID)
         {
             studentID = getStudentsBarcode(studentID);
-            string dateTime = DateTime.Now.ToString("yyyyMMddHHmmss");
+            string dateTime = DateTime.Now.ToString("yyyyMMdd HH:mm:ss");
             StreamWriter file = new StreamWriter(attendancePath, true);
 
             file.WriteLine(chapelCheckerID + "," + studentID + "," + noCredit + "," + eventID + "," + dateTime);
