@@ -153,6 +153,7 @@ namespace WpfApplication2
                 dataReader.Close();
                 command.Dispose();
                 connection.Close();
+                attendanceWriter.CreateDateTextFile();
                 Console.Out.WriteLine("STUDENTS SQL SUCCESS ");
 
             }

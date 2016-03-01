@@ -187,19 +187,16 @@ namespace WpfApplication2
             //proxID bits that we want
             if (nBits > 0)
             {
-                String s = nBits.ToString() + " Bit ID [0]..[7]: ";
-                String proxID = "";
+                string s = nBits.ToString() + " Bit ID [0]..[7]: ";
+                string proxID = "";
                 for (short i = 1; i > -1; i--)
                 {
                     Id[i] = pcProxDLLAPI.getActiveID_byte(i);
-                    s = s + String.Format("{0:X2}.", Id[i]);
-                    proxID += String.Format("{0:X2}", Id[i]);
+                    s = s + string.Format("{0:X2}.", Id[i]);
+                    proxID += string.Format("{0:X2}", Id[i]);
+                    scannedID = Int32.Parse(proxID, System.Globalization.NumberStyles.HexNumber).ToString();
                 }
 
-                //Console.Out.WriteLine("proxID is:" + proxID);
-                scannedID = Int32.Parse(proxID, System.Globalization.NumberStyles.HexNumber).ToString();
-                //Console.Out.WriteLine("scannedID is:" + scannedID);
-                
                 //performs a successful scan for credit if the following:
                 //
                 //the last id for credit does not equal the currently scannedID
@@ -220,12 +217,13 @@ namespace WpfApplication2
                     {
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Foreground = new SolidColorBrush(Colors.DarkSlateBlue);
-                        labelID.Text = studentName + " will receive credit.";
+                        labelID.Text = studentName + "\nwill receive credit.";
+                        happyPlayer.Play();
                     });
                     creditList.Add(scannedID);
                     attendanceWriter.setNoCredit(0);
                     attendanceWriter.WriteAttendanceTextFile(scannedID);
-                    happyPlayer.Play();
+                    
                 }
 
                 //performs a no credit scan for no credit if the following:
@@ -246,18 +244,19 @@ namespace WpfApplication2
                     {
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Foreground = new SolidColorBrush(Colors.Red);
-                        labelID.Text = studentName + " will not receive credit.";
+                        labelID.Text = studentName + "\nwill not receive credit.";
                         labelID_Counter.Text = counter.ToString();
                         checkBoxNoCredit.IsChecked = false;
                         Panel.SetZIndex(buttonCancelNoCredit, -1);
                         buttonCancelNoCredit.Opacity = 0;
                         buttonCancelNoCredit.IsEnabled = false;
+                        failPlayer.Play();
                     });
                     noCreditList.Add(scannedID);
                     attendanceWriter.setNoCredit(1);
                     attendanceWriter.WriteAttendanceTextFile(scannedID);
                     noCreditChecked = false;
-                    failPlayer.Play();
+                    
 
                 }
 
@@ -279,14 +278,15 @@ namespace WpfApplication2
                     {
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Foreground = new SolidColorBrush(Colors.Red);
-                        labelID.Text = studentName + " can no longer receive credit.";
+                        labelID.Text = studentName + "\ncan no longer receive credit.";
                         checkBoxNoCredit.IsChecked = false;
                         Panel.SetZIndex(buttonCancelNoCredit, -1);
                         buttonCancelNoCredit.Opacity = 0;
                         buttonCancelNoCredit.IsEnabled = false;
+                        failPlayer.Play();
                     });
                     noCreditChecked = false;
-                    failPlayer.Play();
+                    
                 }
 
                 //performs an already received credit scan if the following:
@@ -309,9 +309,10 @@ namespace WpfApplication2
                     {
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Foreground = new SolidColorBrush(Colors.DarkSlateBlue);
-                        labelID.Text = studentName + " has already received credit.";
+                        labelID.Text = studentName + "\nhas already received credit.";
+                        happyPlayer.Play();
                     });
-                    happyPlayer.Play();
+                    
                 }
 
 

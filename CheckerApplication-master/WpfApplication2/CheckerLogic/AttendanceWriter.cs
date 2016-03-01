@@ -22,6 +22,7 @@ namespace WpfApplication2
         private const string EVENTSPATH = "Events.claw";
         private const string CHECKERSPATH = "Checkers.claw";
         private const string STUDENTSPATH = "Students.claw";
+        private const string DATEPATH = "date.claw";
 
         //unique character used to separate values in the sql data tables,
         //otherwise separating the values can be erroneous
@@ -66,10 +67,29 @@ namespace WpfApplication2
 
         }
 
+        public void CreateDateTextFile()
+        {
+            if (File.Exists(DATEPATH))
+            {
+                File.Delete(DATEPATH);
+            }
+
+            File.Create(DATEPATH).Close();
+            StreamWriter file = new StreamWriter(DATEPATH, true);
+
+
+            string dateTime = DateTime.Now.ToString();
+
+            file.WriteLine(dateTime);
+            file.Close();
+
+        }
+
         //functions to set variables for the attendance text file
         public void setChapelCheckerID(string id)
         {
             id = getStudentsBarcode(id);
+            Console.Out.WriteLine("Barcode ID:" + id);
             this.chapelCheckerID = id;
         }
 
@@ -92,7 +112,7 @@ namespace WpfApplication2
             string dateTime = DateTime.Now.ToString("yyyyMMdd HH:mm:ss");
             StreamWriter file = new StreamWriter(attendancePath, true);
 
-            file.WriteLine(chapelCheckerID + "," + studentID + "," + noCredit + "," + eventID + "," + dateTime);
+            file.WriteLine(studentID + "," + chapelCheckerID + "," + noCredit + "," + eventID + "," + dateTime);
             file.Close();
         }
 
@@ -121,6 +141,7 @@ namespace WpfApplication2
             file.Close();
         }
 
+
         //gets various paths for different text files containing information
         public string getAttendanceFilePath()
         {
@@ -142,6 +163,11 @@ namespace WpfApplication2
             return STUDENTSPATH;
         }
 
+        public string getDateFilePath()
+        {
+            return DATEPATH;
+        }
+
         //this function removes any duplicate entries, and if there is an entry for someone
         //for credit and no credit, only the entry for no credit will be kept
         public void omitMultipleEntries()
@@ -156,7 +182,7 @@ namespace WpfApplication2
             while ((line = sr.ReadLine()) != null)
             {
                 values = line.Split(',');
-                string barcode = values[1];
+                string barcode = values[0];
                 listBarcode.Add(barcode);
             }
             sr.Close();
@@ -198,7 +224,7 @@ namespace WpfApplication2
                     //
                     //an entry for no credit has not been found yet
                     //
-                    if (values[1].Contains(s) && !doesContainId && values[2].Equals("0") && !doesContainNoCredit)
+                    if (values[0].Contains(s) && !doesContainId && values[2].Equals("0") && !doesContainNoCredit)
                     {
                         superLine = line;
                         doesContainId = true;
@@ -212,7 +238,7 @@ namespace WpfApplication2
                     //
                     //an entry for no credit has not been found yet
                     //
-                    else if (values[1].Contains(s) && values[2].Equals("1") && !doesContainNoCredit)
+                    else if (values[0].Contains(s) && values[2].Equals("1") && !doesContainNoCredit)
                     {
                         superLine = line;
                         doesContainNoCredit = true;
@@ -403,6 +429,27 @@ namespace WpfApplication2
             }
 
             return eventIDList;
+        }
+
+        //function that gets the barcode string of a student,
+        //given the scannedID
+        public string getDate()
+        {
+
+            if (!File.Exists(DATEPATH))
+            {
+                return "Unknown";
+            }
+
+            StreamReader sr = new StreamReader(DATEPATH);
+            string date = "";
+
+            while ((line = sr.ReadLine()) != null)
+            {
+                date = line;
+            }
+
+            return date;
         }
 
     }

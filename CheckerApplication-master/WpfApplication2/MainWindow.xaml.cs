@@ -38,6 +38,9 @@ namespace WpfApplication2
             //sqlPuller.pullEvents();
             //sqlPuller.pullStudents();
 
+            string proxID = "29FF";
+            string scannedID = Int32.Parse(proxID, System.Globalization.NumberStyles.HexNumber).ToString();
+            Console.Out.WriteLine("scannedID is: " + scannedID);
 
             pcProxDLLAPI.USBDisconnect();
             
@@ -48,7 +51,8 @@ namespace WpfApplication2
             //GoToScanPage();
             //GoToResultsPage();
 
-            
+            textBox1.Text = "Updated: " + attendanceWriter.getDate();
+
             long DeviceID = 0;
             int rc = 0;
             rc = pcProxDLLAPI.usbConnect();
@@ -61,7 +65,7 @@ namespace WpfApplication2
             }
             else
             {
-                MainWindow.AppWindow.textBox2.Text = "No devices found to connect with";
+                MainWindow.AppWindow.textBox2.Text = "No device found";
             }
             
 

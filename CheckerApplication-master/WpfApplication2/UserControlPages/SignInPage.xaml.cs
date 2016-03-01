@@ -57,8 +57,8 @@ namespace WpfApplication2
                 }
                 else
                 {
-                    MainWindow.AppWindow.textBox2.Text = "No devices found to connect with";
-                    labelID.Text = "RFID USB Device Not Found: \n\n Please Connect the RFID USB Device Before Scanning";
+                    MainWindow.AppWindow.textBox2.Text = "No device found";
+                    labelID.Text = "RFID USB Device Not Found: \n\n Please Connect Device!";
                 }              
             }
         }
@@ -85,7 +85,9 @@ namespace WpfApplication2
                 }
                 else
                 {
-                    MainWindow.AppWindow.textBox2.Text = "No devices found to connect with";
+                    MainWindow.AppWindow.textBox2.Text = "No device found";
+                    buttonScan.IsEnabled = true;
+                    buttonUpdateStudentInfo.IsEnabled = true;
                 }
             }
 
@@ -143,6 +145,7 @@ namespace WpfApplication2
 
                     String s = nBits.ToString() + " Bit ID [0]..[7]: ";
                     String proxID = "";
+                
                     string checkerID = "";
                     string checkersName = "";
 
@@ -151,11 +154,15 @@ namespace WpfApplication2
                         Id[i] = pcProxDLLAPI.getActiveID_byte(i);
                         s = s + String.Format("{0:X2}.", Id[i]);
                         proxID += String.Format("{0:X2}", Id[i]);
-                        checkerID = Int32.Parse(proxID, System.Globalization.NumberStyles.HexNumber).ToString();
+                        Console.Out.WriteLine("proxID bits: " + proxID);
+                        
                     }
+                Console.Out.WriteLine("ProxID: " + proxID);
+                checkerID = Int32.Parse(proxID, System.Globalization.NumberStyles.HexNumber).ToString();
+                Console.Out.WriteLine("Decimal ID: " + checkerID);
 
 
-                    if (!lastID.Equals(checkerID))
+                if (!lastID.Equals(checkerID))
                     {
 
                         if (authorizedCheckerIDs.Contains(checkerID))
@@ -166,7 +173,7 @@ namespace WpfApplication2
                             {
                                 labelID.Foreground = new SolidColorBrush(Colors.ForestGreen);
                                 checkersName = attendanceWriter.getAuthorizedCheckersName(checkerID);
-                                labelID.Text = checkersName + " is an authorized Christian Life and Worship Credit Checker";
+                                labelID.Text = checkersName + "\nis an authorized Christian Life and Worship Credit Checker";
                                 labelID_Counter.Text = "";
                                 Panel.SetZIndex(buttonProceed, 1);
                                 buttonProceed.IsEnabled = true;
@@ -189,7 +196,7 @@ namespace WpfApplication2
                             Dispatcher.Invoke(() =>
                             {
                                 checkersName = attendanceWriter.getStudentsName(checkerID);
-                                labelID.Text = checkersName + " is not an authorized Christian Life and Worship Credit Checker";
+                                labelID.Text = checkersName + "\nis not an authorized Christian Life and Worship Credit Checker";
                                 labelID_Counter.Text = counter.ToString();
                             });
                             failPlayer.Play();
@@ -223,11 +230,17 @@ namespace WpfApplication2
 
         private void buttonUpdate_Click(object sender, RoutedEventArgs e)
         {
+            Mouse.OverrideCursor = Cursors.Wait;
+            buttonScan.IsEnabled = false;
+            buttonUpdateStudentInfo.IsEnabled = false;
             SQLPuller sqlPuller = new SQLPuller();
             sqlPuller.pullEvents();
             sqlPuller.pullAuthorizedCheckers();
             sqlPuller.pullStudents();
-            buttonUpdateStudentInfo.IsEnabled = false;
+            buttonUpdateStudentInfo.IsEnabled = true;
+            buttonScan.IsEnabled = true;
+            MainWindow.AppWindow.textBox1.Text = "Updated: " + attendanceWriter.getDate();
+            Mouse.OverrideCursor = null;
         }
 
         private void buttonProceed_Click(object sender, RoutedEventArgs e)
