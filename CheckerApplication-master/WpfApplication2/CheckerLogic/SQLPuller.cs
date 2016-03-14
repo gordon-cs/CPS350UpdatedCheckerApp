@@ -63,6 +63,7 @@ namespace WpfApplication2
             catch (Exception ex)
             {
                 Console.Out.WriteLine("EVENT SQL FAILED ");
+                MainWindow.AppWindow.setDatabaseUpdated(false);
             }
             
         }
@@ -112,6 +113,7 @@ namespace WpfApplication2
             catch (Exception ex)
             {
                 Console.Out.WriteLine("CHECKERS SQL FAILED ");
+                MainWindow.AppWindow.setDatabaseUpdated(false);
             }
         }
 
@@ -153,13 +155,14 @@ namespace WpfApplication2
                 dataReader.Close();
                 command.Dispose();
                 connection.Close();
-                attendanceWriter.CreateDateTextFile();
+
                 Console.Out.WriteLine("STUDENTS SQL SUCCESS ");
 
             }
             catch (Exception ex)
             {
                 Console.Out.WriteLine("STUDENTS SQL FAILED ");
+                MainWindow.AppWindow.setDatabaseUpdated(false);
             }
         }
 

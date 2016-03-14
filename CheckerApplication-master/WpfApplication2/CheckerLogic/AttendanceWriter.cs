@@ -285,7 +285,7 @@ namespace WpfApplication2
             {
                 authorizedList.Add(line);
             }
-
+            sr.Close();
             return authorizedList;
         }
 
@@ -305,7 +305,7 @@ namespace WpfApplication2
             {
                 authorizedList.Add(line.Substring(0, 5));
             }
-
+            sr.Close();
             return authorizedList;
         }
 
@@ -325,11 +325,13 @@ namespace WpfApplication2
 
             while ((line = sr.ReadLine()) != null)
             {
-                if (line.Contains(checkerID))
-                    values = line.Split(SC);
-                checkersName = (values[2] + " " + values[3]);
+                values = line.Split(SC);
+                if (values[0].Contains(checkerID))
+                    checkersName = (values[2] + " " + values[3]);
             }
-
+            sr.Close();
+            if (checkersName.Length == 0)
+                checkersName = "Student";
             return checkersName;
         }
 
@@ -349,11 +351,13 @@ namespace WpfApplication2
 
             while ((line = sr.ReadLine()) != null)
             {
-                if (line.Contains(checkerID))
-                    values = line.Split(SC);
-                studentsName = (values[2] + " " + values[3]);
+                values = line.Split(SC);
+                if (values[0].Contains(checkerID))
+                    studentsName = (values[2] + " " + values[3]);
             }
-
+            sr.Close();
+            if (studentsName.Length == 0)
+                studentsName = "Student";
             return studentsName;
         }
         
@@ -373,11 +377,11 @@ namespace WpfApplication2
 
             while ((line = sr.ReadLine()) != null)
             {
-                if (line.Contains(scannedID))
-                    values = line.Split(SC);
-                studentsBarcode = (values[1]);
+                values = line.Split(SC);
+                if (values[0].Contains(scannedID))
+                    studentsBarcode = (values[1]);
             }
-
+            sr.Close();
             return studentsBarcode;
         }
 
@@ -405,7 +409,7 @@ namespace WpfApplication2
                 if (length == 22)
                     events.Add(values[3] + " " + values[2]);
             }
-
+            sr.Close();
             return events;
         }
 
@@ -427,7 +431,7 @@ namespace WpfApplication2
                 values = line.Split(SC);
                 eventIDList.Add(values[0]);
             }
-
+            sr.Close();
             return eventIDList;
         }
 
@@ -448,7 +452,7 @@ namespace WpfApplication2
             {
                 date = line;
             }
-
+            sr.Close();
             return date;
         }
 

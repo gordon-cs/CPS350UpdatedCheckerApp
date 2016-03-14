@@ -39,7 +39,7 @@ namespace WpfApplication2
         string lastIDforCreditAlready = "";
         List <string> creditList;
         List <string> noCreditList;
-        System.Timers.Timer aTimer;
+        System.Timers.Timer scanTimer;
 
         //noise makers for the scan
         private SoundPlayer happyPlayer = new SoundPlayer("../../Assets/blip.wav");
@@ -163,10 +163,10 @@ namespace WpfApplication2
 
                 //initializes the timer to run the scanCard function at an interval
                 //given by constant above
-                aTimer = new System.Timers.Timer();
-                aTimer.Elapsed += new ElapsedEventHandler(scanCard);
-                aTimer.Interval = SCANOFFSETTIME;
-                aTimer.Enabled = true;
+                scanTimer = new System.Timers.Timer();
+                scanTimer.Elapsed += new ElapsedEventHandler(scanCard);
+                scanTimer.Interval = SCANOFFSETTIME;
+                scanTimer.Enabled = true;
 
 
             }
@@ -218,8 +218,8 @@ namespace WpfApplication2
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Foreground = new SolidColorBrush(Colors.DarkSlateBlue);
                         labelID.Text = studentName + "\nwill receive credit.";
-                        happyPlayer.Play();
                     });
+                    playHappySound();
                     creditList.Add(scannedID);
                     attendanceWriter.setNoCredit(0);
                     attendanceWriter.WriteAttendanceTextFile(scannedID);
@@ -250,8 +250,8 @@ namespace WpfApplication2
                         Panel.SetZIndex(buttonCancelNoCredit, -1);
                         buttonCancelNoCredit.Opacity = 0;
                         buttonCancelNoCredit.IsEnabled = false;
-                        failPlayer.Play();
                     });
+                    playFailSound();
                     noCreditList.Add(scannedID);
                     attendanceWriter.setNoCredit(1);
                     attendanceWriter.WriteAttendanceTextFile(scannedID);
@@ -283,9 +283,9 @@ namespace WpfApplication2
                         Panel.SetZIndex(buttonCancelNoCredit, -1);
                         buttonCancelNoCredit.Opacity = 0;
                         buttonCancelNoCredit.IsEnabled = false;
-                        failPlayer.Play();
                     });
                     noCreditChecked = false;
+                    playFailSound();
                     
                 }
 
@@ -310,9 +310,8 @@ namespace WpfApplication2
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Foreground = new SolidColorBrush(Colors.DarkSlateBlue);
                         labelID.Text = studentName + "\nhas already received credit.";
-                        happyPlayer.Play();
                     });
-                    
+                    playHappySound();
                 }
 
 
@@ -338,10 +337,23 @@ namespace WpfApplication2
             }
         }
 
+        //plays the happy sound
+        private void playHappySound()
+        {
+            happyPlayer.Play();
+        }
+
+        //plays the failure sound
+        private void playFailSound()
+        {
+            failPlayer.Play();
+        }
+
         //if the stop scanning button is clicked, a confirmation window is displayed
         //that allows the user to cancel or continue with stopping the scan
         private void buttonStopScan_Click(object sender, RoutedEventArgs e)
         {
+            scanTimer.Stop();
             buttonStopScan.IsEnabled = false;
             confirmationTextBlock.Opacity = 100;
             confirmationBox.Opacity = 100;
@@ -357,7 +369,6 @@ namespace WpfApplication2
         // if the yes button is clicked, scanning is stopped, and moves to the results page
         private void buttonDoneScanningYes_Click(object sender, RoutedEventArgs e)
         {
-            aTimer.Stop();
             MainWindow.AppWindow.GoToResultsPage();
         }
 
@@ -375,6 +386,7 @@ namespace WpfApplication2
             buttonDoneScanningYes.IsEnabled = false;
             buttonDoneScanningNo.IsEnabled = false;
             buttonStopScan.IsEnabled = true;
+            scanTimer.Start();
         }
 
         
@@ -382,6 +394,7 @@ namespace WpfApplication2
         //that allows the user to cancel or continue with a no credit scan
         private void checkBoxNoCredit_Checked(object sender, RoutedEventArgs e)
         {
+            scanTimer.Stop();
             confirmationTextBlock2.Opacity = 100;
             confirmationBox2.Opacity = 100;
             buttonBlacklistNo.Opacity = 100;
@@ -423,6 +436,8 @@ namespace WpfApplication2
             buttonCancelNoCredit.IsEnabled = true;
 
             this.noCreditChecked = true;
+
+            scanTimer.Start();
         }
 
         //if the no button is clicked for no credit, scanning continues as usual
@@ -441,6 +456,7 @@ namespace WpfApplication2
             buttonBlacklistNo.IsEnabled = false;
 
             checkBoxNoCredit.IsChecked = false;
+            scanTimer.Start();
         }
         // after making the next scan for no credit, a button appears that allows the user
         // to cancel the no credit scan
@@ -451,6 +467,7 @@ namespace WpfApplication2
             Panel.SetZIndex(buttonCancelNoCredit, -1);
             buttonCancelNoCredit.Opacity = 0;
             buttonCancelNoCredit.IsEnabled = false;
+            labelID.Foreground = new SolidColorBrush(Colors.DarkSlateBlue);
             labelID.Text = "Next Scan Will Receive Credit.";
         }
     }

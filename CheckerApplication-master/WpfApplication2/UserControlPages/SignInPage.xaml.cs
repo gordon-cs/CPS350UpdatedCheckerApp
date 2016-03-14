@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using RFIDeas_pcProxAPI;
 using System.Media;
 using System.Timers;
+using System.Windows.Media.Animation;
 
 namespace WpfApplication2
 {
@@ -28,13 +29,15 @@ namespace WpfApplication2
 
         List<string> authorizedCheckerIDs;
         List<string> temporaryCheckersList;
-        System.Timers.Timer aTimer;
+        System.Timers.Timer scanTimer;
         int counter = 0;
         string chapelCheckerId;
         private SoundPlayer happyPlayer = new SoundPlayer(@"../../Assets/blip.wav");
         private SoundPlayer failPlayer = new SoundPlayer(@"../../Assets/failure_beep.wav");
         string lastID = "";
         bool deviceConnected = false;
+        
+
 
 
         public SignInPage()
@@ -53,13 +56,20 @@ namespace WpfApplication2
                     MainWindow.AppWindow.textBox2.Text = "Connected to DeviceID: " + DeviceID;
                     this.deviceConnected = true;
                     MainWindow.AppWindow.setDeviceConnected(true);
-                    labelID.Text = "USB Scanning Device Found.";
+                    if (MainWindow.AppWindow.getDatabaseUpdated())
+                    {
+                        labelID.Text = "Database Updated. \n\n Sign in with Gordon ID";
+                    }
+                    else
+                    {
+                        labelID.Text = "Database Outdated. \n\n Update Database\nor Sign in";
+                    }
                 }
                 else
                 {
                     MainWindow.AppWindow.textBox2.Text = "No device found";
                     labelID.Text = "RFID USB Device Not Found: \n\n Please Connect Device!";
-                }              
+                }
             }
         }
 
@@ -104,24 +114,37 @@ namespace WpfApplication2
 
                 //Comment out this to skip authorization of sign in
 
-                aTimer = new System.Timers.Timer();
-                aTimer.Elapsed += new ElapsedEventHandler(signInScan);
-                aTimer.Interval = 500;
-                aTimer.Enabled = true;
+                scanTimer = new System.Timers.Timer();
+                scanTimer.Elapsed += new ElapsedEventHandler(signInScan);
+                scanTimer.Interval = 500;
+                scanTimer.Enabled = true;
 
                 //Uncomment this to skip authorization to sign in
                 //MainWindow.AppWindow.GoToEventsPage();
 
                 buttonScan.IsEnabled = false;
+                buttonCancelScan.IsEnabled = true;
+                Panel.SetZIndex(buttonCancelScan, 2);
             }
         }
 
-        
+        //plays the happy sound
+        private void playHappySound()
+        {
+            happyPlayer.Play();
+        }
+
+        //plays the failure sound
+        private void playFailSound()
+        {
+            failPlayer.Play();
+        }
+
         private void getTemporaryCheckers()
         {
             this.temporaryCheckersList = attendanceWriter.getTempCheckersFromTextFile();
         }
-        
+
 
         private void successfulSignIn()
         {
@@ -130,87 +153,83 @@ namespace WpfApplication2
 
         private void signInScan(object source, ElapsedEventArgs e)
         {
-            
-  
-                counter++;
-                Byte[] Id = new Byte[8];
-                int nBits = pcProxDLLAPI.getActiveID(8);
 
-                // MainWindow.AppWindow.textBox2.Text = nBits.ToString();
 
-                if (nBits > 0)
+            counter++;
+            Byte[] Id = new Byte[8];
+            int nBits = pcProxDLLAPI.getActiveID(8);
+
+            // MainWindow.AppWindow.textBox2.Text = nBits.ToString();
+
+            if (nBits > 0)
+            {
+
+                //SystemSounds.Beep.Play();
+
+                String s = nBits.ToString() + " Bit ID [0]..[7]: ";
+                String proxID = "";
+
+                string checkerID = "";
+                string checkersName = "";
+
+                for (short i = 1; i > -1; i--)
                 {
+                    Id[i] = pcProxDLLAPI.getActiveID_byte(i);
+                    s = s + String.Format("{0:X2}.", Id[i]);
+                    proxID += String.Format("{0:X2}", Id[i]);
 
-                    //SystemSounds.Beep.Play();
-
-                    String s = nBits.ToString() + " Bit ID [0]..[7]: ";
-                    String proxID = "";
-                
-                    string checkerID = "";
-                    string checkersName = "";
-
-                    for (short i = 1; i > -1; i--)
-                    {
-                        Id[i] = pcProxDLLAPI.getActiveID_byte(i);
-                        s = s + String.Format("{0:X2}.", Id[i]);
-                        proxID += String.Format("{0:X2}", Id[i]);
-                        Console.Out.WriteLine("proxID bits: " + proxID);
-                        
-                    }
-                Console.Out.WriteLine("ProxID: " + proxID);
+                }
                 checkerID = Int32.Parse(proxID, System.Globalization.NumberStyles.HexNumber).ToString();
-                Console.Out.WriteLine("Decimal ID: " + checkerID);
+                Console.Out.WriteLine("checkers hex id:" + proxID);
+                Console.Out.WriteLine("checkers decimal id:" + checkerID);
+                Console.Out.WriteLine("checkers barcode: " + MainWindow.AppWindow.getAttendanceWriter().getStudentsBarcode(checkerID));
 
 
                 if (!lastID.Equals(checkerID))
+                {
+
+                    if (authorizedCheckerIDs.Contains(checkerID))
                     {
+                        lastID = checkerID;
 
-                        if (authorizedCheckerIDs.Contains(checkerID))
+                        Dispatcher.Invoke(() =>
                         {
-                            lastID = checkerID;
+                            labelID.Foreground = new SolidColorBrush(Colors.ForestGreen);
+                            checkersName = attendanceWriter.getAuthorizedCheckersName(checkerID);
+                            labelID.Text = checkersName + "\nis an authorized Christian Life and Worship Credit Checker";
+                            labelID_Counter.Text = "";
+                            buttonCancelScan.IsEnabled = false;
+                            Panel.SetZIndex(buttonCancelScan, -1);
+                            Panel.SetZIndex(buttonProceed, 1);
+                            buttonProceed.IsEnabled = true;
+                            circleAnimation.Opacity = 0;
+                        });
 
-                            Dispatcher.Invoke(() =>
-                            {
-                                labelID.Foreground = new SolidColorBrush(Colors.ForestGreen);
-                                checkersName = attendanceWriter.getAuthorizedCheckersName(checkerID);
-                                labelID.Text = checkersName + "\nis an authorized Christian Life and Worship Credit Checker";
-                                labelID_Counter.Text = "";
-                                Panel.SetZIndex(buttonProceed, 1);
-                                buttonProceed.IsEnabled = true;
-                            });
+                        this.chapelCheckerId = checkerID;
 
-                            this.chapelCheckerId = checkerID;
-
-                            aTimer.Stop();
-                            Dispatcher.Invoke(() =>
-                            {
-                                attendanceWriter.setChapelCheckerID(checkerID);
+                        scanTimer.Stop();
+                        Dispatcher.Invoke(() =>
+                        {
+                            attendanceWriter.setChapelCheckerID(checkerID);
                                 //successfulSignIn();
 
                             });
-                            happyPlayer.Play();
-                        }
-                        else
-                        {
-                            lastID = checkerID;
-                            Dispatcher.Invoke(() =>
-                            {
-                                checkersName = attendanceWriter.getStudentsName(checkerID);
-                                labelID.Text = checkersName + "\nis not an authorized Christian Life and Worship Credit Checker";
-                                labelID_Counter.Text = counter.ToString();
-                            });
-                            failPlayer.Play();
-                        }
+                        playHappySound();
                     }
-
                     else
                     {
+                        lastID = checkerID;
                         Dispatcher.Invoke(() =>
                         {
+                            checkersName = attendanceWriter.getStudentsName(checkerID);
+                            if (checkersName.Contains("Student"))
+                                labelID.Text = checkersName + " is not in the Database \n\nTry Updating Database";
+                            else
+                                labelID.Text = checkersName + "\nis not an Authorized Christian Life and Worship Credit Checker";
                             labelID_Counter.Text = counter.ToString();
                         });
+                        playFailSound();
                     }
-
                 }
 
                 else
@@ -221,16 +240,27 @@ namespace WpfApplication2
                     });
                 }
 
-
-                if (counter > 98)
-                    this.counter = 0;
-
             }
-        
+
+            else
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    labelID_Counter.Text = counter.ToString();
+                });
+            }
+
+
+            if (counter > 98)
+                this.counter = 0;
+
+        }
+
 
         private void buttonUpdate_Click(object sender, RoutedEventArgs e)
         {
             Mouse.OverrideCursor = Cursors.Wait;
+            labelID.Text = "Updating Database...";
             buttonScan.IsEnabled = false;
             buttonUpdateStudentInfo.IsEnabled = false;
             SQLPuller sqlPuller = new SQLPuller();
@@ -240,12 +270,35 @@ namespace WpfApplication2
             buttonUpdateStudentInfo.IsEnabled = true;
             buttonScan.IsEnabled = true;
             MainWindow.AppWindow.textBox1.Text = "Updated: " + attendanceWriter.getDate();
+
+            if (MainWindow.AppWindow.getDatabaseUpdated() == true)
+            {
+                attendanceWriter.CreateDateTextFile();
+                labelID.Text = "Database Update Successful \n\n Sign in with Gordon ID";
+            }
+            else
+            {
+                labelID.Text = "Database Update Failed \n \n Check Internet Connection";
+            }
             Mouse.OverrideCursor = null;
         }
 
         private void buttonProceed_Click(object sender, RoutedEventArgs e)
         {
             successfulSignIn();
+        }
+
+        private void buttonCancelScan_Click(object sender, RoutedEventArgs e)
+        {
+            scanTimer.Stop();
+            counter = 0;
+            labelID_Counter.Text = "";
+            labelID.Text = "Sign In\nor Update Database";
+            lastID = "";
+            buttonScan.IsEnabled = true;
+            buttonUpdateStudentInfo.IsEnabled = true;
+            buttonCancelScan.IsEnabled = false;
+            Panel.SetZIndex(buttonCancelScan, -1);
         }
     }
 }

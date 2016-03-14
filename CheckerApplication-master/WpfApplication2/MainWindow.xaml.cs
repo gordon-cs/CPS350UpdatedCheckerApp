@@ -26,6 +26,7 @@ namespace WpfApplication2
         public static MainWindow AppWindow;
         bool deviceConnected = false;
         string eventTitle = "";
+        bool databaseUpdated = true;
 
         public MainWindow()
         {
@@ -38,10 +39,6 @@ namespace WpfApplication2
             //sqlPuller.pullEvents();
             //sqlPuller.pullStudents();
 
-            string proxID = "29FF";
-            string scannedID = Int32.Parse(proxID, System.Globalization.NumberStyles.HexNumber).ToString();
-            Console.Out.WriteLine("scannedID is: " + scannedID);
-
             pcProxDLLAPI.USBDisconnect();
             
 
@@ -50,6 +47,8 @@ namespace WpfApplication2
             //GoToEventsPage();     
             //GoToScanPage();
             //GoToResultsPage();
+            if (databaseUpdated == true)
+                attendanceWriter.CreateDateTextFile();
 
             textBox1.Text = "Updated: " + attendanceWriter.getDate();
 
@@ -114,6 +113,16 @@ namespace WpfApplication2
         public void setEventName(string value)
         {
             eventTitle = value;
+        }
+
+        public bool getDatabaseUpdated()
+        {
+            return databaseUpdated;
+        }
+
+        public void setDatabaseUpdated(bool value)
+        {
+            databaseUpdated = value;
         }
 
     }
