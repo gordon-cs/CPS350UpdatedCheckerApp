@@ -14,26 +14,33 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using RFIDeas_pcProxAPI;
 
-namespace WpfApplication2
+namespace CheckerApplication
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+
     public partial class MainWindow : Window
     {
-        //int to determine which page is currently active
+        //attendance writer variable
         AttendanceWriter attendanceWriter;
+
+        //makes mainWindow accessible as AppWindow
         public static MainWindow AppWindow;
+
+        //variables for the main window class to be called from other pages
         bool deviceConnected = false;
         string eventTitle = "";
         bool databaseUpdated = true;
 
+        //constructor for the main window
         public MainWindow()
         {
+            //Initializes classes
             AppWindow = this;
             attendanceWriter = new AttendanceWriter();
-
             SQLPuller sqlPuller = new SQLPuller();
+
+            //the following lines update the database
+            //comment them out if you dont want to update on startup
+            //uncomment them if you want to update on startup
 
             //sqlPuller.pullAuthorizedCheckers();
             //sqlPuller.pullEvents();
@@ -41,21 +48,25 @@ namespace WpfApplication2
 
             pcProxDLLAPI.USBDisconnect();
             
-
+            //displays main window and goes to the sign in page
             InitializeComponent();
+
+            //uncomment the page you want to go to on startup for testing?
+            //sign in page is the normal process for the app
             GoToSignInPage();
             //GoToEventsPage();     
             //GoToScanPage();
             //GoToResultsPage();
-            if (databaseUpdated == true)
-                attendanceWriter.CreateDateTextFile();
+
+
 
             textBox1.Text = "Updated: " + attendanceWriter.getDate();
 
+            //attempts connecting the usb reader device
+
             long DeviceID = 0;
-            int rc = 0;
-            rc = pcProxDLLAPI.usbConnect();
-            if (rc == 1)
+         
+            if (pcProxDLLAPI.usbConnect() == 1)
             {
                 DeviceID = pcProxDLLAPI.GetDID();
                 ushort proxDevice = pcProxDLLAPI.writeDevCfgToFile("prox_device_configuration");
@@ -67,9 +78,9 @@ namespace WpfApplication2
                 MainWindow.AppWindow.textBox2.Text = "No device found";
             }
             
-
         }
 
+        //functions to go to the various pages of the application
         public void GoToResultsPage()
         {
             this.contentControl.Content = new ResultsPage();
@@ -90,6 +101,7 @@ namespace WpfApplication2
             this.contentControl.Content = new EventPage();
         }
 
+        //function to get or set the various variables of this window
         public AttendanceWriter getAttendanceWriter()
         {
             return attendanceWriter;

@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfApplication2
+namespace CheckerApplication
 {
     /// <summary>
     /// Interaction logic for UserControl1.xaml
@@ -28,53 +28,56 @@ namespace WpfApplication2
         List<string> listEventIDs;
         bool listBoxItemClicked = false;
 
+        //Constructor for the Select Event Page
         public EventPage()
         {
             
             InitializeComponent();
 
             
-            
+            // initializes the lists with event information and event ids
             listEvents = attendanceWriter.getEventInformationList();
             listEventIDs = attendanceWriter.getEventIDList();
             
+            // populates the listBox with the event information
             for(int i = 0; i < listEvents.Count; i++)
             {
                 ListBoxItem listBoxItem = new ListBoxItem();
                 listBoxItem.FontSize = 16;
                 listBoxItem.Content = listEvents[i];
-                listBox.Items.Add(listBoxItem);
+                eventListBox.Items.Add(listBoxItem);
             }
-            
-            
-
+         
         }
 
+        // function that is called when a selection is made in the list box .. of an event
         private void ListBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            // ... Get RadioButton reference.
-            int listBoxItemLocation = listBox.SelectedIndex;
+            // get the id of the event
+            int listBoxItemLocation = eventListBox.SelectedIndex;
             string id = listEventIDs[listBoxItemLocation];
-
+            
+            // give main window the event title so it can be used elswhere
             string eventTitle = listEvents[listBoxItemLocation];
             MainWindow.AppWindow.setEventName(eventTitle);
 
-            
-
-            // ... Display button content as title.
+            // set the id of the event selected in the attendance text file
             this.eventID = id;
             attendanceWriter.setEventID(eventID);
             
             listBoxItemClicked = true;
         }
 
+        // function that is called when OK button is clicked
         private void buttonOk_Click(object sender, RoutedEventArgs e)
         {
-            if (!listBox.SelectedIndex.Equals(-1))
+            // If an event is selected, continue onward to the scanning page
+            if (!eventListBox.SelectedIndex.Equals(-1))
             {
                 attendanceWriter.setEventID(eventID);
                 MainWindow.AppWindow.GoToScanPage();
             }
+            // If an event is not selected, play noise and display please select
             else
             {
                 SystemSounds.Beep.Play();
@@ -83,6 +86,7 @@ namespace WpfApplication2
             
         }
 
+        //if the back button is clicked, return to the sign in page
         private void buttonBack_Click(object sender, RoutedEventArgs e)
         {
             MainWindow.AppWindow.GoToSignInPage();

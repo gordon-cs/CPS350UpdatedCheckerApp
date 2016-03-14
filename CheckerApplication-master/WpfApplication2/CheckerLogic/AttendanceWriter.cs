@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Management;
 using RFIDeas_pcProxAPI;
 
-namespace WpfApplication2
+namespace CheckerApplication
 {
     public class AttendanceWriter
     {
@@ -36,7 +36,7 @@ namespace WpfApplication2
         //function that gets a unique ID for the attendance text file from the usb device
         private string getUniqueID()
         {
-            string uniqueID = pcProxDLLAPI.GetSN().ToString();
+            string uniqueID = System.Net.Dns.GetHostName();
 
             return uniqueID;
         }

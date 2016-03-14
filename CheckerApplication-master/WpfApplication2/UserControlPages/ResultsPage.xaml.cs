@@ -15,7 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
 
-namespace WpfApplication2
+namespace CheckerApplication
 {
     /// <summary>
     /// Interaction logic for UserControl2.xaml
@@ -25,21 +25,30 @@ namespace WpfApplication2
 
         AttendanceWriter attendanceWriter = MainWindow.AppWindow.getAttendanceWriter();
 
+        //constructor for the results page
         public ResultsPage()
         {
+            //displays page
             InitializeComponent();
+
+            //function called to omit multiple entries in the attendance text file
             attendanceWriter.omitMultipleEntries();
+
+            //gets and sets event name and attendance file path
             textBlockSaveFile.Text += attendanceWriter.getAttendanceFilePath();
             labelEventTitle.Text = MainWindow.AppWindow.getEventName();
         }
-
+        
+        //function for when back to sign-in is clicked -- returns to sign in page
         private void buttonBack_Click(object sender, RoutedEventArgs e)
         {
             MainWindow.AppWindow.GoToSignInPage();
         }
 
+        //function for when open text file is clicked -- opens files
         private void buttonOpenText_Click(object sender, RoutedEventArgs e)
         {
+            //starts process of opening attendance text file
             Process.Start(attendanceWriter.getAttendanceFilePath());
         }
     }

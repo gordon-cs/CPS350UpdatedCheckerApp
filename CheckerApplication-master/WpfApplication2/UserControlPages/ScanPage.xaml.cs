@@ -17,11 +17,9 @@ using System.Threading;
 using System.Timers;
 using System.Media;
 
-namespace WpfApplication2
+namespace CheckerApplication
 {
-    /// <summary>
-    /// Interaction logic for UserControl1.xaml
-    /// </summary>
+
     public partial class ScanPage : UserControl
     {
         //pulls attendanceWriter object from MainWindow
@@ -104,9 +102,7 @@ namespace WpfApplication2
             if (!deviceConnected)
             {
                 long DeviceID = 0;
-                int rc = 0;
-                rc = pcProxDLLAPI.usbConnect();
-                if (rc == 1)
+                if (pcProxDLLAPI.usbConnect() == 1)
                 {
                     DeviceID = pcProxDLLAPI.GetDID();
                     ushort proxDevice = pcProxDLLAPI.writeDevCfgToFile("prox_device_configuration");
@@ -329,7 +325,7 @@ namespace WpfApplication2
             //else raises the counter int
             if (counter > 98)
             {
-                this.counter = 0;
+                counter = 0;
             }
             else
             {            

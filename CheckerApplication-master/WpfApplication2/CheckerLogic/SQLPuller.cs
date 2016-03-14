@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace WpfApplication2
+namespace CheckerApplication
 {
     public class SQLPuller
     {
+        // grabs the attendanceWriter to class to write SQL to text files
         AttendanceWriter attendanceWriter = MainWindow.AppWindow.getAttendanceWriter();
 
-
+        //constructor of the SQLPuller class
         public SQLPuller()
         {
         }
-
- 
-
+        
+        //Function to pull the event information and write it to the event text file
         public void pullEvents()
         {
             string connectionString = null;
@@ -68,6 +68,7 @@ namespace WpfApplication2
             
         }
 
+        //Function to pull the authorized chapel checker information and write it to the chapel checker text file
         public void pullAuthorizedCheckers()
         {
             string connectionString = null;
@@ -76,12 +77,7 @@ namespace WpfApplication2
             string sql = null;
             SqlDataReader dataReader;
 
-            string decID;
-            string hexValue;
-
             connectionString = "Data Source=adminprodsql; Initial Catalog=Attendum;  Integrated Security=SSPI;";
-
-
 
             sql = @"select a.validine_id, a.barcode, a.firstname, a.lastname
                     from Attendum.dbo.collectors as c
@@ -117,6 +113,7 @@ namespace WpfApplication2
             }
         }
 
+        //Function to pull all current student information and write it to the students text file
         public void pullStudents()
         {
             string connectionString = null;
@@ -125,13 +122,7 @@ namespace WpfApplication2
             string sql = null;
             SqlDataReader dataReader;
 
-
-            string decID;
-            string hexValue;
-
             connectionString = "Data Source=adminprodsql; Initial Catalog=Attendum;  Integrated Security=SSPI;";
-
-
 
             sql = @"select validine_id, barcode, firstname, lastname
                     from Attendum.dbo.account";

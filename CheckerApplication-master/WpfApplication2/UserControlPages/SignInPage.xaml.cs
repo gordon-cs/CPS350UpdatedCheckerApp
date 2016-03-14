@@ -17,39 +17,40 @@ using System.Media;
 using System.Timers;
 using System.Windows.Media.Animation;
 
-namespace WpfApplication2
+namespace CheckerApplication
 {
-    /// <summary>
-    /// Interaction logic for UserControl1.xaml
-    /// </summary>
+
     public partial class SignInPage : UserControl
     {
-
+        //pulls attendanceWriter object from MainWindow
         AttendanceWriter attendanceWriter = MainWindow.AppWindow.getAttendanceWriter();
 
+        //variables used throughout the class
         List<string> authorizedCheckerIDs;
         List<string> temporaryCheckersList;
         System.Timers.Timer scanTimer;
         int counter = 0;
-        string chapelCheckerId;
-        private SoundPlayer happyPlayer = new SoundPlayer(@"../../Assets/blip.wav");
-        private SoundPlayer failPlayer = new SoundPlayer(@"../../Assets/failure_beep.wav");
+        string chapelCheckerId;    
         string lastID = "";
         bool deviceConnected = false;
-        
 
+        //noise makers for the scan
+        private SoundPlayer happyPlayer = new SoundPlayer(@"../../Assets/blip.wav");
+        private SoundPlayer failPlayer = new SoundPlayer(@"../../Assets/failure_beep.wav");
 
-
+        //constructor for the sign in page
         public SignInPage()
         {
+            //display page
             InitializeComponent();
+            //get and set if the device is connected to deviceConnected
             deviceConnected = MainWindow.AppWindow.getDeviceConnected();
+
+            //if the device is not connected, attempt connecting it
             if (!deviceConnected)
             {
                 long DeviceID = 0;
-                int rc = 0;
-                rc = pcProxDLLAPI.usbConnect();
-                if (rc == 1)
+                if (pcProxDLLAPI.usbConnect() == 1)
                 {
                     DeviceID = pcProxDLLAPI.GetDID();
                     ushort proxDevice = pcProxDLLAPI.writeDevCfgToFile("prox_device_configuration");
@@ -73,18 +74,20 @@ namespace WpfApplication2
             }
         }
 
+        //function runs f the scan button is clicked 
         private void buttonScan_Click(object sender, RoutedEventArgs e)
         {
+            //disables buttons and gets whether the device is already connected
             buttonScan.IsEnabled = false;
             buttonUpdateStudentInfo.IsEnabled = false;
             deviceConnected = MainWindow.AppWindow.getDeviceConnected();
 
+            //if the device is not connected, try connecting the device
+            //else display device not found and enable buttons
             if (!deviceConnected)
             {
                 long DeviceID = 0;
-                int rc = 0;
-                rc = pcProxDLLAPI.usbConnect();
-                if (rc == 1)
+                if (pcProxDLLAPI.usbConnect() == 1)
                 {
                     DeviceID = pcProxDLLAPI.GetDID();
                     ushort proxDevice = pcProxDLLAPI.writeDevCfgToFile("prox_device_configuration");
@@ -101,25 +104,24 @@ namespace WpfApplication2
                 }
             }
 
+            //if the device is connected
             if (deviceConnected)
             {
-
-                getTemporaryCheckers();
-
+                //function to set authorized checker ids into a list
                 authorizedCheckerIDs = new List<string>();
-
                 authorizedCheckerIDs = attendanceWriter.getAuthorizedCheckersFromTextFile();
 
 
 
-                //Comment out this to skip authorization of sign in
+                //Comment out the following to skip authorization of sign in
 
+                //starts the sign in timer to run function every 500ms
                 scanTimer = new System.Timers.Timer();
                 scanTimer.Elapsed += new ElapsedEventHandler(signInScan);
                 scanTimer.Interval = 500;
                 scanTimer.Enabled = true;
 
-                //Uncomment this to skip authorization to sign in
+                //Uncomment the next line to skip authorization to sign in
                 //MainWindow.AppWindow.GoToEventsPage();
 
                 buttonScan.IsEnabled = false;
@@ -140,32 +142,24 @@ namespace WpfApplication2
             failPlayer.Play();
         }
 
-        private void getTemporaryCheckers()
-        {
-            this.temporaryCheckersList = attendanceWriter.getTempCheckersFromTextFile();
-        }
-
-
+        //function to move on to the event selection page
         private void successfulSignIn()
         {
             MainWindow.AppWindow.GoToEventsPage();
         }
 
+        //function that runs a scan on a timer
         private void signInScan(object source, ElapsedEventArgs e)
         {
 
-
-            counter++;
+            //gets the bits of the proxID from a scan
             Byte[] Id = new Byte[8];
             int nBits = pcProxDLLAPI.getActiveID(8);
 
-            // MainWindow.AppWindow.textBox2.Text = nBits.ToString();
-
+            //if bits are received from the scan, sets the scannedID variable to the 
+            //proxID bits that we want
             if (nBits > 0)
             {
-
-                //SystemSounds.Beep.Play();
-
                 String s = nBits.ToString() + " Bit ID [0]..[7]: ";
                 String proxID = "";
 
@@ -184,10 +178,11 @@ namespace WpfApplication2
                 Console.Out.WriteLine("checkers decimal id:" + checkerID);
                 Console.Out.WriteLine("checkers barcode: " + MainWindow.AppWindow.getAttendanceWriter().getStudentsBarcode(checkerID));
 
-
+                //if the last ID scanned is the same ID, does not check it for authorization
                 if (!lastID.Equals(checkerID))
                 {
-
+                    //perform successful scan if the authorized list contains the id scanned
+                    //else says they are either not in the database or aren't  authorized
                     if (authorizedCheckerIDs.Contains(checkerID))
                     {
                         lastID = checkerID;
@@ -211,9 +206,7 @@ namespace WpfApplication2
                         Dispatcher.Invoke(() =>
                         {
                             attendanceWriter.setChapelCheckerID(checkerID);
-                                //successfulSignIn();
-
-                            });
+                        });
                         playHappySound();
                     }
                     else
@@ -231,7 +224,7 @@ namespace WpfApplication2
                         playFailSound();
                     }
                 }
-
+                // updates the counter
                 else
                 {
                     Dispatcher.Invoke(() =>
@@ -241,7 +234,7 @@ namespace WpfApplication2
                 }
 
             }
-
+            // updates the counter
             else
             {
                 Dispatcher.Invoke(() =>
@@ -250,27 +243,39 @@ namespace WpfApplication2
                 });
             }
 
-
+            //if the counter is above 98, resets counter to 0
             if (counter > 98)
-                this.counter = 0;
+            {
+                counter = 0;
+            } 
+            else
+            {
+                counter++;
+            }
 
         }
 
-
+        //function that runs if the update database button is clicked
         private void buttonUpdate_Click(object sender, RoutedEventArgs e)
         {
+            //disables buttons and gives mouse waiting symbol
             Mouse.OverrideCursor = Cursors.Wait;
             labelID.Text = "Updating Database...";
             buttonScan.IsEnabled = false;
             buttonUpdateStudentInfo.IsEnabled = false;
+
+            //pulls new sql data from databases
             SQLPuller sqlPuller = new SQLPuller();
             sqlPuller.pullEvents();
             sqlPuller.pullAuthorizedCheckers();
             sqlPuller.pullStudents();
+
+            //enables buttons
             buttonUpdateStudentInfo.IsEnabled = true;
             buttonScan.IsEnabled = true;
             MainWindow.AppWindow.textBox1.Text = "Updated: " + attendanceWriter.getDate();
 
+            //statements to display whether updates failed or succeeded
             if (MainWindow.AppWindow.getDatabaseUpdated() == true)
             {
                 attendanceWriter.CreateDateTextFile();
@@ -280,16 +285,20 @@ namespace WpfApplication2
             {
                 labelID.Text = "Database Update Failed \n \n Check Internet Connection";
             }
+            //give mouse normal cursor
             Mouse.OverrideCursor = null;
         }
 
+        //function if the proceed button is clicked
         private void buttonProceed_Click(object sender, RoutedEventArgs e)
         {
             successfulSignIn();
         }
 
+        //function if the cancel scan button is clicked
         private void buttonCancelScan_Click(object sender, RoutedEventArgs e)
         {
+            //stops timer for scanning and shows default page
             scanTimer.Stop();
             counter = 0;
             labelID_Counter.Text = "";
