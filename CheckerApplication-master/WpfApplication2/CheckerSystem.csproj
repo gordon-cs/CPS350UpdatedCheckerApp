@@ -148,7 +148,12 @@
     <Resource Include="Assets\GordonCollege.PNG" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\blip.wav" />
+    <Content Include="Assets\failure_beep.wav" />
+    <Resource Include="Assets\gordon-seal-300.png" />
+    <Resource Include="Assets\gordon-seal.png" />
     <Content Include="Assets\happy_beep.wav" />
+    <Content Include="Assets\wave.wav" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">

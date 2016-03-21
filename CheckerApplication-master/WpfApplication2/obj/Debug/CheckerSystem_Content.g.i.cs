@@ -8,6 +8,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("assets/blip.wav")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("assets/failure_beep.wav")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("assets/happy_beep.wav")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("assets/wave.wav")]
 
 
