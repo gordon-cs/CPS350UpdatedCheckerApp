@@ -46,6 +46,8 @@ namespace CheckerApplication
             //get and set if the device is connected to deviceConnected
             deviceConnected = MainWindow.AppWindow.getDeviceConnected();
 
+            circleAnimation.Opacity = 0;
+
             //if the device is not connected, attempt connecting it
             if (!deviceConnected)
             {
@@ -120,6 +122,8 @@ namespace CheckerApplication
                 scanTimer.Elapsed += new ElapsedEventHandler(signInScan);
                 scanTimer.Interval = 500;
                 scanTimer.Enabled = true;
+
+                circleAnimation.Opacity = 100;
 
                 //Uncomment the next line to skip authorization to sign in
                 //MainWindow.AppWindow.GoToEventsPage();

@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Width="600" Height="800">
     <Grid HorizontalAlignment="Center">
-        <TextBlock x:Name="textBlock2" HorizontalAlignment="Center" Margin="0,0,0,200" TextWrapping="Wrap" Text="Scan to Sign in" VerticalAlignment="Center" Height="59" Width="341" TextAlignment="Center" FontSize="42.667" FontFamily="Lucida Fax" Foreground="#FFEBEAEA" FontWeight="Bold"/>
+        <TextBlock x:Name="textBlock2" HorizontalAlignment="Center" Margin="0,0,0,160" TextWrapping="Wrap" Text="Scan to Sign in" VerticalAlignment="Center" Height="59" Width="341" TextAlignment="Center" FontSize="42.667" FontFamily="Lucida Fax" Foreground="#FFEBEAEA" FontWeight="Bold"/>
         <Button x:Name="buttonScan" Content="Sign in" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="250" Height="100" Click="buttonScan_Click" BorderThickness="2,2,4,4" Cursor="Hand" Background="#FF2EC935" FontSize="42.667" FontFamily="DengXian" Panel.ZIndex="1" BorderBrush="#FF31342B"/>
         <Rectangle Fill="#FFEBEAEA" HorizontalAlignment="Center" Height="140" Margin="0,300,0,0" Stroke="#FF31342B" VerticalAlignment="Center" Width="320"/>
         <TextBlock x:Name="labelID" HorizontalAlignment="Center" Margin="0,300,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Height="120" Width="300" FontFamily="DengXian" FontSize="24" Foreground="#FF1111E0" TextAlignment="Center"/>
@@ -17,21 +17,22 @@
         <TextBlock x:Name="textBlock3" HorizontalAlignment="Center" Margin="0,670,0,0" TextWrapping="Wrap" Text="(takes about 15 seconds)" VerticalAlignment="Center" Height="38" Width="310" TextAlignment="Center" FontSize="21.333" FontFamily="Lucida Fax" Foreground="#FFEBEAEA"/>
         <Button x:Name="buttonCancelScan" Content="Cancel" HorizontalAlignment="Center" Margin="175,350" VerticalAlignment="Center" Width="250" Height="100" Click="buttonCancelScan_Click" BorderThickness="2,2,4,4" Cursor="Hand" Background="#FFB53228" FontSize="42.667" FontFamily="DengXian" Panel.ZIndex="0" IsEnabled="False" BorderBrush="#FF31342B"/>
         <Ellipse x:Name="circleAnimation" Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="20" Margin="0,130,200,0" Stroke="Black" VerticalAlignment="Center" Width="20" />
+        <Image x:Name="image" HorizontalAlignment="Center" Height="250" Margin="0,0,0,550" VerticalAlignment="Center" Width="250" Source="/CheckerSystem;component/Assets/gordon-seal-300.png"/>
 
         <Grid.Triggers>
             <EventTrigger SourceName="buttonScan" RoutedEvent="Button.Click">
-               
+
                 <BeginStoryboard Name="Scanning">
-                    
+
                     <Storyboard   x:Name="ScanningStoryboard">
                         <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="circleAnimation" Storyboard.TargetProperty="Margin" BeginTime="0:0:0" RepeatBehavior="Forever" AutoReverse="True">
                             <SplineThicknessKeyFrame KeyTime="0:0:0" Value="0,130,200,0" />
                             <SplineThicknessKeyFrame KeyTime="0:0:0.5" Value="200,130,0,0" />
                         </ThicknessAnimationUsingKeyFrames>
                     </Storyboard>
-                    
+
                 </BeginStoryboard>
-                 
+
             </EventTrigger>
             <EventTrigger SourceName="buttonCancelScan" RoutedEvent="Button.Click">
                 <StopStoryboard BeginStoryboardName="Scanning" />
