@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CheckerApplication"
         mc:Ignorable="d"
-        Title="Gordon College Christian Life and Worship Credit System" Height="850" Width="600" Background="#FF3368DA" WindowState="Maximized">
+        Title="Gordon College Christian Life and Worship Credit System" Height="850" Width="600" Background="#FF014983" WindowState="Maximized">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -13,8 +13,8 @@
         </Grid.RowDefinitions>
 
         <ContentControl x:Name="contentControl" Grid.Row="1"/>
-        <ToolBarTray Height="40" Margin="0" Grid.RowSpan="2" VerticalAlignment="Bottom"/>
-        <TextBox x:Name="textBox1" Grid.Row="1" TextWrapping="Wrap" Text="Updated: Recently?" Width="592" FontSize="21.333" Margin="0" VerticalAlignment="Bottom" Height="40" HorizontalAlignment="Left"/>
-        <TextBox x:Name="textBox2" Height="40" Margin="0,0,1,0" Grid.Row="1" TextWrapping="Wrap" Text="Waiting for Connection" VerticalAlignment="Bottom" FontSize="21.333" Width="280" HorizontalAlignment="Right"/>
+        <ToolBarTray Height="30" Margin="0" Grid.RowSpan="2" VerticalAlignment="Bottom"/>
+        <TextBox x:Name="textBox1" Grid.Row="1" TextWrapping="Wrap" Text="Updated: Recently?" Width="592" FontSize="20" Margin="0" VerticalAlignment="Bottom" Height="30" HorizontalAlignment="Left"/>
+        <TextBox x:Name="textBox2" Height="30" Margin="0" Grid.Row="1" TextWrapping="Wrap" Text="Waiting for Connection" VerticalAlignment="Bottom" FontSize="20" Width="265" HorizontalAlignment="Right"/>
     </Grid>
 </Window>
