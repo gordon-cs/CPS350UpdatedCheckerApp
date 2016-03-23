@@ -185,13 +185,14 @@ namespace CheckerApplication
             {
                 string s = nBits.ToString() + " Bit ID [0]..[7]: ";
                 string proxID = "";
-                for (short i = 1; i > -1; i--)
+                for (short i = 2; i > -1; i--)
                 {
                     Id[i] = pcProxDLLAPI.getActiveID_byte(i);
                     s = s + string.Format("{0:X2}.", Id[i]);
                     proxID += string.Format("{0:X2}", Id[i]);
-                    scannedID = Int32.Parse(proxID, System.Globalization.NumberStyles.HexNumber).ToString();
                 }
+
+                scannedID = Int32.Parse(proxID.Substring(1), System.Globalization.NumberStyles.HexNumber).ToString();
 
                 //performs a successful scan for credit if the following:
                 //

@@ -31,6 +31,10 @@ namespace CheckerApplication
         //constructor for hte attendanceWriter object
         public AttendanceWriter()
         {
+
+            string substringChecker = "108745";
+            string substringCheck = substringChecker.Substring(1);
+            Console.Out.WriteLine("substringChecker value is" + substringCheck);
         }
 
         //function that gets a unique ID for the attendance text file from the usb device

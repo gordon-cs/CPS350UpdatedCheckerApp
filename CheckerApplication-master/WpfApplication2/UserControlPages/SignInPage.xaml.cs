@@ -48,6 +48,10 @@ namespace CheckerApplication
 
             circleAnimation.Opacity = 0;
 
+            //string substringChecker = "108745";
+            //substringChecker.Substring(1);
+            //Console.Out.WriteLine("substringChecker value is" + substringChecker);
+
             //if the device is not connected, attempt connecting it
             if (!deviceConnected)
             {
@@ -170,14 +174,14 @@ namespace CheckerApplication
                 string checkerID = "";
                 string checkersName = "";
 
-                for (short i = 1; i > -1; i--)
+                for (short i = 2; i > -1; i--)
                 {
                     Id[i] = pcProxDLLAPI.getActiveID_byte(i);
                     s = s + String.Format("{0:X2}.", Id[i]);
                     proxID += String.Format("{0:X2}", Id[i]);
 
                 }
-                checkerID = Int32.Parse(proxID, System.Globalization.NumberStyles.HexNumber).ToString();
+                checkerID = Int32.Parse(proxID.Substring(1), System.Globalization.NumberStyles.HexNumber).ToString();
                 Console.Out.WriteLine("checkers hex id:" + proxID);
                 Console.Out.WriteLine("checkers decimal id:" + checkerID);
                 Console.Out.WriteLine("checkers barcode: " + MainWindow.AppWindow.getAttendanceWriter().getStudentsBarcode(checkerID));
