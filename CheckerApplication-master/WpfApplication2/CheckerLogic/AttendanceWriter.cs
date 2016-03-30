@@ -429,7 +429,9 @@ namespace CheckerApplication
                     events.Add(values[3] + "   " + values[2]);
                 if (length == 22)
                     events.Add(values[3] + "  " + values[2]);
-                if (length == 22)
+                if (length == 23)
+                    events.Add(values[3] + " " + values[2]);
+                else
                     events.Add(values[3] + " " + values[2]);
             }
             sr.Close();
