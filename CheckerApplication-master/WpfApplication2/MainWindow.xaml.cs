@@ -29,6 +29,7 @@ namespace CheckerApplication
         bool deviceConnected = false;
         string eventTitle = "";
         bool databaseUpdated = true;
+        string scanTime = "";
 
         //constructor for the main window
         public MainWindow()
@@ -125,6 +126,16 @@ namespace CheckerApplication
         public void setEventName(string value)
         {
             eventTitle = value;
+        }
+
+        public string getScanTime()
+        {
+            return scanTime;
+        }
+
+        public void setScanTime(string value)
+        {
+            scanTime = value;
         }
 
         public bool getDatabaseUpdated()

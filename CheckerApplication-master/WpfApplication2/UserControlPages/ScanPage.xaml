@@ -7,29 +7,45 @@
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="600">
     <Grid>
-        <Button x:Name="buttonScan" Content="Auto Scan" HorizontalAlignment="Center" Margin="0,0,0,100" VerticalAlignment="Center" Width="250" Height="100" Click="buttonScan_Click" BorderThickness="2" Cursor="Hand" Background="#FF2EC935" FontSize="42.667" FontFamily="Malgun Gothic" Panel.ZIndex="1" BorderBrush="#FF31342B"/>
-        <TextBlock x:Name="textBlock_Copy" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Height="50" Width="600" TextAlignment="Center" FontSize="36.667" FontFamily="Malgun Gothic" Foreground="#FFEBEAEA" FontWeight="Bold" Margin="0,0,0,700"><Run Text="Scanning for Event: "/><LineBreak/><Run/><LineBreak/><Run/></TextBlock>
-        <Button x:Name="buttonStopScan" Content="Stop Scan" HorizontalAlignment="Center" Margin="0,0,0,100" VerticalAlignment="Center" Width="250" Height="100" Click="buttonStopScan_Click" BorderThickness="2,2,4,4" Cursor="Hand" Background="#FF950404" FontSize="42.667" FontFamily="Malgun Gothic" Panel.ZIndex="0" IsEnabled="False" BorderBrush="#FF31342B"/>
-        <Rectangle Fill="#FFEBEAEA" HorizontalAlignment="Center" Height="120" Margin="0,360,0,0" Stroke="Black" VerticalAlignment="Center" Width="370"/>
-        <TextBlock x:Name="labelID" HorizontalAlignment="Center" Margin="0,360,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Height="100" Width="350" FontFamily="Malgun Gothic" FontSize="26.667" Foreground="White" TextAlignment="Center"/>
+        <Button x:Name="buttonScan" Content="Auto Scan" HorizontalAlignment="Center" Margin="0,0,0,100" VerticalAlignment="Center" Width="250" Height="100" Click="buttonScan_Click" BorderThickness="2" Cursor="Hand" Background="#FF2EC935" FontSize="42.667" FontFamily="Open Sans Condensed" Panel.ZIndex="1" BorderBrush="#FF31342B" FontWeight="Bold" Foreground="#FFEBEBEA"/>
+        <TextBlock x:Name="textBlock_Copy" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Height="65" Width="600" TextAlignment="Center" FontSize="46.667" FontFamily="Open Sans Condensed" Foreground="#FFEBEAEA" FontWeight="Bold" Margin="0,0,0,700"><Run Text="Scanning for Event: "/><LineBreak/><Run/><LineBreak/><Run/></TextBlock>
+        <Button x:Name="buttonStopScan" Content="Stop Scan" HorizontalAlignment="Center" Margin="0,0,0,100" VerticalAlignment="Center" Width="250" Height="100" Click="buttonStopScan_Click" BorderThickness="2" Cursor="Hand" Background="#FF950404" FontSize="42.667" FontFamily="Open Sans Condensed" Panel.ZIndex="0" IsEnabled="False" BorderBrush="#FF31342B" FontWeight="Bold" Foreground="#FFEBEAEA"/>
+        <Rectangle Fill="#FFEBEAEA" HorizontalAlignment="Center" Height="140" Margin="0,360,0,0" Stroke="Black" VerticalAlignment="Center" Width="400"/>
+        <TextBlock x:Name="labelID" HorizontalAlignment="Center" Margin="0,360,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Height="120" Width="350" FontFamily="Open Sans Condensed" FontSize="26.667" Foreground="White" TextAlignment="Center" FontWeight="Bold"/>
         <TextBox x:Name="confirmationBox" HorizontalAlignment="Center" Height="232" Margin="0,0,0,50" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="408" Panel.ZIndex="-1" TextAlignment="Center" FontFamily="Malgun Gothic" FontSize="42.667" FontWeight="Bold" BorderBrush="#FFEBEAEA" Background="#F9474747" Cursor="Arrow"/>
-        <Button x:Name="buttonDoneScanningYes" Content="Yes" HorizontalAlignment="Center" Margin="0,110,200,0" VerticalAlignment="Center" Width="128" Panel.ZIndex="-1" Height="51" FontFamily="Malgun Gothic" FontSize="26.667" Click="buttonDoneScanningYes_Click" Cursor="Hand" BorderBrush="#FF31342B" BorderThickness="2"/>
-        <Button x:Name="buttonDoneScanningNo" Content="No" HorizontalAlignment="Center" Margin="200,110,0,0" VerticalAlignment="Center" Width="128" Panel.ZIndex="-1" Height="51" FontSize="26.667" FontFamily="Malgun Gothic" Click="buttonDoneScanningNo_Click" Cursor="Hand" BorderBrush="#FF31342B" BorderThickness="2"/>
-        <TextBlock x:Name="confirmationTextBlock" HorizontalAlignment="Center" Margin="0,0,0,110" TextWrapping="Wrap" Text="Are you done scanning for this event?" VerticalAlignment="Center" Height="164" Width="408" Panel.ZIndex="-1" TextAlignment="Center" FontFamily="Malgun Gothic" FontSize="42.667" />
-        <CheckBox x:Name="checkBoxNoCredit" Content="No Credit Scan" HorizontalAlignment="Center" Margin="0,600,0,0" VerticalAlignment="Center" Width="110" Height="15" Foreground="#FFEBEAEA" Checked="checkBoxNoCredit_Checked" Cursor="Hand" BorderBrush="#FF31342B" Background="#FFEBEAEA" FontFamily="Malgun Gothic">
+        <Button x:Name="buttonDoneScanningYes" Content="Yes" HorizontalAlignment="Center" Margin="0,110,200,0" VerticalAlignment="Center" Width="128" Panel.ZIndex="-1" Height="51" FontFamily="Open Sans Condensed" FontSize="26.667" Click="buttonDoneScanningYes_Click" Cursor="Hand" BorderBrush="#FF31342B" BorderThickness="2" FontWeight="Bold"/>
+        <Button x:Name="buttonDoneScanningNo" Content="No" HorizontalAlignment="Center" Margin="200,110,0,0" VerticalAlignment="Center" Width="128" Panel.ZIndex="-1" Height="51" FontSize="26.667" FontFamily="Open Sans Condensed" Click="buttonDoneScanningNo_Click" Cursor="Hand" BorderBrush="#FF31342B" BorderThickness="2" FontWeight="Bold"/>
+        <TextBlock x:Name="confirmationTextBlock" HorizontalAlignment="Center" Margin="0,0,0,110" TextWrapping="Wrap" Text="Are you done scanning for this event?" VerticalAlignment="Center" Height="164" Width="408" Panel.ZIndex="-1" TextAlignment="Center" FontFamily="Open Sans Condensed" FontSize="42.667" Foreground="#FFEBEAEA" FontWeight="Bold" />
+        <CheckBox x:Name="checkBoxNoCredit" Content="No Credit Scan" HorizontalAlignment="Center" Margin="0,600,0,0" VerticalAlignment="Center" Width="90" Height="15" Foreground="#FFEBEAEA" Checked="checkBoxNoCredit_Checked" Cursor="Hand" BorderBrush="#FF31342B" Background="#FFEBEAEA" FontFamily="Open Sans Condensed" FontWeight="Bold">
             <CheckBox.LayoutTransform>
                 <ScaleTransform ScaleX="3" ScaleY="3" />
             </CheckBox.LayoutTransform>
         </CheckBox>
         <TextBox x:Name="confirmationBox2" HorizontalAlignment="Center" Height="232" Margin="0,0,0,50" TextWrapping="Wrap" VerticalAlignment="Center" Width="408" Panel.ZIndex="-1" TextAlignment="Center" FontFamily="Malgun Gothic" FontSize="42.667" FontWeight="Bold" BorderBrush="#FFEBEAEA" Background="#F9474747" Cursor="Arrow"/>
-        <Button x:Name="buttonBlacklistYes" Content="Yes" HorizontalAlignment="Center" Margin="0,110,200,0" VerticalAlignment="Center" Width="128" Panel.ZIndex="-1" Height="51" FontFamily="Malgun Gothic" FontSize="26.667" Click="buttonBlacklistYes_Click" Cursor="Hand" BorderBrush="#FF31342B" BorderThickness="2"/>
-        <Button x:Name="buttonBlacklistNo" Content="No" HorizontalAlignment="Center" Margin="200,110,0,0" VerticalAlignment="Center" Width="128" Panel.ZIndex="-1" Height="51" FontSize="26.667" FontFamily="Malgun Gothic" Click="buttonBlacklistNo_Click" Cursor="Hand" BorderThickness="2" BorderBrush="#FF31342B"/>
-        <TextBlock x:Name="confirmationTextBlock2" HorizontalAlignment="Center" Margin="0,0,0,110" TextWrapping="Wrap" Text="Are you sure you want to give no credit?" VerticalAlignment="Center" Height="164" Width="408" Panel.ZIndex="-1" TextAlignment="Center" FontFamily="Malgun Gothic" FontSize="42.667" />
-        <TextBlock x:Name="labelID_Counter" HorizontalAlignment="Center" Margin="0,120,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Height="30" Width="50" FontFamily="Malgun Gothic" FontSize="18.667" Foreground="White" TextAlignment="Center"/>
-        <Button x:Name="buttonCancelNoCredit" Content="Cancel No Credit Scan" HorizontalAlignment="Center" Margin="0,600,0,0" VerticalAlignment="Center" Width="400" Height="60" FontSize="34.667" FontFamily="Malgun Gothic" BorderBrush="#FF31342B" Cursor="Hand" Click="buttonCancelNoCredit_Click" Background="#FFAA2C2C" Panel.ZIndex="-1" BorderThickness="2"/>
-        <Rectangle Fill="#FFEBEAEA" HorizontalAlignment="Center" Height="120" Margin="0,0,0,500" Stroke="Black" VerticalAlignment="Center" Width="370"/>
-        <TextBlock x:Name="labelEventTitle" HorizontalAlignment="Center" Margin="0,0,0,500" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Height="100" Width="320" FontFamily="Malgun Gothic" FontSize="26.667" Foreground="Black" TextAlignment="Center"/>
+        <Button x:Name="buttonBlacklistYes" Content="Yes" HorizontalAlignment="Center" Margin="0,110,200,0" VerticalAlignment="Center" Width="128" Panel.ZIndex="-1" Height="51" FontFamily="Open Sans Condensed" FontSize="26.667" Click="buttonBlacklistYes_Click" Cursor="Hand" BorderBrush="#FF31342B" BorderThickness="2" FontWeight="Bold"/>
+        <Button x:Name="buttonBlacklistNo" Content="No" HorizontalAlignment="Center" Margin="200,110,0,0" VerticalAlignment="Center" Width="128" Panel.ZIndex="-1" Height="51" FontSize="26.667" FontFamily="Open Sans Condensed" Click="buttonBlacklistNo_Click" Cursor="Hand" BorderThickness="2" BorderBrush="#FF31342B" FontWeight="Bold"/>
+        <TextBlock x:Name="confirmationTextBlock2" HorizontalAlignment="Center" Margin="0,0,0,110" TextWrapping="Wrap" Text="Are you sure you want to give no credit?" VerticalAlignment="Center" Height="164" Width="408" Panel.ZIndex="-1" TextAlignment="Center" FontFamily="Open Sans Condensed" FontSize="42.667" Foreground="#FFEBEAEA" FontWeight="Bold" />
+        <Button x:Name="buttonCancelNoCredit" Content="Cancel No Credit Scan" HorizontalAlignment="Center" Margin="0,600,0,0" VerticalAlignment="Center" Width="400" Height="60" FontSize="34.667" FontFamily="Open Sans Condensed" BorderBrush="#FF31342B" Cursor="Hand" Click="buttonCancelNoCredit_Click" Background="#FFAA2C2C" Panel.ZIndex="-1" BorderThickness="2" FontWeight="Bold" Foreground="#FFEBEAEA"/>
+        <Rectangle Fill="#FFEBEAEA" HorizontalAlignment="Center" Height="140" Margin="0,0,0,480" Stroke="Black" VerticalAlignment="Center" Width="400"/>
+        <TextBlock x:Name="labelEventTitle" HorizontalAlignment="Center" Margin="0,0,0,480" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Height="120" Width="250" FontFamily="Open Sans Condensed" FontSize="26.667" Foreground="Black" TextAlignment="Center" FontWeight="Bold"/>
+        <Ellipse x:Name="circleAnimation" Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="20" Margin="0,130,200,0" Stroke="Black" VerticalAlignment="Center" Width="20" />
 
+        <Grid.Triggers>
+            <EventTrigger SourceName="buttonScan" RoutedEvent="Button.Click">
+
+                <BeginStoryboard Name="Scanning">
+
+                    <Storyboard   x:Name="ScanningStoryboard">
+                        <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="circleAnimation" Storyboard.TargetProperty="Margin" BeginTime="0:0:0" RepeatBehavior="Forever" AutoReverse="True">
+                            <SplineThicknessKeyFrame KeyTime="0:0:0" Value="0,130,200,0" />
+                            <SplineThicknessKeyFrame KeyTime="0:0:0.5" Value="200,130,0,0" />
+                        </ThicknessAnimationUsingKeyFrames>
+                    </Storyboard>
+
+                </BeginStoryboard>
+
+            </EventTrigger>
+        </Grid.Triggers>
     </Grid>
 
 </UserControl>

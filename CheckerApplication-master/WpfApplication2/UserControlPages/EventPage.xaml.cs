@@ -24,9 +24,9 @@ namespace CheckerApplication
 
         AttendanceWriter attendanceWriter = MainWindow.AppWindow.getAttendanceWriter();
         private string eventID;
-        List<string> listEvents;
-        List<string> listEventIDs;
-        bool listBoxItemClicked = false;
+        private List<string> listEvents;
+        private List<string> listEventIDs;
+        private bool listBoxItemClicked = false;
 
         //Constructor for the Select Event Page
         public EventPage()
@@ -43,7 +43,6 @@ namespace CheckerApplication
             for(int i = 0; i < listEvents.Count; i++)
             {
                 ListBoxItem listBoxItem = new ListBoxItem();
-                listBoxItem.FontSize = 16;
                 listBoxItem.Content = listEvents[i];
                 eventListBox.Items.Add(listBoxItem);
             }

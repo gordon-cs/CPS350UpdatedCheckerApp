@@ -17,8 +17,10 @@ namespace CheckerApplication
         private string chapelCheckerID;
         private string eventID;
         private int noCredit;
+        private int numberScanned;
 
         //constant file paths
+        private const string ATTENDANCEPATH = "C:/_system/";
         private const string EVENTSPATH = "Events.claw";
         private const string CHECKERSPATH = "Checkers.claw";
         private const string STUDENTSPATH = "Students.claw";
@@ -45,10 +47,20 @@ namespace CheckerApplication
             return uniqueID;
         }
 
+        //function that gets a unique ID for the attendance text file from the usb device
+        public int getNumberScanned()
+        {
+            return numberScanned;
+        }
+
         //functions to create text files for the attendance file and the various SQL data text files
         public void CreateAttendanceTextFile()
         {
-            this.attendancePath = "Attendance_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + getUniqueID() + ".claw";
+            if (!Directory.Exists(ATTENDANCEPATH))
+            {
+                Directory.CreateDirectory(ATTENDANCEPATH);
+            }
+            this.attendancePath = ATTENDANCEPATH + "Attendance_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + getUniqueID() + ".claw";
             File.Create(attendancePath).Close();
 
         }
@@ -83,10 +95,10 @@ namespace CheckerApplication
 
 
             string dateTime = DateTime.Now.ToString();
-
             file.WriteLine(dateTime);
             file.Close();
 
+            MainWindow.AppWindow.textBox1.Text = "Updated: " + dateTime;
         }
 
         //functions to set variables for the attendance text file
@@ -177,6 +189,8 @@ namespace CheckerApplication
         public void omitMultipleEntries()
         {
 
+            numberScanned = 0;
+
             //initialize variables for the omit entries function
             StreamReader sr = new StreamReader(attendancePath);
             List<string> listBarcode = new List<string>();
@@ -250,6 +264,7 @@ namespace CheckerApplication
                 }
 
                 //writes the super line to the temporary text file and closes the reader
+                numberScanned++;
                 sw.WriteLine(superLine);
                 sr.Close();
 
@@ -269,6 +284,8 @@ namespace CheckerApplication
             //the previous text files path
             File.Move(tempPath, attendancePath);
 
+            if (numberScanned == 0)
+                File.Delete(attendancePath);
         }
         
         //function that returns a list of a select few temporary checkers
@@ -407,8 +424,10 @@ namespace CheckerApplication
                 values = line.Split(SC);
                 int length = values[3].Count();
                 if(length == 20)
-                    events.Add(values[3] + "    " + values[2]);
+                    events.Add(values[3] + "     " + values[2]);
                 if (length == 21)
+                    events.Add(values[3] + "   " + values[2]);
+                if (length == 22)
                     events.Add(values[3] + "  " + values[2]);
                 if (length == 22)
                     events.Add(values[3] + " " + values[2]);

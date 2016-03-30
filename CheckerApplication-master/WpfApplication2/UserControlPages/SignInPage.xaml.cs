@@ -16,6 +16,7 @@ using RFIDeas_pcProxAPI;
 using System.Media;
 using System.Timers;
 using System.Windows.Media.Animation;
+using System.ComponentModel;
 
 namespace CheckerApplication
 {
@@ -24,12 +25,12 @@ namespace CheckerApplication
     {
         //pulls attendanceWriter object from MainWindow
         AttendanceWriter attendanceWriter = MainWindow.AppWindow.getAttendanceWriter();
+        BackgroundWorker backgroundWorker = new System.ComponentModel.BackgroundWorker();
 
         //variables used throughout the class
         List<string> authorizedCheckerIDs;
         List<string> temporaryCheckersList;
         System.Timers.Timer scanTimer;
-        int counter = 0;
         string chapelCheckerId;    
         string lastID = "";
         bool deviceConnected = false;
@@ -46,7 +47,8 @@ namespace CheckerApplication
             //get and set if the device is connected to deviceConnected
             deviceConnected = MainWindow.AppWindow.getDeviceConnected();
 
-            circleAnimation.Opacity = 0;
+            circleAnimationScan.Opacity = 0;
+            circleAnimationUpdate.Opacity = 0;
 
             //string substringChecker = "108745";
             //substringChecker.Substring(1);
@@ -65,17 +67,17 @@ namespace CheckerApplication
                     MainWindow.AppWindow.setDeviceConnected(true);
                     if (MainWindow.AppWindow.getDatabaseUpdated())
                     {
-                        labelID.Text = "Database Updated. \n\n Sign in with Gordon ID";
+                        labelID.Text = "Database Updated.\n\nSign in with Gordon ID";
                     }
                     else
                     {
-                        labelID.Text = "Database Outdated. \n\n Update Database\nor Sign in";
+                        labelID.Text = "Database Outdated. \n\n Update Database\nor\nSign in";
                     }
                 }
                 else
                 {
                     MainWindow.AppWindow.textBox2.Text = "No device found";
-                    labelID.Text = "RFID USB Device Not Found: \n\n Please Connect Device!";
+                    labelID.Text = "RFID USB Device Not Found:\n\nPlease Connect Device!";
                 }
             }
         }
@@ -85,7 +87,7 @@ namespace CheckerApplication
         {
             //disables buttons and gets whether the device is already connected
             buttonScan.IsEnabled = false;
-            buttonUpdateStudentInfo.IsEnabled = false;
+            buttonUpdate.IsEnabled = false;
             deviceConnected = MainWindow.AppWindow.getDeviceConnected();
 
             //if the device is not connected, try connecting the device
@@ -106,7 +108,7 @@ namespace CheckerApplication
                 {
                     MainWindow.AppWindow.textBox2.Text = "No device found";
                     buttonScan.IsEnabled = true;
-                    buttonUpdateStudentInfo.IsEnabled = true;
+                    buttonUpdate.IsEnabled = true;
                 }
             }
 
@@ -127,12 +129,9 @@ namespace CheckerApplication
                 scanTimer.Interval = 500;
                 scanTimer.Enabled = true;
 
-                circleAnimation.Opacity = 100;
+                circleAnimationScan.Opacity = 100;
 
-                //Uncomment the next line to skip authorization to sign in
-                //MainWindow.AppWindow.GoToEventsPage();
-
-                buttonScan.IsEnabled = false;
+                labelID.Text = "Scanning...";
                 buttonCancelScan.IsEnabled = true;
                 Panel.SetZIndex(buttonCancelScan, 2);
             }
@@ -200,12 +199,11 @@ namespace CheckerApplication
                             labelID.Foreground = new SolidColorBrush(Colors.ForestGreen);
                             checkersName = attendanceWriter.getAuthorizedCheckersName(checkerID);
                             labelID.Text = checkersName + "\nis an authorized Christian Life and Worship Credit Checker";
-                            labelID_Counter.Text = "";
                             buttonCancelScan.IsEnabled = false;
                             Panel.SetZIndex(buttonCancelScan, -1);
                             Panel.SetZIndex(buttonProceed, 1);
                             buttonProceed.IsEnabled = true;
-                            circleAnimation.Opacity = 0;
+                            circleAnimationScan.Opacity = 0;
                         });
 
                         this.chapelCheckerId = checkerID;
@@ -224,43 +222,14 @@ namespace CheckerApplication
                         {
                             checkersName = attendanceWriter.getStudentsName(checkerID);
                             if (checkersName.Contains("Student"))
-                                labelID.Text = checkersName + " is not in the Database \n\nTry Updating Database";
+                                labelID.Text = checkersName + " is not in the Database\n\nTry Updating Database";
                             else
                                 labelID.Text = checkersName + "\nis not an Authorized Christian Life and Worship Credit Checker";
-                            labelID_Counter.Text = counter.ToString();
                         });
                         playFailSound();
                     }
                 }
-                // updates the counter
-                else
-                {
-                    Dispatcher.Invoke(() =>
-                    {
-                        labelID_Counter.Text = counter.ToString();
-                    });
-                }
-
             }
-            // updates the counter
-            else
-            {
-                Dispatcher.Invoke(() =>
-                {
-                    labelID_Counter.Text = counter.ToString();
-                });
-            }
-
-            //if the counter is above 98, resets counter to 0
-            if (counter > 98)
-            {
-                counter = 0;
-            } 
-            else
-            {
-                counter++;
-            }
-
         }
 
         //function that runs if the update database button is clicked
@@ -268,33 +237,44 @@ namespace CheckerApplication
         {
             //disables buttons and gives mouse waiting symbol
             Mouse.OverrideCursor = Cursors.Wait;
+            circleAnimationUpdate.Opacity = 100;
             labelID.Text = "Updating Database...";
             buttonScan.IsEnabled = false;
-            buttonUpdateStudentInfo.IsEnabled = false;
-
+            buttonUpdate.IsEnabled = false;
+            
             //pulls new sql data from databases
-            SQLPuller sqlPuller = new SQLPuller();
-            sqlPuller.pullEvents();
-            sqlPuller.pullAuthorizedCheckers();
-            sqlPuller.pullStudents();
-
-            //enables buttons
-            buttonUpdateStudentInfo.IsEnabled = true;
-            buttonScan.IsEnabled = true;
-            MainWindow.AppWindow.textBox1.Text = "Updated: " + attendanceWriter.getDate();
-
-            //statements to display whether updates failed or succeeded
-            if (MainWindow.AppWindow.getDatabaseUpdated() == true)
+            backgroundWorker.DoWork += delegate (object s, DoWorkEventArgs args)
             {
-                attendanceWriter.CreateDateTextFile();
-                labelID.Text = "Database Update Successful \n\n Sign in with Gordon ID";
-            }
-            else
+                // Will be run on background thread
+                SQLPuller sqlPuller = new SQLPuller();
+                sqlPuller.pullAuthorizedCheckers();
+                sqlPuller.pullEvents();
+                sqlPuller.pullStudents();
+            };
+
+            backgroundWorker.RunWorkerCompleted += delegate (object s, RunWorkerCompletedEventArgs args)
             {
-                labelID.Text = "Database Update Failed \n \n Check Internet Connection";
-            }
-            //give mouse normal cursor
-            Mouse.OverrideCursor = null;
+                //enables buttons
+                buttonUpdate.IsEnabled = true;
+                buttonScan.IsEnabled = true;
+                circleAnimationUpdate.Opacity = 0;
+
+                //statements to display whether updates failed or succeeded
+                if (MainWindow.AppWindow.getDatabaseUpdated() == true)
+                {
+                    attendanceWriter.CreateDateTextFile();
+                    labelID.Text = "Database Update Successful\n\nSign in with Gordon ID";
+                }
+                else
+                {
+                    labelID.Text = "Database Update Failed\n\nCheck Internet Connection";
+                }
+                //give mouse normal cursor
+                Mouse.OverrideCursor = null;
+            };
+
+            backgroundWorker.RunWorkerAsync();
+           
         }
 
         //function if the proceed button is clicked
@@ -308,12 +288,11 @@ namespace CheckerApplication
         {
             //stops timer for scanning and shows default page
             scanTimer.Stop();
-            counter = 0;
-            labelID_Counter.Text = "";
-            labelID.Text = "Sign In\nor Update Database";
+            circleAnimationScan.Opacity = 0;
+            labelID.Text = "Sign In\nor\nUpdate Database";
             lastID = "";
             buttonScan.IsEnabled = true;
-            buttonUpdateStudentInfo.IsEnabled = true;
+            buttonUpdate.IsEnabled = true;
             buttonCancelScan.IsEnabled = false;
             Panel.SetZIndex(buttonCancelScan, -1);
         }

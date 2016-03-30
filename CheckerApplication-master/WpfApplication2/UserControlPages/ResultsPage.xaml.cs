@@ -35,21 +35,21 @@ namespace CheckerApplication
             attendanceWriter.omitMultipleEntries();
 
             //gets and sets event name and attendance file path
-            textBlockSaveFile.Text += attendanceWriter.getAttendanceFilePath();
             labelEventTitle.Text = MainWindow.AppWindow.getEventName();
+            if(attendanceWriter.getNumberScanned() > 1)
+                textBlockNumberScanned.Text = attendanceWriter.getNumberScanned() + " Students Scanned";
+            if (attendanceWriter.getNumberScanned() == 1)
+                textBlockNumberScanned.Text = attendanceWriter.getNumberScanned() + " Student Scanned";
+            if (attendanceWriter.getNumberScanned() == 0)
+                textBlockNumberScanned.Text = attendanceWriter.getNumberScanned() + " Students Scanned";
+
+            textBlockScanTime.Text = "Scanning Time: " + MainWindow.AppWindow.getScanTime();
         }
         
         //function for when back to sign-in is clicked -- returns to sign in page
         private void buttonBack_Click(object sender, RoutedEventArgs e)
         {
             MainWindow.AppWindow.GoToSignInPage();
-        }
-
-        //function for when open text file is clicked -- opens files
-        private void buttonOpenText_Click(object sender, RoutedEventArgs e)
-        {
-            //starts process of opening attendance text file
-            Process.Start(attendanceWriter.getAttendanceFilePath());
         }
     }
 }

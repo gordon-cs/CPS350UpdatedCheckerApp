@@ -16,6 +16,7 @@ using RFIDeas_pcProxAPI;
 using System.Threading;
 using System.Timers;
 using System.Media;
+using System.Diagnostics;
 
 namespace CheckerApplication
 {
@@ -29,7 +30,6 @@ namespace CheckerApplication
         //variables used throughout the class
         bool textFileCreated = false;
         bool deviceConnected = false;       
-        int counter = 0;
         bool noCreditChecked = false;
         string lastIDforCredit = "";
         string lastNoCreditID = "";
@@ -38,6 +38,7 @@ namespace CheckerApplication
         List <string> creditList;
         List <string> noCreditList;
         System.Timers.Timer scanTimer;
+        Stopwatch stopwatch = new Stopwatch();
 
         //noise makers for the scan
         private SoundPlayer happyPlayer = new SoundPlayer("../../Assets/blip.wav");
@@ -64,6 +65,7 @@ namespace CheckerApplication
             buttonStopScan.IsEnabled = false;
             Panel.SetZIndex(buttonScan, 1);
             Panel.SetZIndex(buttonStopScan, 0);
+            circleAnimation.Opacity = 0;
 
 
             //a text file is created for the event when the scan page is initialized
@@ -163,8 +165,8 @@ namespace CheckerApplication
                 scanTimer.Elapsed += new ElapsedEventHandler(scanCard);
                 scanTimer.Interval = SCANOFFSETTIME;
                 scanTimer.Enabled = true;
-
-
+                stopwatch.Start();
+                circleAnimation.Opacity = 100;
             }
         }
 
@@ -212,6 +214,7 @@ namespace CheckerApplication
                     lastIDforCreditAlready = "";
                     Dispatcher.Invoke(() =>
                     {
+                        circleAnimation.Fill = new SolidColorBrush(Colors.Green);
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Foreground = new SolidColorBrush(Colors.DarkSlateBlue);
                         labelID.Text = studentName + "\nwill receive credit.";
@@ -239,10 +242,10 @@ namespace CheckerApplication
                     lastIDforCredit = "";
                     Dispatcher.Invoke(() =>
                     {
+                        circleAnimation.Fill = new SolidColorBrush(Colors.Red);
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Foreground = new SolidColorBrush(Colors.Red);
                         labelID.Text = studentName + "\nwill not receive credit.";
-                        labelID_Counter.Text = counter.ToString();
                         checkBoxNoCredit.IsChecked = false;
                         Panel.SetZIndex(buttonCancelNoCredit, -1);
                         buttonCancelNoCredit.Opacity = 0;
@@ -273,6 +276,7 @@ namespace CheckerApplication
                     lastIDforCredit = "";
                     Dispatcher.Invoke(() =>
                     {
+                        circleAnimation.Fill = new SolidColorBrush(Colors.Red);
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Foreground = new SolidColorBrush(Colors.Red);
                         labelID.Text = studentName + "\ncan no longer receive credit.";
@@ -304,35 +308,25 @@ namespace CheckerApplication
                     lastIDforCredit = "";
                     Dispatcher.Invoke(() =>
                     {
+                        circleAnimation.Fill = new SolidColorBrush(Colors.Green);
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Foreground = new SolidColorBrush(Colors.DarkSlateBlue);
                         labelID.Text = studentName + "\nhas already received credit.";
                     });
                     playHappySound();
                 }
-
+                else
+                {
+                    Dispatcher.Invoke(() =>
+                    { circleAnimation.Fill = new SolidColorBrush(Colors.White); });
+                }
 
                 //SystemSounds.Beep.Play();
 
             }
-           
-            //displays the counter to show the scanner is running
-            Dispatcher.Invoke(() =>
-            {
-                labelID_Counter.Text = counter.ToString();
-            });
 
-            //if the counter is about to reach 3 digits, set back to 0
-            //else raises the counter int
-            if (counter > 98)
-            {
-                counter = 0;
+            
             }
-            else
-            {            
-                counter++;
-            }
-        }
 
         //plays the happy sound
         private void playHappySound()
@@ -351,6 +345,7 @@ namespace CheckerApplication
         private void buttonStopScan_Click(object sender, RoutedEventArgs e)
         {
             scanTimer.Stop();
+            circleAnimation.Opacity = 0;
             buttonStopScan.IsEnabled = false;
             confirmationTextBlock.Opacity = 100;
             confirmationBox.Opacity = 100;
@@ -366,12 +361,17 @@ namespace CheckerApplication
         // if the yes button is clicked, scanning is stopped, and moves to the results page
         private void buttonDoneScanningYes_Click(object sender, RoutedEventArgs e)
         {
+            stopwatch.Stop();
+            string elapsedTime = String.Format("{0:00}:{1:00}",
+            stopwatch.Elapsed.Minutes, stopwatch.Elapsed.Seconds);
+            MainWindow.AppWindow.setScanTime(elapsedTime);
             MainWindow.AppWindow.GoToResultsPage();
         }
 
         // if the no button is clicked, scanning continues as usual
         private void buttonDoneScanningNo_Click(object sender, RoutedEventArgs e)
         {
+            circleAnimation.Opacity = 100;
             confirmationTextBlock.Opacity = 0;
             confirmationBox.Opacity = 0;
             buttonDoneScanningNo.Opacity = 0;
@@ -392,6 +392,7 @@ namespace CheckerApplication
         private void checkBoxNoCredit_Checked(object sender, RoutedEventArgs e)
         {
             scanTimer.Stop();
+            circleAnimation.Opacity = 0;
             confirmationTextBlock2.Opacity = 100;
             confirmationBox2.Opacity = 100;
             buttonBlacklistNo.Opacity = 100;
@@ -434,6 +435,7 @@ namespace CheckerApplication
 
             this.noCreditChecked = true;
 
+            circleAnimation.Opacity = 100;
             scanTimer.Start();
         }
 
@@ -453,6 +455,7 @@ namespace CheckerApplication
             buttonBlacklistNo.IsEnabled = false;
 
             checkBoxNoCredit.IsChecked = false;
+            circleAnimation.Opacity = 100;
             scanTimer.Start();
         }
         // after making the next scan for no credit, a button appears that allows the user

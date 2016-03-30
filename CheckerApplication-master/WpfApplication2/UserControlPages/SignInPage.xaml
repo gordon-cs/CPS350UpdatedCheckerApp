@@ -7,17 +7,16 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Width="600" Height="800">
     <Grid HorizontalAlignment="Center">
-        <TextBlock x:Name="textBlock2" HorizontalAlignment="Center" Margin="0,0,0,200" TextWrapping="Wrap" VerticalAlignment="Center" Height="59" Width="341" TextAlignment="Center" FontSize="21.333" FontFamily="Open Sans Condensed" Foreground="#FFEBEAEA" FontWeight="Bold" Text="(sign in below)"/>
-        <Button x:Name="buttonScan" Content="Sign in" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="400" Height="100" Click="buttonScan_Click" BorderThickness="2" Cursor="Hand" Background="#FF2EC935" FontSize="42.667" FontFamily="Open Sans Condensed" Panel.ZIndex="1" BorderBrush="#FF31342B" Foreground="#FFEBEAEA"/>
-        <Rectangle Fill="#FFEBEAEA" HorizontalAlignment="Center" Height="140" Margin="0,300,0,0" Stroke="#FF31342B" VerticalAlignment="Center" Width="400"/>
-        <TextBlock x:Name="labelID" HorizontalAlignment="Center" Margin="127,490,123,190" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Height="120" Width="350" FontFamily="Open Sans Condensed" FontSize="24" Foreground="Black" TextAlignment="Center"/>
-        <Button x:Name="buttonUpdateStudentInfo" Content="Update Database" HorizontalAlignment="Center" Margin="0,550,0,0" VerticalAlignment="Center" Width="400" Height="80" BorderThickness="2" FontSize="37.333" FontFamily="Open Sans Condensed" BorderBrush="#FF31342B" Cursor="Hand" Click="buttonUpdate_Click" Background="#FFEBEAEA"/>
-        <Button x:Name="buttonProceed" Content="Proceed" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="400" Height="100" BorderThickness="2" Cursor="Hand" Background="#FF2EC935" FontSize="42.667" FontFamily="Open Sans Condensed" Panel.ZIndex="0" Click="buttonProceed_Click" IsEnabled="False" BorderBrush="#FF31342B"/>
-        <TextBlock x:Name="labelID_Counter" HorizontalAlignment="Center" Margin="0,135,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Height="30" Width="50" FontFamily="Open Sans Condensed" FontSize="18.667" Foreground="White" TextAlignment="Center"/>
-        <TextBlock x:Name="textBlock3" HorizontalAlignment="Center" Margin="0,670,0,0" TextWrapping="Wrap" Text="(takes about 15 seconds)" VerticalAlignment="Center" Height="38" Width="310" TextAlignment="Center" FontSize="21.333" FontFamily="Open Sans Condensed" Foreground="#FFEBEAEA"/>
-        <Button x:Name="buttonCancelScan" Content="Cancel" HorizontalAlignment="Center" Margin="175,350" VerticalAlignment="Center" Width="400" Height="100" Click="buttonCancelScan_Click" BorderThickness="2" Cursor="Hand" Background="#FFB53228" FontSize="42.667" FontFamily="Open Sans Condensed" Panel.ZIndex="0" IsEnabled="False" BorderBrush="#FF31342B"/>
-        <Ellipse x:Name="circleAnimation" Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="20" Margin="0,130,200,0" Stroke="Black" VerticalAlignment="Center" Width="20" />
+        <Button x:Name="buttonScan" Content="Sign in" HorizontalAlignment="Center" Margin="0,0,0,20" VerticalAlignment="Center" Width="400" Height="100" Click="buttonScan_Click" BorderThickness="2" Cursor="Hand" Background="#FF2EC935" FontSize="42.667" FontFamily="Open Sans Condensed" Panel.ZIndex="1" BorderBrush="#FF31342B" Foreground="#FFEBEAEA" FontWeight="Bold"/>
+        <Rectangle Fill="#FFEBEAEA" HorizontalAlignment="Center" Height="140" Margin="0,280,0,0" Stroke="#FF31342B" VerticalAlignment="Center" Width="400"/>
+        <TextBlock x:Name="labelID" HorizontalAlignment="Center" Margin="0,280,0,0" TextWrapping="Wrap" Text="Please Sign In" VerticalAlignment="Center" Height="120" Width="350" FontFamily="Open Sans Condensed" FontSize="24" Foreground="Black" TextAlignment="Center" FontWeight="Bold"/>
+        <Button x:Name="buttonUpdate" Content="Update Database" HorizontalAlignment="Center" Margin="0,560,0,0" VerticalAlignment="Center" Width="400" Height="80" BorderThickness="2" FontSize="37.333" FontFamily="Open Sans Condensed" BorderBrush="#FF31342B" Cursor="Hand" Click="buttonUpdate_Click" Background="#FFEBEAEA" FontWeight="Bold"/>
+        <Button x:Name="buttonProceed" Content="Proceed" HorizontalAlignment="Center" Margin="0,0,0,20" VerticalAlignment="Center" Width="400" Height="100" BorderThickness="2" Cursor="Hand" Background="#FF2EC935" FontSize="42.667" FontFamily="Open Sans Condensed" Panel.ZIndex="0" Click="buttonProceed_Click" IsEnabled="False" BorderBrush="#FF31342B" Foreground="#FFEBEAEA" FontWeight="Bold"/>
+        <TextBlock x:Name="textBlock3" HorizontalAlignment="Center" Margin="0,670,0,0" TextWrapping="Wrap" Text="(takes about 15 seconds)" VerticalAlignment="Center" Height="30" Width="310" TextAlignment="Center" FontSize="21.333" FontFamily="Open Sans Condensed" Foreground="#FFEBEAEA" FontWeight="Bold"/>
+        <Button x:Name="buttonCancelScan" Content="Cancel" HorizontalAlignment="Center" Margin="0,0,0,20" VerticalAlignment="Center" Width="400" Height="100" Click="buttonCancelScan_Click" BorderThickness="2" Cursor="Hand" Background="#FFB53228" FontSize="42.667" FontFamily="Open Sans Condensed" Panel.ZIndex="0" IsEnabled="False" BorderBrush="#FF31342B" Foreground="#FFEBEAEA" FontWeight="Bold"/>
+        <Ellipse x:Name="circleAnimationScan" Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="20" Margin="0,110,200,0" Stroke="Black" VerticalAlignment="Center" Width="20" />
         <Image x:Name="image" HorizontalAlignment="Center" Height="250" Margin="0,0,0,550" VerticalAlignment="Center" Width="250" Source="/CheckerSystem;component/Assets/gordon-seal-300.png"/>
+        <Ellipse x:Name="circleAnimationUpdate" Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="20" Margin="0,450,200,0" Stroke="Black" VerticalAlignment="Center" Width="20" />
 
         <Grid.Triggers>
             <EventTrigger SourceName="buttonScan" RoutedEvent="Button.Click">
@@ -25,20 +24,28 @@
                 <BeginStoryboard Name="Scanning">
 
                     <Storyboard   x:Name="ScanningStoryboard">
-                        <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="circleAnimation" Storyboard.TargetProperty="Margin" BeginTime="0:0:0" RepeatBehavior="Forever" AutoReverse="True">
-                            <SplineThicknessKeyFrame KeyTime="0:0:0" Value="0,130,200,0" />
-                            <SplineThicknessKeyFrame KeyTime="0:0:0.5" Value="200,130,0,0" />
+                        <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="circleAnimationScan" Storyboard.TargetProperty="Margin" BeginTime="0:0:0" RepeatBehavior="Forever" AutoReverse="True">
+                            <SplineThicknessKeyFrame KeyTime="0:0:0" Value="0,110,200,0" />
+                            <SplineThicknessKeyFrame KeyTime="0:0:0.5" Value="200,110,0,0" />
                         </ThicknessAnimationUsingKeyFrames>
                     </Storyboard>
 
                 </BeginStoryboard>
 
             </EventTrigger>
-            <EventTrigger SourceName="buttonCancelScan" RoutedEvent="Button.Click">
-                <StopStoryboard BeginStoryboardName="Scanning" />
-            </EventTrigger>
-            <EventTrigger SourceName="buttonCancelScan" RoutedEvent="Button.Click">
-                <StopStoryboard BeginStoryboardName="Scanning" />
+            <EventTrigger SourceName="buttonUpdate" RoutedEvent="Button.Click">
+
+                <BeginStoryboard Name="Updating">
+
+                    <Storyboard   x:Name="UpdatingStoryboard">
+                        <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="circleAnimationUpdate" Storyboard.TargetProperty="Margin" BeginTime="0:0:0" RepeatBehavior="Forever" AutoReverse="True">
+                            <SplineThicknessKeyFrame KeyTime="0:0:0" Value="0,450,200,0" />
+                            <SplineThicknessKeyFrame KeyTime="0:0:0.5" Value="200,450,0,0" />
+                        </ThicknessAnimationUsingKeyFrames>
+                    </Storyboard>
+
+                </BeginStoryboard>
+
             </EventTrigger>
         </Grid.Triggers>
 
