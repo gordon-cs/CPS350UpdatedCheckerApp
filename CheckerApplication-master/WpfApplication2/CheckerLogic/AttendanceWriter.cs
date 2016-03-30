@@ -423,13 +423,15 @@ namespace CheckerApplication
             {
                 values = line.Split(SC);
                 int length = values[3].Count();
-                if(length == 20)
+                if (length == 19)
+                    events.Add(values[3] + "       " + values[2]);
+                else if (length == 20)
                     events.Add(values[3] + "     " + values[2]);
-                if (length == 21)
+                else if (length == 21)
                     events.Add(values[3] + "   " + values[2]);
-                if (length == 22)
+                else if (length == 22)
                     events.Add(values[3] + "  " + values[2]);
-                if (length == 23)
+                else if (length == 23)
                     events.Add(values[3] + " " + values[2]);
                 else
                     events.Add(values[3] + " " + values[2]);

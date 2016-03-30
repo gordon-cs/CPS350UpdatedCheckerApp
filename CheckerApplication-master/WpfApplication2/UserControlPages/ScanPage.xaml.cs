@@ -167,6 +167,7 @@ namespace CheckerApplication
                 scanTimer.Enabled = true;
                 stopwatch.Start();
                 circleAnimation.Opacity = 100;
+                checkBoxNoCredit.IsEnabled = true;
             }
         }
 
@@ -391,7 +392,6 @@ namespace CheckerApplication
         //that allows the user to cancel or continue with a no credit scan
         private void checkBoxNoCredit_Checked(object sender, RoutedEventArgs e)
         {
-            scanTimer.Stop();
             circleAnimation.Opacity = 0;
             confirmationTextBlock2.Opacity = 100;
             confirmationBox2.Opacity = 100;
