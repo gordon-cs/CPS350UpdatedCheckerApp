@@ -31,6 +31,7 @@ namespace CheckerApplication
         bool textFileCreated = false;
         bool deviceConnected = false;       
         bool noCreditChecked = false;
+        bool scanningStarted = false;
         string lastIDforCredit = "";
         string lastNoCreditID = "";
         string lastNoCreditIDalready = "";
@@ -167,7 +168,7 @@ namespace CheckerApplication
                 scanTimer.Enabled = true;
                 stopwatch.Start();
                 circleAnimation.Opacity = 100;
-                checkBoxNoCredit.IsEnabled = true;
+                scanningStarted = true;
             }
         }
 
@@ -392,6 +393,8 @@ namespace CheckerApplication
         //that allows the user to cancel or continue with a no credit scan
         private void checkBoxNoCredit_Checked(object sender, RoutedEventArgs e)
         {
+            if (scanningStarted)
+                scanTimer.Stop();
             circleAnimation.Opacity = 0;
             confirmationTextBlock2.Opacity = 100;
             confirmationBox2.Opacity = 100;
@@ -436,7 +439,8 @@ namespace CheckerApplication
             this.noCreditChecked = true;
 
             circleAnimation.Opacity = 100;
-            scanTimer.Start();
+            if (scanningStarted)
+                scanTimer.Start();
         }
 
         //if the no button is clicked for no credit, scanning continues as usual
@@ -456,7 +460,8 @@ namespace CheckerApplication
 
             checkBoxNoCredit.IsChecked = false;
             circleAnimation.Opacity = 100;
-            scanTimer.Start();
+            if (scanningStarted)
+                scanTimer.Start();
         }
         // after making the next scan for no credit, a button appears that allows the user
         // to cancel the no credit scan
