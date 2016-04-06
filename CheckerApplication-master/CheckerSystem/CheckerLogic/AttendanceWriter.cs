@@ -20,11 +20,12 @@ namespace CheckerApplication
         private int numberScanned;
 
         //constant file paths
-        private const string ATTENDANCEPATH = "C:/_system/";
-        private const string EVENTSPATH = "C:/Events.claw";
-        private const string CHECKERSPATH = "C:/Checkers.claw";
-        private const string STUDENTSPATH = "C:/Students.claw";
-        private const string DATEPATH = "C:/Date.claw";
+        private const string ATTENDANCEPATH = "C:/_system/attendance/";
+        private const string DATABASEPATH = "C:/_system/db/";
+        private const string EVENTSPATH = "C:/_system/db/Events.claw";
+        private const string CHECKERSPATH = "C:/_system/db/Checkers.claw";
+        private const string STUDENTSPATH = "C:/_system/db/Students.claw";
+        private const string DATEPATH = "C:/_system/db/Date.claw";
 
         //unique character used to separate values in the sql data tables,
         //otherwise separating the values can be erroneous
@@ -67,24 +68,40 @@ namespace CheckerApplication
 
         public void CreateEventsTextFile()
         {
+            if (!Directory.Exists(DATABASEPATH))
+            {
+                Directory.CreateDirectory(DATABASEPATH);
+            }
             File.Create(EVENTSPATH).Close();
 
         }
 
         public void CreateCheckersTextFile()
         {
+            if (!Directory.Exists(DATABASEPATH))
+            {
+                Directory.CreateDirectory(DATABASEPATH);
+            }
             File.Create(CHECKERSPATH).Close();
 
         }
 
         public void CreateStudentsTextFile()
         {
+            if (!Directory.Exists(DATABASEPATH))
+            {
+                Directory.CreateDirectory(DATABASEPATH);
+            }
             File.Create(STUDENTSPATH).Close();
 
         }
 
         public void CreateDateTextFile()
         {
+            if (!Directory.Exists(DATABASEPATH))
+            {
+                Directory.CreateDirectory(DATABASEPATH);
+            }
             if (File.Exists(DATEPATH))
             {
                 File.Delete(DATEPATH);
