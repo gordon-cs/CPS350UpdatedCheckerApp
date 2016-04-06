@@ -21,10 +21,10 @@ namespace CheckerApplication
 
         //constant file paths
         private const string ATTENDANCEPATH = "C:/_system/";
-        private const string EVENTSPATH = "Events.claw";
-        private const string CHECKERSPATH = "Checkers.claw";
-        private const string STUDENTSPATH = "Students.claw";
-        private const string DATEPATH = "date.claw";
+        private const string EVENTSPATH = "C:/Events.claw";
+        private const string CHECKERSPATH = "C:/Checkers.claw";
+        private const string STUDENTSPATH = "C:/Students.claw";
+        private const string DATEPATH = "C:/Date.claw";
 
         //unique character used to separate values in the sql data tables,
         //otherwise separating the values can be erroneous
