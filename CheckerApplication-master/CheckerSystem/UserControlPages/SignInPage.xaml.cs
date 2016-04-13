@@ -17,6 +17,7 @@ using System.Media;
 using System.Timers;
 using System.Windows.Media.Animation;
 using System.ComponentModel;
+using System.IO;
 
 namespace CheckerApplication
 {
@@ -80,6 +81,13 @@ namespace CheckerApplication
                     labelID.Text = "RFID USB Device Not Found:\n\nPlease Connect Device!";
                 }
             }
+
+            if (!Directory.Exists(attendanceWriter.getDatabaseFilePath()))
+            {
+                buttonScan.IsEnabled = false;
+                labelID.Text = "Database Not Initialized. \n\n Update Database";
+            }
+
         }
 
         //function runs f the scan button is clicked 
@@ -107,6 +115,7 @@ namespace CheckerApplication
                 else
                 {
                     MainWindow.AppWindow.textBox2.Text = "No device found";
+                    labelID.Text = "RFID USB Device Not Found:\n\nPlease Connect Device!";
                     buttonScan.IsEnabled = true;
                     buttonUpdate.IsEnabled = true;
                 }

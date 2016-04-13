@@ -28,7 +28,7 @@ namespace CheckerApplication
         //variables for the main window class to be called from other pages
         bool deviceConnected = false;
         string eventTitle = "";
-        bool databaseUpdated = true;
+        bool databaseUpdated = false;
         string scanTime = "";
 
         //constructor for the main window

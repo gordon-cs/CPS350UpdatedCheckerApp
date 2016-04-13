@@ -20,8 +20,8 @@ namespace CheckerApplication
         private int numberScanned;
 
         //constant file paths
-        private const string ATTENDANCEPATH = "C:/_system/attendance/";
-        private const string DATABASEPATH = "C:/_system/db/";
+        private const string ATTENDANCEDIR = "C:/_system/attendance/";
+        private const string DATABASEDIR = "C:/_system/db/";
         private const string EVENTSPATH = "C:/_system/db/Events.claw";
         private const string CHECKERSPATH = "C:/_system/db/Checkers.claw";
         private const string STUDENTSPATH = "C:/_system/db/Students.claw";
@@ -57,20 +57,20 @@ namespace CheckerApplication
         //functions to create text files for the attendance file and the various SQL data text files
         public void CreateAttendanceTextFile()
         {
-            if (!Directory.Exists(ATTENDANCEPATH))
+            if (!Directory.Exists(ATTENDANCEDIR))
             {
-                Directory.CreateDirectory(ATTENDANCEPATH);
+                Directory.CreateDirectory(ATTENDANCEDIR);
             }
-            this.attendancePath = ATTENDANCEPATH + "Attendance_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + getUniqueID() + ".claw";
+            this.attendancePath = ATTENDANCEDIR + "Attendance_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + getUniqueID() + ".claw";
             File.Create(attendancePath).Close();
 
         }
 
         public void CreateEventsTextFile()
         {
-            if (!Directory.Exists(DATABASEPATH))
+            if (!Directory.Exists(DATABASEDIR))
             {
-                Directory.CreateDirectory(DATABASEPATH);
+                Directory.CreateDirectory(DATABASEDIR);
             }
             File.Create(EVENTSPATH).Close();
 
@@ -78,9 +78,9 @@ namespace CheckerApplication
 
         public void CreateCheckersTextFile()
         {
-            if (!Directory.Exists(DATABASEPATH))
+            if (!Directory.Exists(DATABASEDIR))
             {
-                Directory.CreateDirectory(DATABASEPATH);
+                Directory.CreateDirectory(DATABASEDIR);
             }
             File.Create(CHECKERSPATH).Close();
 
@@ -88,9 +88,9 @@ namespace CheckerApplication
 
         public void CreateStudentsTextFile()
         {
-            if (!Directory.Exists(DATABASEPATH))
+            if (!Directory.Exists(DATABASEDIR))
             {
-                Directory.CreateDirectory(DATABASEPATH);
+                Directory.CreateDirectory(DATABASEDIR);
             }
             File.Create(STUDENTSPATH).Close();
 
@@ -98,9 +98,9 @@ namespace CheckerApplication
 
         public void CreateDateTextFile()
         {
-            if (!Directory.Exists(DATABASEPATH))
+            if (!Directory.Exists(DATABASEDIR))
             {
-                Directory.CreateDirectory(DATABASEPATH);
+                Directory.CreateDirectory(DATABASEDIR);
             }
             if (File.Exists(DATEPATH))
             {
@@ -199,6 +199,10 @@ namespace CheckerApplication
         public string getDateFilePath()
         {
             return DATEPATH;
+        }
+        public string getDatabaseFilePath()
+        {
+            return DATABASEDIR;
         }
 
         //this function removes any duplicate entries, and if there is an entry for someone

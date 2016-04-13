@@ -59,6 +59,7 @@ namespace CheckerApplication
                 command.Dispose();
                 connection.Close();
                 Console.Out.WriteLine("EVENT SQL SUCCESS ");
+                MainWindow.AppWindow.setDatabaseUpdated(true);
             }
             catch (Exception ex)
             {
@@ -105,6 +106,7 @@ namespace CheckerApplication
                 command.Dispose();
                 connection.Close();
                 Console.Out.WriteLine("CHECKERS SQL SUCCESS ");
+                MainWindow.AppWindow.setDatabaseUpdated(true);
             }
             catch (Exception ex)
             {
@@ -148,7 +150,7 @@ namespace CheckerApplication
                 connection.Close();
 
                 Console.Out.WriteLine("STUDENTS SQL SUCCESS ");
-
+                MainWindow.AppWindow.setDatabaseUpdated(true);
             }
             catch (Exception ex)
             {
