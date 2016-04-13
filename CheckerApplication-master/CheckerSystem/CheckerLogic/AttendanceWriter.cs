@@ -376,7 +376,7 @@ namespace CheckerApplication
 
         //function that returns the name string of any scanned student
         //given their scannedID
-        public string getStudentsName(string checkerID)
+        public string getStudentsName(string studentID)
         {
 
             if (!File.Exists(STUDENTSPATH))
@@ -391,7 +391,7 @@ namespace CheckerApplication
             while ((line = sr.ReadLine()) != null)
             {
                 values = line.Split(SC);
-                if (values[0].Contains(checkerID))
+                if (values[0].Contains(studentID))
                     studentsName = (values[2] + " " + values[3]);
             }
             sr.Close();

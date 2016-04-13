@@ -239,6 +239,13 @@ namespace CheckerApplication
                     }
                 }
             }
+            else
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    circleAnimationScan.Fill = new SolidColorBrush(Colors.White);
+                }); 
+            }
         }
 
         //function that runs if the update database button is clicked
@@ -304,6 +311,31 @@ namespace CheckerApplication
             buttonUpdate.IsEnabled = true;
             buttonCancelScan.IsEnabled = false;
             Panel.SetZIndex(buttonCancelScan, -1);
+        }
+
+        //function if secret button 1 is clicked
+        private void backgroundChanger(object sender, RoutedEventArgs e)
+        {
+            MainWindow.AppWindow.Background = new SolidColorBrush(Colors.DarkSlateBlue);
+        }
+
+        //function if secret button 2 is clicked
+        private void backgroundChanger2(object sender, RoutedEventArgs e)
+        {
+            MainWindow.AppWindow.Background = new SolidColorBrush(Colors.IndianRed);
+        }
+
+        //function if secret button 2 is clicked
+        private void backgroundChanger3(object sender, RoutedEventArgs e)
+        {
+            Brush brush = new SolidColorBrush(Color.FromRgb(1, 73, 131));
+            MainWindow.AppWindow.Background = brush;
+        }
+
+        //function if secret button 2 is clicked
+        private void backgroundChanger4(object sender, RoutedEventArgs e)
+        {
+            MainWindow.AppWindow.Background = new SolidColorBrush(Colors.HotPink);
         }
     }
 }

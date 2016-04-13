@@ -326,6 +326,13 @@ namespace CheckerApplication
                 //SystemSounds.Beep.Play();
 
             }
+            else
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    circleAnimation.Fill = new SolidColorBrush(Colors.White);
+                });
+            }
 
             
             }

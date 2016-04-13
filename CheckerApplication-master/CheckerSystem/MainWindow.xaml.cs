@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+
+
+
+
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using RFIDeas_pcProxAPI;
+using System.ComponentModel;
 
 namespace CheckerApplication
 {
@@ -79,6 +72,24 @@ namespace CheckerApplication
                 MainWindow.AppWindow.textBox2.Text = "No device found";
             }
             
+        }
+
+        //Asks user to confirm whether they really want to close out of the application
+        public void MainWindow_Closing(object sender, CancelEventArgs e)
+        {
+
+            string message = "Are you sure that you want to exit the application?";
+            MessageBoxResult result =
+              MessageBox.Show(
+                message,
+                "CLAW Credit Checker Application",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
+            if (result == MessageBoxResult.No)
+            {
+                // If user doesn't want to close, cancel closure
+                e.Cancel = true;
+            }
         }
 
         //functions to go to the various pages of the application
