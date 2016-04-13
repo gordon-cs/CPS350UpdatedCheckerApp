@@ -72,7 +72,7 @@ namespace CheckerApplication
                     }
                     else
                     {
-                        labelID.Text = "Database Outdated. \n\n Update Database\nor\nSign in";
+                        labelID.Text = "Database Outdated. \n Update Database\nor Sign in";
                     }
                 }
                 else
