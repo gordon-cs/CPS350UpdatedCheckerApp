@@ -113,6 +113,8 @@ namespace CheckerApplication
                     this.deviceConnected = true;
                     MainWindow.AppWindow.setDeviceConnected(true);
                     labelID.Text = "USB Scanning Device Found.";
+                    pcProxDLLAPI.setTimeParms_iIDHoldTO(500);
+                    pcProxDLLAPI.setTimeParms_iIDLockOutTm(500);
                 }
                 else
                 {

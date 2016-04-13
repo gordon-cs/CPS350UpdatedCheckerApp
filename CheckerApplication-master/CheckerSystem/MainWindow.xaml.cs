@@ -66,6 +66,8 @@ namespace CheckerApplication
                 ushort proxDevice = pcProxDLLAPI.writeDevCfgToFile("prox_device_configuration");
                 MainWindow.AppWindow.textBox2.Text = "Connected to DeviceID: " + DeviceID;
                 this.deviceConnected = true;
+                pcProxDLLAPI.setTimeParms_iIDHoldTO(500);
+                pcProxDLLAPI.setTimeParms_iIDLockOutTm(500);
             }
             else
             {

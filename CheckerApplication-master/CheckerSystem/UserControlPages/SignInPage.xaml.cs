@@ -66,6 +66,9 @@ namespace CheckerApplication
                     MainWindow.AppWindow.textBox2.Text = "Connected to DeviceID: " + DeviceID;
                     this.deviceConnected = true;
                     MainWindow.AppWindow.setDeviceConnected(true);
+                    pcProxDLLAPI.setTimeParms_iIDHoldTO(500);
+                    pcProxDLLAPI.setTimeParms_iIDLockOutTm(500);
+
                     if (MainWindow.AppWindow.getDatabaseUpdated())
                     {
                         labelID.Text = "Database Updated.\n\nSign in with Gordon ID";
@@ -111,6 +114,8 @@ namespace CheckerApplication
                     this.deviceConnected = true;
                     MainWindow.AppWindow.setDeviceConnected(true);
                     labelID.Text = "USB Scanning Device Found.";
+                    pcProxDLLAPI.setTimeParms_iIDHoldTO(500);
+                    pcProxDLLAPI.setTimeParms_iIDLockOutTm(500);
                 }
                 else
                 {
