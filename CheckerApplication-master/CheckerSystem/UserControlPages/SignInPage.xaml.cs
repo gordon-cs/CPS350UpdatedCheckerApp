@@ -51,10 +51,6 @@ namespace CheckerApplication
             circleAnimationScan.Opacity = 0;
             circleAnimationUpdate.Opacity = 0;
 
-            //string substringChecker = "108745";
-            //substringChecker.Substring(1);
-            //Console.Out.WriteLine("substringChecker value is" + substringChecker);
-
             //if the device is not connected, attempt connecting it
             if (!deviceConnected)
             {
@@ -129,10 +125,6 @@ namespace CheckerApplication
                 authorizedCheckerIDs = new List<string>();
                 authorizedCheckerIDs = attendanceWriter.getAuthorizedCheckersFromTextFile();
 
-                Console.Out.WriteLine("hold time: " + pcProxDLLAPI.getTimeParms_iIDHoldTO());
-                Console.Out.WriteLine("lock out time: " + pcProxDLLAPI.getTimeParms_iIDLockOutTm());
-
-
                 //Comment out the following to skip authorization of sign in
 
                 //starts the sign in timer to run function every 500ms
@@ -192,7 +184,7 @@ namespace CheckerApplication
                     proxID += String.Format("{0:X2}", Id[i]);
 
                 }
-                checkerID = Int32.Parse(proxID.Substring(1), System.Globalization.NumberStyles.HexNumber).ToString();
+                checkerID = Int32.Parse(proxID.Substring(1), System.Globalization.NumberStyles.HexNumber).ToString("D5");
                 Console.Out.WriteLine("checkers hex id:" + proxID);
                 Console.Out.WriteLine("checkers decimal id:" + checkerID);
                 Console.Out.WriteLine("checkers barcode: " + MainWindow.AppWindow.getAttendanceWriter().getStudentsBarcode(checkerID));

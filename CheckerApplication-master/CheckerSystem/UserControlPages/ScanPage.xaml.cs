@@ -36,6 +36,7 @@ namespace CheckerApplication
         string lastNoCreditID = "";
         string lastNoCreditIDalready = "";
         string lastIDforCreditAlready = "";
+        string lastNotInDatabaseID = "";
         List <string> creditList;
         List <string> noCreditList;
         System.Timers.Timer scanTimer;
@@ -195,8 +196,40 @@ namespace CheckerApplication
                     s = s + string.Format("{0:X2}.", Id[i]);
                     proxID += string.Format("{0:X2}", Id[i]);
                 }
+                scannedID = Int32.Parse(proxID.Substring(1), System.Globalization.NumberStyles.HexNumber).ToString("D5");
+                Console.Out.WriteLine("checkers hex id:" + proxID);
+                Console.Out.WriteLine("checkers decimal id:" + scannedID);
+                Console.Out.WriteLine("checkers barcode: " + MainWindow.AppWindow.getAttendanceWriter().getStudentsBarcode(scannedID));
 
-                scannedID = Int32.Parse(proxID.Substring(1), System.Globalization.NumberStyles.HexNumber).ToString();
+                if (!lastNotInDatabaseID.Equals(scannedID) && MainWindow.AppWindow.getAttendanceWriter().getStudentsBarcode(scannedID).Length == 0)
+                {
+                    lastNotInDatabaseID = scannedID;
+                    lastIDforCredit = "";
+                    lastNoCreditIDalready = "";
+                    lastNoCreditID = "";
+                    lastIDforCreditAlready = "";
+                    Dispatcher.Invoke(() =>
+                    {
+                        studentName = attendanceWriter.getStudentsName(scannedID);
+                        labelID.Foreground = new SolidColorBrush(Colors.DarkSlateBlue);
+                        labelID.Text = "Student\nwas not found in the database.\nPlease Update!";
+                    });
+
+                    playFailSound();
+
+                    if (noCreditChecked)
+                    {
+                        Dispatcher.Invoke(() =>
+                        {
+                            checkBoxNoCredit.IsChecked = false;
+                            Panel.SetZIndex(buttonCancelNoCredit, -1);
+                            buttonCancelNoCredit.Opacity = 0;
+                            buttonCancelNoCredit.IsEnabled = false;
+                        });
+                        noCreditChecked = false;
+                    }
+                }
+
 
                 //performs a successful scan for credit if the following:
                 //
@@ -208,9 +241,10 @@ namespace CheckerApplication
                 //
                 //the creditList does not contain the currently scannedID
                 //
-                if (!lastIDforCredit.Equals(scannedID) && !noCreditChecked && !noCreditList.Contains(scannedID) && !creditList.Contains(scannedID))
+                else if (!lastIDforCredit.Equals(scannedID) && !noCreditChecked && !noCreditList.Contains(scannedID) && !creditList.Contains(scannedID) && !lastNotInDatabaseID.Equals(scannedID))
                 {
                     lastIDforCredit = scannedID;
+                    lastNotInDatabaseID = "";
                     lastNoCreditIDalready = "";
                     lastNoCreditID = "";
                     lastIDforCreditAlready = "";
@@ -236,9 +270,10 @@ namespace CheckerApplication
                 //
                 //the noCreditList does not contain the currently scannedID
                 //
-                else if (!lastNoCreditID.Equals(scannedID) && noCreditChecked && !noCreditList.Contains(scannedID))
+                else if (!lastNoCreditID.Equals(scannedID) && noCreditChecked && !noCreditList.Contains(scannedID) && !lastNotInDatabaseID.Equals(scannedID))
                 {
                     lastNoCreditID = scannedID;
+                    lastNotInDatabaseID = "";
                     lastNoCreditIDalready = "";
                     lastIDforCreditAlready = "";
                     lastIDforCredit = "";
@@ -270,9 +305,10 @@ namespace CheckerApplication
                 //
                 //the no credit list does contain the currently scannedID
                 //
-                else if (!lastNoCreditIDalready.Equals(scannedID) && !lastNoCreditID.Equals(scannedID) && noCreditList.Contains(scannedID))
+                else if (!lastNoCreditIDalready.Equals(scannedID) && !lastNoCreditID.Equals(scannedID) && noCreditList.Contains(scannedID) && !lastNotInDatabaseID.Equals(scannedID))
                 {
                     lastNoCreditIDalready = scannedID;
+                    lastNotInDatabaseID = "";
                     lastIDforCreditAlready = "";
                     lastNoCreditID = "";
                     lastIDforCredit = "";
@@ -302,9 +338,10 @@ namespace CheckerApplication
                 //
                 //the no credit list does not contain the currently scannedID
                 //
-                else if (!lastIDforCreditAlready.Equals(scannedID) && !lastIDforCredit.Equals(scannedID) && creditList.Contains(scannedID) && !noCreditList.Contains(scannedID))
+                else if (!lastIDforCreditAlready.Equals(scannedID) && !lastIDforCredit.Equals(scannedID) && creditList.Contains(scannedID) && !noCreditList.Contains(scannedID) && !lastNotInDatabaseID.Equals(scannedID))
                 {
                     lastIDforCreditAlready = scannedID;
+                    lastNotInDatabaseID = "";
                     lastNoCreditIDalready = "";
                     lastNoCreditID = "";
                     lastIDforCredit = "";
@@ -438,6 +475,7 @@ namespace CheckerApplication
             lastIDforCreditAlready = "";
             lastNoCreditID = "";
             lastIDforCredit = "";
+            lastNotInDatabaseID = "";
 
             Panel.SetZIndex(buttonCancelNoCredit, 2);
             buttonCancelNoCredit.Opacity = 100;

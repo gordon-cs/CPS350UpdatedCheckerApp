@@ -25,7 +25,7 @@ namespace CheckerApplication
         bool databaseUpdated = false;
         string scanTime = "";
 
-        private const int SCANOFFSETTIME = 250;
+        private const int SCANOFFSETTIME = 1000;
 
         //constructor for the main window
         public MainWindow()
@@ -75,11 +75,14 @@ namespace CheckerApplication
                 {
                     pcProxDLLAPI.setTimeParms_iIDHoldTO(SCANOFFSETTIME);
                     pcProxDLLAPI.setTimeParms_iIDLockOutTm(SCANOFFSETTIME);
+                    Console.Out.WriteLine(pcProxDLLAPI.getTimeParms_iIDHoldTO());
+                    Console.Out.WriteLine(pcProxDLLAPI.getTimeParms_iIDLockOutTm());
                     Console.Out.WriteLine("WRITING CONFIG TO DEVICE");
-                    pcProxDLLAPI.readDevCfgFmFile("checkerDevice.hwg+");
-                    pcProxDLLAPI.ReadCfg();
                     Console.Out.WriteLine(pcProxDLLAPI.WriteCfg());
                     pcProxDLLAPI.ReadCfg();
+                    Console.Out.WriteLine(pcProxDLLAPI.getTimeParms_iIDHoldTO());
+                    Console.Out.WriteLine(pcProxDLLAPI.getTimeParms_iIDLockOutTm());
+
                 }
             }
             else
@@ -104,6 +107,10 @@ namespace CheckerApplication
             {
                 // If user doesn't want to close, cancel closure
                 e.Cancel = true;
+            }
+            else
+            {
+                attendanceWriter.cleanUpAttendanceFile();
             }
         }
 

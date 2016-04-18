@@ -26,6 +26,7 @@ namespace CheckerApplication
         private const string CHECKERSPATH = "C:/_system/db/Checkers.claw";
         private const string STUDENTSPATH = "C:/_system/db/Students.claw";
         private const string DATEPATH = "C:/_system/db/Date.claw";
+        private const string TESTPATH = "C:/_system/db/Testing.claw";
 
         //unique character used to separate values in the sql data tables,
         //otherwise separating the values can be erroneous
@@ -252,7 +253,7 @@ namespace CheckerApplication
 
                     //if statement that stores the current line into the superLine string if
                     //
-                    //the current line contains the current barcode from the unique list
+                    //the current line Equals the current barcode from the unique list
                     //
                     //a line for credit has not already been found in the text file
                     //
@@ -260,7 +261,7 @@ namespace CheckerApplication
                     //
                     //an entry for no credit has not been found yet
                     //
-                    if (values[0].Contains(s) && !doesContainId && values[2].Equals("0") && !doesContainNoCredit)
+                    if (values[0].Equals(s) && !doesContainId && values[2].Equals("0") && !doesContainNoCredit)
                     {
                         superLine = line;
                         doesContainId = true;
@@ -268,13 +269,13 @@ namespace CheckerApplication
 
                     //if statement that stores the current line into the superLine string if
                     //
-                    //the current line contains the current barcode from the unique list
+                    //the current line Equals the current barcode from the unique list
                     //
                     //the no credit value is 1, so the entry is for credit
                     //
                     //an entry for no credit has not been found yet
                     //
-                    else if (values[0].Contains(s) && values[2].Equals("1") && !doesContainNoCredit)
+                    else if (values[0].Equals(s) && values[2].Equals("1") && !doesContainNoCredit)
                     {
                         superLine = line;
                         doesContainNoCredit = true;
@@ -365,7 +366,7 @@ namespace CheckerApplication
             while ((line = sr.ReadLine()) != null)
             {
                 values = line.Split(SC);
-                if (values[0].Contains(checkerID))
+                if (values[0].Equals(checkerID))
                     checkersName = (values[2] + " " + values[3]);
             }
             sr.Close();
@@ -391,7 +392,7 @@ namespace CheckerApplication
             while ((line = sr.ReadLine()) != null)
             {
                 values = line.Split(SC);
-                if (values[0].Contains(studentID))
+                if (values[0].Equals(studentID))
                     studentsName = (values[2] + " " + values[3]);
             }
             sr.Close();
@@ -417,7 +418,7 @@ namespace CheckerApplication
             while ((line = sr.ReadLine()) != null)
             {
                 values = line.Split(SC);
-                if (values[0].Contains(scannedID))
+                if (values[0].Equals(scannedID))
                     studentsBarcode = (values[1]);
             }
             sr.Close();
@@ -499,6 +500,23 @@ namespace CheckerApplication
             }
             sr.Close();
             return date;
+        }
+
+        //function called on shutdown that deletes the current attendance file
+        // if it is empty otherwise omitting multiple entries
+        public void cleanUpAttendanceFile()
+        {
+            if (File.Exists(attendancePath))
+            {
+                if (new FileInfo(attendancePath).Length == 0)
+                {
+                    File.Delete(attendancePath);
+                }
+                else
+                {
+                    omitMultipleEntries();
+                }
+            }
         }
 
     }
