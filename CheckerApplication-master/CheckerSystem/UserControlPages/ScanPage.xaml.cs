@@ -46,7 +46,7 @@ namespace CheckerApplication
         private SoundPlayer failPlayer = new SoundPlayer("../../Assets/failure_beep.wav");
 
         //constants
-        private const int SCANOFFSETTIME = 500;
+        private const int SCANOFFSETTIME = 250;
 
         //creates the scan page
         public ScanPage()
@@ -113,8 +113,6 @@ namespace CheckerApplication
                     this.deviceConnected = true;
                     MainWindow.AppWindow.setDeviceConnected(true);
                     labelID.Text = "USB Scanning Device Found.";
-                    pcProxDLLAPI.setTimeParms_iIDHoldTO(500);
-                    pcProxDLLAPI.setTimeParms_iIDLockOutTm(500);
                 }
                 else
                 {

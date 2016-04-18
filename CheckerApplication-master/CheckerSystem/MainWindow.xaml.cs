@@ -6,6 +6,7 @@
 using System.Windows;
 using RFIDeas_pcProxAPI;
 using System.ComponentModel;
+using System;
 
 namespace CheckerApplication
 {
@@ -23,6 +24,8 @@ namespace CheckerApplication
         string eventTitle = "";
         bool databaseUpdated = false;
         string scanTime = "";
+
+        private const int SCANOFFSETTIME = 250;
 
         //constructor for the main window
         public MainWindow()
@@ -59,15 +62,25 @@ namespace CheckerApplication
             //attempts connecting the usb reader device
 
             long DeviceID = 0;
-         
+
+            
+
             if (pcProxDLLAPI.usbConnect() == 1)
             {
                 DeviceID = pcProxDLLAPI.GetDID();
                 ushort proxDevice = pcProxDLLAPI.writeDevCfgToFile("prox_device_configuration");
                 MainWindow.AppWindow.textBox2.Text = "Connected to DeviceID: " + DeviceID;
                 this.deviceConnected = true;
-                pcProxDLLAPI.setTimeParms_iIDHoldTO(500);
-                pcProxDLLAPI.setTimeParms_iIDLockOutTm(500);
+                if (pcProxDLLAPI.getTimeParms_iIDHoldTO() != SCANOFFSETTIME || pcProxDLLAPI.getTimeParms_iIDLockOutTm() != SCANOFFSETTIME)
+                {
+                    pcProxDLLAPI.setTimeParms_iIDHoldTO(SCANOFFSETTIME);
+                    pcProxDLLAPI.setTimeParms_iIDLockOutTm(SCANOFFSETTIME);
+                    Console.Out.WriteLine("WRITING CONFIG TO DEVICE");
+                    pcProxDLLAPI.readDevCfgFmFile("checkerDevice.hwg+");
+                    pcProxDLLAPI.ReadCfg();
+                    Console.Out.WriteLine(pcProxDLLAPI.WriteCfg());
+                    pcProxDLLAPI.ReadCfg();
+                }
             }
             else
             {

@@ -30,11 +30,11 @@ namespace CheckerApplication
 
         //variables used throughout the class
         List<string> authorizedCheckerIDs;
-        List<string> temporaryCheckersList;
         System.Timers.Timer scanTimer;
         string chapelCheckerId;    
         string lastID = "";
         bool deviceConnected = false;
+        private const int SCANOFFSETTIME = 250;
 
         //noise makers for the scan
         private SoundPlayer happyPlayer = new SoundPlayer(@"../../Assets/blip.wav");
@@ -66,8 +66,6 @@ namespace CheckerApplication
                     MainWindow.AppWindow.textBox2.Text = "Connected to DeviceID: " + DeviceID;
                     this.deviceConnected = true;
                     MainWindow.AppWindow.setDeviceConnected(true);
-                    pcProxDLLAPI.setTimeParms_iIDHoldTO(500);
-                    pcProxDLLAPI.setTimeParms_iIDLockOutTm(500);
 
                     if (MainWindow.AppWindow.getDatabaseUpdated())
                     {
@@ -114,8 +112,6 @@ namespace CheckerApplication
                     this.deviceConnected = true;
                     MainWindow.AppWindow.setDeviceConnected(true);
                     labelID.Text = "USB Scanning Device Found.";
-                    pcProxDLLAPI.setTimeParms_iIDHoldTO(500);
-                    pcProxDLLAPI.setTimeParms_iIDLockOutTm(500);
                 }
                 else
                 {
@@ -133,6 +129,8 @@ namespace CheckerApplication
                 authorizedCheckerIDs = new List<string>();
                 authorizedCheckerIDs = attendanceWriter.getAuthorizedCheckersFromTextFile();
 
+                Console.Out.WriteLine("hold time: " + pcProxDLLAPI.getTimeParms_iIDHoldTO());
+                Console.Out.WriteLine("lock out time: " + pcProxDLLAPI.getTimeParms_iIDLockOutTm());
 
 
                 //Comment out the following to skip authorization of sign in
@@ -140,7 +138,7 @@ namespace CheckerApplication
                 //starts the sign in timer to run function every 500ms
                 scanTimer = new System.Timers.Timer();
                 scanTimer.Elapsed += new ElapsedEventHandler(signInScan);
-                scanTimer.Interval = 500;
+                scanTimer.Interval = SCANOFFSETTIME;
                 scanTimer.Enabled = true;
 
                 circleAnimationScan.Opacity = 100;
