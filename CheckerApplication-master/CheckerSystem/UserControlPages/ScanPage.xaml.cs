@@ -47,7 +47,7 @@ namespace CheckerApplication
         private SoundPlayer failPlayer = new SoundPlayer("../../Assets/failure_beep.wav");
 
         //constants
-        private const int SCANOFFSETTIME = 250;
+        private const int SCANOFFSETTIME = 500;
 
         //creates the scan page
         public ScanPage()

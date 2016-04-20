@@ -25,7 +25,7 @@ namespace CheckerApplication
         bool databaseUpdated = false;
         string scanTime = "";
 
-        private const int SCANOFFSETTIME = 1000;
+        private const int SCANOFFSETTIME = 500;
 
         //constructor for the main window
         public MainWindow()
@@ -82,7 +82,6 @@ namespace CheckerApplication
                     pcProxDLLAPI.ReadCfg();
                     Console.Out.WriteLine(pcProxDLLAPI.getTimeParms_iIDHoldTO());
                     Console.Out.WriteLine(pcProxDLLAPI.getTimeParms_iIDLockOutTm());
-
                 }
             }
             else

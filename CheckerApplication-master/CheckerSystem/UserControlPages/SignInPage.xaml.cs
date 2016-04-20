@@ -34,7 +34,7 @@ namespace CheckerApplication
         string chapelCheckerId;    
         string lastID = "";
         bool deviceConnected = false;
-        private const int SCANOFFSETTIME = 250;
+        private const int SCANOFFSETTIME = 500;
 
         //noise makers for the scan
         private SoundPlayer happyPlayer = new SoundPlayer(@"../../Assets/blip.wav");
