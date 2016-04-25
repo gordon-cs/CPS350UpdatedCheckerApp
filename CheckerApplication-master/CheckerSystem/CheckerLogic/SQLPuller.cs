@@ -1,9 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data;
+﻿/*
+* SQLPuller.cs - class responsible for pulling data from Gordon's attendum
+* database and writing the results to text files using the AttendanceWriter
+*
+* This class is created and used via the "Update Database" button in the 
+* SignInPage
+*
+* For updating to work, the user must be signed into the Gordon domain 
+* as a Chapel Checker, otherwise Visual Studio must be started remotely
+* as a Chapel Checker
+*
+* Pulls and Writes 3 Data files:
+* Events, Checkers, Students
+*
+* Authors: Jonathan Manos, Travis Pullen
+* Last Modified: 4/25/16
+*
+*/
+
+using System;
 using System.Data.SqlClient;
 
 namespace CheckerApplication
@@ -27,7 +41,6 @@ namespace CheckerApplication
             string sql = null;
             SqlDataReader dataReader;
 
-
             connectionString = "Data Source=adminprodsql; Initial Catalog=Attendum; Integrated Security=SSPI;";
 
 
@@ -49,11 +62,9 @@ namespace CheckerApplication
 
                 while (dataReader.Read())
                 {
-
                     attendanceWriter.WriteEventsTextFile(dataReader.GetValue(0).ToString(), dataReader.GetValue(1).ToString(),
                                                         dataReader.GetValue(2).ToString(), dataReader.GetValue(3).ToString(),
                                                         dataReader.GetValue(4).ToString());
-
                 }
                 dataReader.Close();
                 command.Dispose();
@@ -66,7 +77,6 @@ namespace CheckerApplication
                 Console.Out.WriteLine("EVENT SQL FAILED ");
                 MainWindow.AppWindow.setDatabaseUpdated(false);
             }
-            
         }
 
         //Function to pull the authorized chapel checker information and write it to the chapel checker text file
@@ -97,10 +107,8 @@ namespace CheckerApplication
 
                 while (dataReader.Read())
                 {
-                    
                     attendanceWriter.WriteCheckersTextFile(dataReader.GetValue(0).ToString(), dataReader.GetValue(1).ToString(),
                                                         dataReader.GetValue(2).ToString(), dataReader.GetValue(3).ToString());
-
                 }
                 dataReader.Close();
                 command.Dispose();
@@ -140,10 +148,8 @@ namespace CheckerApplication
                 attendanceWriter.CreateStudentsTextFile();
                 while (dataReader.Read())
                 {
-
                     attendanceWriter.WriteStudentsTextFile(dataReader.GetValue(0).ToString(), dataReader.GetValue(1).ToString(),
                                                         dataReader.GetValue(2).ToString(), dataReader.GetValue(3).ToString());
-
                 }
                 dataReader.Close();
                 command.Dispose();
@@ -158,7 +164,5 @@ namespace CheckerApplication
                 MainWindow.AppWindow.setDatabaseUpdated(false);
             }
         }
-
     }
-
 }

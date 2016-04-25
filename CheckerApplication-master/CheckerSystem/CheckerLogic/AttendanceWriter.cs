@@ -1,11 +1,26 @@
-﻿using System;
+﻿/*
+* AttendanceWriter.cs - class responsible for reading from and writing to 
+* text files
+*
+* Responsible for creating directories and text files
+*
+* MainWindow holds the attendanceWriter class
+* so to access attendanceWriter one must use:
+* MainWindow.AppWindow.attendanceWriter
+* Otherwise you would be using a new instance of the attendanceWriter
+*
+* Constants for directory names and file paths can be set, as well
+* as the special character used for dividing the sql data text files
+*
+* Authors: Jonathan Manos, Travis Pullen
+* Last Modified: 4/25/16
+*
+*/
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Management;
-using RFIDeas_pcProxAPI;
 
 namespace CheckerApplication
 {
@@ -32,7 +47,7 @@ namespace CheckerApplication
         //otherwise separating the values can be erroneous
         private const char SC = '†';
 
-        //constructor for hte attendanceWriter object
+        //constructor for the attendanceWriter object
         public AttendanceWriter()
         {
 
@@ -71,7 +86,6 @@ namespace CheckerApplication
                 Directory.CreateDirectory(DATABASEDIR);
             }
             File.Create(EVENTSPATH).Close();
-
         }
 
         public void CreateCheckersTextFile()
@@ -81,7 +95,6 @@ namespace CheckerApplication
                 Directory.CreateDirectory(DATABASEDIR);
             }
             File.Create(CHECKERSPATH).Close();
-
         }
 
         public void CreateStudentsTextFile()
@@ -91,7 +104,6 @@ namespace CheckerApplication
                 Directory.CreateDirectory(DATABASEDIR);
             }
             File.Create(STUDENTSPATH).Close();
-
         }
 
         public void CreateDateTextFile()
@@ -107,7 +119,6 @@ namespace CheckerApplication
 
             File.Create(DATEPATH).Close();
             StreamWriter file = new StreamWriter(DATEPATH, true);
-
 
             string dateTime = DateTime.Now.ToString();
             file.WriteLine(dateTime);

@@ -1,21 +1,27 @@
-﻿using System;
+﻿/*
+* SignInPage.xaml.cs - class responsible for both updating the database
+* as well as using the RFID USB scanner to scan cards and check if
+* the given card's id is a chapel checker's id
+*
+* The results of a scan can be:
+* Person is a chapel checker - allowing you to proceed to EventPage
+* Person is not a chapel checker - keeps scanning
+* Person is not in the database - keeps scanning but prompts to update
+*
+* Authors: Jonathan Manos, Travis Pullen
+* Last Modified: 4/25/16
+*
+*/
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using RFIDeas_pcProxAPI;
 using System.Media;
 using System.Timers;
-using System.Windows.Media.Animation;
 using System.ComponentModel;
 using System.IO;
 
@@ -84,7 +90,6 @@ namespace CheckerApplication
                 buttonScan.IsEnabled = false;
                 labelID.Text = "Database Not Initialized. \n\n Update Database";
             }
-
         }
 
         //function runs f the scan button is clicked 
@@ -162,7 +167,6 @@ namespace CheckerApplication
         //function that runs a scan on a timer
         private void signInScan(object source, ElapsedEventArgs e)
         {
-
             //gets the bits of the proxID from a scan
             Byte[] Id = new Byte[8];
             int nBits = pcProxDLLAPI.getActiveID(8);
@@ -225,7 +229,7 @@ namespace CheckerApplication
                         Dispatcher.Invoke(() =>
                         {
                             checkersName = attendanceWriter.getStudentsName(checkerID);
-                            if (checkersName.Contains("Student"))
+                            if (checkersName.Equals("Student"))
                                 labelID.Text = checkersName + " is not in the Database\n\nTry Updating Database";
                             else
                                 labelID.Text = checkersName + "\nis not an Authorized Christian Life and Worship Credit Checker";
@@ -285,7 +289,6 @@ namespace CheckerApplication
             };
 
             backgroundWorker.RunWorkerAsync();
-           
         }
 
         //function if the proceed button is clicked

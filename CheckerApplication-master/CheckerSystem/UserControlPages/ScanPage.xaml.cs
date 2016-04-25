@@ -1,19 +1,34 @@
-﻿using System;
+﻿/*
+* ScanPage.xaml.cs - class responsible for displaying the event selected
+* and allowing the user to initiate scanning, at any point a scan for no
+* credit can be selected so the very next scan gives no credit, scanning
+* can also be stopped at any time to progress to the ResultsPage
+*
+* The results of a scan can be:
+* Person is not in the database - prompts to update database or ask person
+* to go to CTS
+* Person is given credit - keeps scanning
+* Person is given no credit - keeps scanning
+* If a person has already received credit or nocredit, on a successive scan
+* it will show that it knows the person has already received one of the 
+* credits
+*
+* In order to prevent unnecessary beeping and duplicate entries the 
+* system will not display new information about a card that was just scanned
+* unless a different card is scanned then information will be displayed
+* upon scanning the first card again
+*
+* Authors: Jonathan Manos, Travis Pullen
+* Last Modified: 4/25/16
+*
+*/
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using RFIDeas_pcProxAPI;
-using System.Threading;
 using System.Timers;
 using System.Media;
 using System.Diagnostics;
@@ -25,7 +40,6 @@ namespace CheckerApplication
     {
         //pulls attendanceWriter object from MainWindow
         AttendanceWriter attendanceWriter = MainWindow.AppWindow.getAttendanceWriter();
-        
         
         //variables used throughout the class
         bool textFileCreated = false;
@@ -68,7 +82,6 @@ namespace CheckerApplication
             Panel.SetZIndex(buttonScan, 1);
             Panel.SetZIndex(buttonStopScan, 0);
             circleAnimation.Opacity = 0;
-
 
             //a text file is created for the event when the scan page is initialized
             if (textFileCreated == false)
@@ -121,7 +134,6 @@ namespace CheckerApplication
                     labelID.Text = "USB Scanning Device Not Found: \n\n Please Connect the USB Scanning Device.";
                 }
             }
-
         }
 
         //button that initializes the scanning process
@@ -230,7 +242,6 @@ namespace CheckerApplication
                     }
                 }
 
-
                 //performs a successful scan for credit if the following:
                 //
                 //the last id for credit does not equal the currently scannedID
@@ -259,7 +270,6 @@ namespace CheckerApplication
                     creditList.Add(scannedID);
                     attendanceWriter.setNoCredit(0);
                     attendanceWriter.WriteAttendanceTextFile(scannedID);
-                    
                 }
 
                 //performs a no credit scan for no credit if the following:
@@ -293,8 +303,6 @@ namespace CheckerApplication
                     attendanceWriter.setNoCredit(1);
                     attendanceWriter.WriteAttendanceTextFile(scannedID);
                     noCreditChecked = false;
-                    
-
                 }
 
                 //performs a no longer can receive credit scan if the following:
@@ -325,7 +333,6 @@ namespace CheckerApplication
                     });
                     noCreditChecked = false;
                     playFailSound();
-                    
                 }
 
                 //performs an already received credit scan if the following:
@@ -359,9 +366,6 @@ namespace CheckerApplication
                     Dispatcher.Invoke(() =>
                     { circleAnimation.Fill = new SolidColorBrush(Colors.White); });
                 }
-
-                //SystemSounds.Beep.Play();
-
             }
             else
             {
@@ -370,9 +374,7 @@ namespace CheckerApplication
                     circleAnimation.Fill = new SolidColorBrush(Colors.White);
                 });
             }
-
-            
-            }
+        }
 
         //plays the happy sound
         private void playHappySound()
@@ -404,6 +406,7 @@ namespace CheckerApplication
             buttonDoneScanningYes.IsEnabled = true;
             buttonDoneScanningNo.IsEnabled = true;
         }
+
         // if the yes button is clicked, scanning is stopped, and moves to the results page
         private void buttonDoneScanningYes_Click(object sender, RoutedEventArgs e)
         {

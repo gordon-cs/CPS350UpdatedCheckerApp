@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/*
+* ResultsPage.xaml.cs - class responsible for commanding final cleanup
+* of the attendance file as well as displaying the number of students 
+* scanned and the time spent scanning
+*
+* Class is not essential in the checking process but allows the user
+* to know scanning is complete as well as return to the SignInPage to
+* scan further
+*
+* Authors: Jonathan Manos, Travis Pullen
+* Last Modified: 4/25/16
+*
+*/
+
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Diagnostics;
 
 namespace CheckerApplication
 {

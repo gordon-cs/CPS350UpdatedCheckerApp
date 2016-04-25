@@ -1,18 +1,22 @@
-﻿using System;
+﻿/*
+* EventPage.xaml.cs - class responsible for displaying all the events
+* found in the events data file
+*
+* Responsible for displaying all of the gordon events last pulled from
+* the database
+*
+* Allows the user to go back to the SignInPage or progress to the ScanPage
+* if an event has been selected
+*
+* Authors: Jonathan Manos, Travis Pullen
+* Last Modified: 4/25/16
+*
+*/
+
 using System.Collections.Generic;
-using System.Linq;
 using System.Media;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CheckerApplication
 {
@@ -21,19 +25,15 @@ namespace CheckerApplication
     /// </summary>
     public partial class EventPage : UserControl
     {
-
         AttendanceWriter attendanceWriter = MainWindow.AppWindow.getAttendanceWriter();
         private string eventID;
         private List<string> listEvents;
         private List<string> listEventIDs;
-        private bool listBoxItemClicked = false;
 
         //Constructor for the Select Event Page
         public EventPage()
         {
-            
             InitializeComponent();
-
             
             // initializes the lists with event information and event ids
             listEvents = attendanceWriter.getEventInformationList();
@@ -46,7 +46,6 @@ namespace CheckerApplication
                 listBoxItem.Content = listEvents[i];
                 eventListBox.Items.Add(listBoxItem);
             }
-         
         }
 
         // function that is called when a selection is made in the list box .. of an event
@@ -63,8 +62,6 @@ namespace CheckerApplication
             // set the id of the event selected in the attendance text file
             this.eventID = id;
             attendanceWriter.setEventID(eventID);
-            
-            listBoxItemClicked = true;
         }
 
         // function that is called when OK button is clicked
@@ -82,14 +79,12 @@ namespace CheckerApplication
                 SystemSounds.Beep.Play();
                 labelID.Text = "Please select an event.";
             }
-            
         }
 
         //if the back button is clicked, return to the sign in page
         private void buttonBack_Click(object sender, RoutedEventArgs e)
         {
             MainWindow.AppWindow.GoToSignInPage();
-            listBoxItemClicked = false;
         }
     }
 }

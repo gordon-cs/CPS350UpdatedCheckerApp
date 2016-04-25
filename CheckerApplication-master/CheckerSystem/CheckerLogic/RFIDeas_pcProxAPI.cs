@@ -1,3 +1,12 @@
+/*
+* RFIDeas_pcProxAPI.cs - class responsible for all RFID USB Device functions
+*
+* Responsible for providing all RFID USB Device functions
+*
+* Author: RF IDeas
+*
+*/
+
 using System;
 using System.Runtime.InteropServices;
 //

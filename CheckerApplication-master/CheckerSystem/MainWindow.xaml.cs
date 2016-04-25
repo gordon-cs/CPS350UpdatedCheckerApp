@@ -1,7 +1,25 @@
-﻿
-
-
-
+﻿/*
+* MainWindow.xaml.cs - blank window that holds the various user control pages
+*
+* Responsible for navigating between the different user control pages: 
+* SignInPage, EventPage, ScanPage, ResultsPage
+* 
+* MainWindow is accessible from other classes by using: 
+* MainWindow.AppWindow
+*
+* MainWindow holds the attendanceWriter class
+* so to access attendanceWriter one must use:
+* MainWindow.AppWindow.attendanceWriter
+* Otherwise you would be using a new instance of the attendanceWriter
+*
+* MainWindow is also the first location in the program that checks for the 
+* RFID USB device and sets the program up as device connected if it is 
+* found
+*
+* Authors: Jonathan Manos, Travis Pullen
+* Last Modified: 4/25/16
+*
+*/
 
 using System.Windows;
 using RFIDeas_pcProxAPI;
@@ -25,6 +43,7 @@ namespace CheckerApplication
         bool databaseUpdated = false;
         string scanTime = "";
 
+        //Time per scan constant set for the device
         private const int SCANOFFSETTIME = 500;
 
         //constructor for the main window
@@ -33,12 +52,12 @@ namespace CheckerApplication
             //Initializes classes
             AppWindow = this;
             attendanceWriter = new AttendanceWriter();
-            SQLPuller sqlPuller = new SQLPuller();
 
             //the following lines update the database
             //comment them out if you dont want to update on startup
             //uncomment them if you want to update on startup
 
+            //SQLPuller sqlPuller = new SQLPuller();
             //sqlPuller.pullAuthorizedCheckers();
             //sqlPuller.pullEvents();
             //sqlPuller.pullStudents();
@@ -55,22 +74,18 @@ namespace CheckerApplication
             //GoToScanPage();
             //GoToResultsPage();
 
-
-
             textBox1.Text = "Updated: " + attendanceWriter.getDate();
 
             //attempts connecting the usb reader device
-
             long DeviceID = 0;
-
-            
-
             if (pcProxDLLAPI.usbConnect() == 1)
             {
                 DeviceID = pcProxDLLAPI.GetDID();
                 ushort proxDevice = pcProxDLLAPI.writeDevCfgToFile("prox_device_configuration");
                 MainWindow.AppWindow.textBox2.Text = "Connected to DeviceID: " + DeviceID;
                 this.deviceConnected = true;
+                //if the device's scan time does not match the constant set, write new
+                //settings to device with the constant's scan time
                 if (pcProxDLLAPI.getTimeParms_iIDHoldTO() != SCANOFFSETTIME || pcProxDLLAPI.getTimeParms_iIDLockOutTm() != SCANOFFSETTIME)
                 {
                     pcProxDLLAPI.setTimeParms_iIDHoldTO(SCANOFFSETTIME);
@@ -87,8 +102,7 @@ namespace CheckerApplication
             else
             {
                 MainWindow.AppWindow.textBox2.Text = "No device found";
-            }
-            
+            }     
         }
 
         //Asks user to confirm whether they really want to close out of the application
