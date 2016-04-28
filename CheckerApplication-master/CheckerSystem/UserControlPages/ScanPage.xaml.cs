@@ -224,7 +224,7 @@ namespace CheckerApplication
                     {
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Foreground = new SolidColorBrush(Colors.DarkSlateBlue);
-                        labelID.Text = "Student\nwas not found in the database.\nPlease Update!";
+                        labelID.Text = "Student\nwas not found in the database.\nTake ID to CTS!";
                     });
 
                     playFailSound();
