@@ -167,7 +167,7 @@ namespace CheckerApplication
         //function that runs a scan on a timer
         private void signInScan(object source, ElapsedEventArgs e)
         {
-            //gets the bits of the proxID from a scan
+            //gets the bytes of the proxID from a scan
             Byte[] Id = new Byte[8];
             int nBits = pcProxDLLAPI.getActiveID(8);
 
