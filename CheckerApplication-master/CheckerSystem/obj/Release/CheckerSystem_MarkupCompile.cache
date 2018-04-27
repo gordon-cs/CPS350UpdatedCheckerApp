@@ -4,11 +4,11 @@
 winexe
 C#
 .cs
-C:\Users\Benjamin\Source\Repos\CPS350UpdatedCheckerApp\CheckerApplication-master\CheckerSystem\obj\Debug\
+C:\Users\Benjamin\Source\Repos\CPS350UpdatedCheckerApp\CheckerApplication-master\CheckerSystem\obj\Release\
 CheckerSystem
 none
 false
-DEBUG;TRACE
+TRACE
 C:\Users\Benjamin\Source\Repos\CPS350UpdatedCheckerApp\CheckerApplication-master\CheckerSystem\App.xaml
 5-587994943
 4-1226429575
@@ -16,5 +16,5 @@ C:\Users\Benjamin\Source\Repos\CPS350UpdatedCheckerApp\CheckerApplication-master
 14-648916988
 MainWindow.xaml;UserControlPages\SignInPage.xaml;UserControlPages\ScanPage.xaml;UserControlPages\ResultsPage.xaml;UserControlPages\EventPage.xaml;
 
-False
+True
 

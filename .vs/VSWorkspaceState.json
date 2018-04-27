@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\CheckerApplication-master",
+    "\\CheckerApplication-master\\CheckerSystem",
+    "\\CheckerApplication-master\\CheckerSystem\\CheckerLogic",
+    "\\CheckerApplication-master\\CheckerSystem\\Properties",
+    "\\CheckerApplication-master\\CheckerSystem\\SQLqueries",
+    "\\CheckerApplication-master\\CheckerSystem\\UserControlPages"
+  ],
+  "SelectedNode": "\\CheckerApplication-master\\CheckerSystem\\UserControlPages\\SignInPage.xaml",
+  "PreviewInSolutionExplorer": false
+}

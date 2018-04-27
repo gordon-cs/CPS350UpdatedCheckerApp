@@ -32,6 +32,7 @@ using RFIDeas_pcProxAPI;
 using System.Timers;
 using System.Media;
 using System.Diagnostics;
+using System.Windows.Threading;
 
 namespace CheckerApplication
 {
@@ -43,7 +44,7 @@ namespace CheckerApplication
         
         //variables used throughout the class
         bool textFileCreated = false;
-        bool deviceConnected = false;       
+        bool deviceConnected = false;
         bool noCreditChecked = false;
         bool scanningStarted = false;
         string lastIDforCredit = "";
@@ -126,7 +127,9 @@ namespace CheckerApplication
                     MainWindow.AppWindow.textBox2.Text = "Connected to DeviceID: " + DeviceID;
                     this.deviceConnected = true;
                     MainWindow.AppWindow.setDeviceConnected(true);
-                    labelID.Text = "USB Scanning Device Found.";
+                    //labelID.Text = "USB Scanning Device Found.";
+                    //get rid of lowerRectangle
+                    lowerRectangle.Opacity = 0;
                 }
                 else
                 {
@@ -155,7 +158,10 @@ namespace CheckerApplication
                     MainWindow.AppWindow.textBox2.Text = "Connected to DeviceID: " + DeviceID;
                     this.deviceConnected = true;
                     MainWindow.AppWindow.setDeviceConnected(true);
-                    labelID.Text = "USB Scanning Device Found.";
+                    // labelID.Text = "USB Scanning Device Found.";
+                    labelID.Text = "";
+                    //get rid of lowerRectangle and "device connected" text
+                    lowerRectangle.Opacity = 0;
                 }
                 else
                 {
@@ -172,6 +178,9 @@ namespace CheckerApplication
                 buttonStopScan.IsEnabled = true;
                 Panel.SetZIndex(buttonScan, 0);
                 Panel.SetZIndex(buttonStopScan, 1);
+
+                //get rid of lowerRectangle and "device connected" text
+                lowerRectangle.Opacity = 0;
 
                 //initializes the timer to run the scanCard function at an interval
                 //given by constant above
@@ -259,17 +268,28 @@ namespace CheckerApplication
                     lastNoCreditIDalready = "";
                     lastNoCreditID = "";
                     lastIDforCreditAlready = "";
+                    var greenTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(0.5) };
+                    
                     Dispatcher.Invoke(() =>
                     {
                         circleAnimation.Fill = new SolidColorBrush(Colors.Green);
+                        MainWindow.AppWindow.Background = new SolidColorBrush(Colors.Green);
                         studentName = attendanceWriter.getStudentsName(scannedID);
-                        labelID.Foreground = new SolidColorBrush(Colors.DarkSlateBlue);
+                        labelID.Foreground = new SolidColorBrush(Colors.White);
                         labelID.Text = studentName + "\nwill receive credit.";
+                        greenTimer.Start();
+                        greenTimer.Tick += (sender, args) =>
+                        {
+                            greenTimer.Stop();
+                            MainWindow.AppWindow.Background = new SolidColorBrush(Colors.DarkSlateBlue);
+                        };
                     });
                     playHappySound();
                     creditList.Add(scannedID);
                     attendanceWriter.setNoCredit(0);
                     attendanceWriter.WriteAttendanceTextFile(scannedID);
+                    //set the background back to blue after half a second
+
                 }
 
                 //performs a no credit scan for no credit if the following:
@@ -287,9 +307,11 @@ namespace CheckerApplication
                     lastNoCreditIDalready = "";
                     lastIDforCreditAlready = "";
                     lastIDforCredit = "";
+                    var redTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(0.5) };
                     Dispatcher.Invoke(() =>
                     {
                         circleAnimation.Fill = new SolidColorBrush(Colors.Red);
+                        MainWindow.AppWindow.Background = new SolidColorBrush(Colors.Red);
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Foreground = new SolidColorBrush(Colors.Red);
                         labelID.Text = studentName + "\nwill not receive credit.";
@@ -297,8 +319,14 @@ namespace CheckerApplication
                         Panel.SetZIndex(buttonCancelNoCredit, -1);
                         buttonCancelNoCredit.Opacity = 0;
                         buttonCancelNoCredit.IsEnabled = false;
+                        redTimer.Start();
+                        redTimer.Tick += (sender, args) =>
+                        {
+                            redTimer.Stop();
+                            MainWindow.AppWindow.Background = new SolidColorBrush(Colors.DarkSlateBlue);
+                        };
                     });
-                    playFailSound();
+                    //playFailSound();
                     noCreditList.Add(scannedID);
                     attendanceWriter.setNoCredit(1);
                     attendanceWriter.WriteAttendanceTextFile(scannedID);
@@ -320,9 +348,11 @@ namespace CheckerApplication
                     lastIDforCreditAlready = "";
                     lastNoCreditID = "";
                     lastIDforCredit = "";
+                    var redTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(0.5) };
                     Dispatcher.Invoke(() =>
                     {
                         circleAnimation.Fill = new SolidColorBrush(Colors.Red);
+                        MainWindow.AppWindow.Background = new SolidColorBrush(Colors.Red);
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Foreground = new SolidColorBrush(Colors.Red);
                         labelID.Text = studentName + "\ncan no longer receive credit.";
@@ -330,9 +360,15 @@ namespace CheckerApplication
                         Panel.SetZIndex(buttonCancelNoCredit, -1);
                         buttonCancelNoCredit.Opacity = 0;
                         buttonCancelNoCredit.IsEnabled = false;
+                        redTimer.Start();
+                        redTimer.Tick += (sender, args) =>
+                        {
+                            redTimer.Stop();
+                            MainWindow.AppWindow.Background = new SolidColorBrush(Colors.DarkSlateBlue);
+                        };
                     });
                     noCreditChecked = false;
-                    playFailSound();
+                    //playFailSound();
                 }
 
                 //performs an already received credit scan if the following:
@@ -352,12 +388,20 @@ namespace CheckerApplication
                     lastNoCreditIDalready = "";
                     lastNoCreditID = "";
                     lastIDforCredit = "";
+                    var greenTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(0.5) };
                     Dispatcher.Invoke(() =>
                     {
                         circleAnimation.Fill = new SolidColorBrush(Colors.Green);
+                        MainWindow.AppWindow.Background = new SolidColorBrush(Colors.Green);
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Foreground = new SolidColorBrush(Colors.DarkSlateBlue);
                         labelID.Text = studentName + "\nhas already received credit.";
+                        greenTimer.Start();
+                        greenTimer.Tick += (sender, args) =>
+                        {
+                            greenTimer.Stop();
+                            MainWindow.AppWindow.Background = new SolidColorBrush(Colors.DarkSlateBlue);
+                        };
                     });
                     playHappySound();
                 }
