@@ -50,7 +50,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>gordonIcon.ico</ApplicationIcon>
+    <ApplicationIcon>gordonicon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>CheckerApplication.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -153,7 +156,7 @@
   <ItemGroup>
     <Content Include="Assets\blip.wav" />
     <Content Include="Assets\failure_beep.wav" />
-    <Resource Include="gordonIcon.ico" />
+    <Resource Include="gordonicon.ico" />
     <Resource Include="gordon_icon_14g_icon.ico" />
     <Resource Include="gordon_seal_guZ_icon.ico" />
     <Resource Include="Assets\gordon-seal-300.png" />
