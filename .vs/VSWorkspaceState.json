@@ -8,6 +8,6 @@
     "\\CheckerApplication-master\\CheckerSystem\\SQLqueries",
     "\\CheckerApplication-master\\CheckerSystem\\UserControlPages"
   ],
-  "SelectedNode": "\\CheckerApplication-master\\CheckerSystem\\UserControlPages\\SignInPage.xaml",
+  "SelectedNode": "\\CheckerApplication-master\\CheckerSystem\\MainWindow.xaml.cs",
   "PreviewInSolutionExplorer": false
 }
