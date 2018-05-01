@@ -1,0 +1,8 @@
+*.exe
+*.pdb
+*.cache
+*.resources
+*.cs
+*.baml
+*.Cache
+CheckerSystem.csproj.GenerateResource.Cache

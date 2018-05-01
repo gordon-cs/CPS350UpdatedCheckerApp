@@ -1,2 +1,7 @@
+
+*.json
+*.sqlite
+slnx.sqlite
 *.sqlite
 *
+

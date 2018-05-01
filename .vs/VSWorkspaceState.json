@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\CheckerApplication-master",
-    "\\CheckerApplication-master\\CheckerSystem"
+    "\\CheckerApplication-master\\CheckerSystem",
+    "\\CheckerApplication-master\\CheckerSystem\\UserControlPages"
   ],
-  "SelectedNode": "\\CheckerApplication-master\\CheckerSystem\\CheckerSystem.csproj",
+  "SelectedNode": "\\CheckerApplication-master\\CheckerSystem\\App.config",
   "PreviewInSolutionExplorer": false
 }

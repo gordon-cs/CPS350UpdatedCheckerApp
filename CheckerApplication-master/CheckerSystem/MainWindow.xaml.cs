@@ -69,9 +69,9 @@ namespace CheckerApplication
 
             //uncomment the page you want to go to on startup for testing?
             //sign in page is the normal process for the app
-            //GoToSignInPage();
+            GoToSignInPage();
             //GoToEventsPage();     
-            GoToScanPage();
+            //GoToScanPage();
             //GoToResultsPage();
 
             textBox1.Text = "Updated: " + attendanceWriter.getDate();
