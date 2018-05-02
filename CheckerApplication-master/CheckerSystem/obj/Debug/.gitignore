@@ -4,3 +4,4 @@
 *.resources
 *.cs
 *.baml
+*.Cache
