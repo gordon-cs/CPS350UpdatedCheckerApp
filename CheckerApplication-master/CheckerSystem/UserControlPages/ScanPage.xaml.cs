@@ -114,6 +114,7 @@ namespace CheckerApplication
 
             //shows under scan button that the very next scan will recieve credit
             labelID.Foreground = new SolidColorBrush(Colors.White);
+
             labelID.Text = "Next Scan Will Receive Credit.";
 
             //if the device is not connected, runs through the device connection process
@@ -128,7 +129,6 @@ namespace CheckerApplication
                     this.deviceConnected = true;
                     MainWindow.AppWindow.setDeviceConnected(true);
                     //labelID.Text = "USB Scanning Device Found.";
-                    //get rid of lowerRectangle
                 }
                 else
                 {
@@ -160,6 +160,7 @@ namespace CheckerApplication
                     //labelID.Text = "USB Scanning Device Found.";
                     labelID.Text = "";
                     //get rid of lowerRectangle and "device connected" text
+
                 }
                 else
                 {
@@ -177,7 +178,7 @@ namespace CheckerApplication
                 Panel.SetZIndex(buttonScan, 0);
                 Panel.SetZIndex(buttonStopScan, 1);
 
-                //get rid of lowerRectangle and "device connected" text
+                
 
                 //initializes the timer to run the scanCard function at an interval
                 //given by constant above
@@ -272,6 +273,7 @@ namespace CheckerApplication
                         circleAnimation.Fill = new SolidColorBrush(Colors.Green);
                         MainWindow.AppWindow.Background = new SolidColorBrush(Colors.Green);
                         studentName = attendanceWriter.getStudentsName(scannedID);
+
                         labelID.Foreground = new SolidColorBrush(Colors.White);
                         labelID.Text = studentName + "\nwill receive credit.";
                         //set the background back to blue after half a second
@@ -309,6 +311,7 @@ namespace CheckerApplication
                     {
                         circleAnimation.Fill = new SolidColorBrush(Colors.Red);
                         MainWindow.AppWindow.Background = new SolidColorBrush(Colors.Red);
+
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Foreground = new SolidColorBrush(Colors.White);
                         labelID.Text = studentName + "\nwill not receive credit.";
@@ -351,6 +354,7 @@ namespace CheckerApplication
                     {
                         circleAnimation.Fill = new SolidColorBrush(Colors.Red);
                         MainWindow.AppWindow.Background = new SolidColorBrush(Colors.Red);
+
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Foreground = new SolidColorBrush(Colors.White);
                         labelID.Text = studentName + "\ncan no longer receive credit.";
@@ -392,6 +396,7 @@ namespace CheckerApplication
                     {
                         circleAnimation.Fill = new SolidColorBrush(Colors.Green);
                         MainWindow.AppWindow.Background = new SolidColorBrush(Colors.Green);
+
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Foreground = new SolidColorBrush(Colors.White);
                         labelID.Text = studentName + "\nhas already received credit.";
