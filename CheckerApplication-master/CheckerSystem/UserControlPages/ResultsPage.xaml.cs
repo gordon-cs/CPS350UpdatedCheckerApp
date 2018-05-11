@@ -14,6 +14,7 @@
 
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace CheckerApplication
 {
@@ -50,6 +51,14 @@ namespace CheckerApplication
         private void buttonBack_Click(object sender, RoutedEventArgs e)
         {
             MainWindow.AppWindow.GoToSignInPage();
+            easterEggText.Opacity = 0;
+            MainWindow.AppWindow.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#014983"));
+        }
+
+        private void easterEgg(object sender, RoutedEventArgs e)
+        {
+            MainWindow.AppWindow.Background = new SolidColorBrush(Colors.DeepPink);
+            easterEggText.Opacity = 100;
         }
     }
 }
