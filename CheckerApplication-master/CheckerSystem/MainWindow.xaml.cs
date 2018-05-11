@@ -17,7 +17,9 @@
 * found
 *
 * Authors: Jonathan Manos, Travis Pullen
-* Last Modified: 4/25/16
+* 
+* Modified By: Jacob Bradley & Benjamin Hills
+* Last Modified: 5/11/18
 *
 */
 
@@ -69,9 +71,9 @@ namespace CheckerApplication
 
             //uncomment the page you want to go to on startup for testing?
             //sign in page is the normal process for the app
-            //GoToSignInPage();
+            GoToSignInPage();
             //GoToEventsPage();     
-            GoToScanPage();
+            //GoToScanPage();
             //GoToResultsPage();
 
             textBox1.Text = "Updated: " + attendanceWriter.getDate();
