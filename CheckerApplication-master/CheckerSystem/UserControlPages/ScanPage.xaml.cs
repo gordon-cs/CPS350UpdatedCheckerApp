@@ -114,7 +114,7 @@ namespace CheckerApplication
 
             //shows under scan button that the very next scan will recieve credit
             labelID.Foreground = new SolidColorBrush(Colors.White);
-            lowerRectangle.Opacity = 0;
+
             labelID.Text = "Next Scan Will Receive Credit.";
 
             //if the device is not connected, runs through the device connection process
@@ -129,13 +129,11 @@ namespace CheckerApplication
                     this.deviceConnected = true;
                     MainWindow.AppWindow.setDeviceConnected(true);
                     //labelID.Text = "USB Scanning Device Found.";
-                    //get rid of lowerRectangle
-                    lowerRectangle.Opacity = 0;
                 }
                 else
                 {
                     MainWindow.AppWindow.textBox2.Text = "No devices found to connect with";
-                    labelID.Text = "USB Scanning Device Not Found: \n\n Please Connect the USB Scanning Device.";
+                    labelID.Text = "USB Scanning Device Not Found: \n Please Connect the USB Scanning Device.";
                 }
             }
         }
@@ -162,7 +160,7 @@ namespace CheckerApplication
                     //labelID.Text = "USB Scanning Device Found.";
                     labelID.Text = "";
                     //get rid of lowerRectangle and "device connected" text
-                    lowerRectangle.Opacity = 0;
+
                 }
                 else
                 {
@@ -180,8 +178,7 @@ namespace CheckerApplication
                 Panel.SetZIndex(buttonScan, 0);
                 Panel.SetZIndex(buttonStopScan, 1);
 
-                //get rid of lowerRectangle and "device connected" text
-                lowerRectangle.Opacity = 0;
+                
 
                 //initializes the timer to run the scanCard function at an interval
                 //given by constant above
@@ -243,7 +240,7 @@ namespace CheckerApplication
                     {
                         Dispatcher.Invoke(() =>
                         {
-                            checkBoxNoCredit.IsChecked = false;
+                            buttonNoCredit.IsEnabled = true;
                             Panel.SetZIndex(buttonCancelNoCredit, -1);
                             buttonCancelNoCredit.Opacity = 0;
                             buttonCancelNoCredit.IsEnabled = false;
@@ -276,7 +273,7 @@ namespace CheckerApplication
                         circleAnimation.Fill = new SolidColorBrush(Colors.Green);
                         MainWindow.AppWindow.Background = new SolidColorBrush(Colors.Green);
                         studentName = attendanceWriter.getStudentsName(scannedID);
-                        lowerRectangle.Opacity = 0;
+
                         labelID.Foreground = new SolidColorBrush(Colors.White);
                         labelID.Text = studentName + "\nwill receive credit.";
                         //set the background back to blue after half a second
@@ -314,11 +311,11 @@ namespace CheckerApplication
                     {
                         circleAnimation.Fill = new SolidColorBrush(Colors.Red);
                         MainWindow.AppWindow.Background = new SolidColorBrush(Colors.Red);
-                        lowerRectangle.Opacity = 0;
+
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Foreground = new SolidColorBrush(Colors.White);
                         labelID.Text = studentName + "\nwill not receive credit.";
-                        checkBoxNoCredit.IsChecked = false;
+                        buttonNoCredit.IsEnabled = true;
                         Panel.SetZIndex(buttonCancelNoCredit, -1);
                         buttonCancelNoCredit.Opacity = 0;
                         buttonCancelNoCredit.IsEnabled = false;
@@ -357,11 +354,11 @@ namespace CheckerApplication
                     {
                         circleAnimation.Fill = new SolidColorBrush(Colors.Red);
                         MainWindow.AppWindow.Background = new SolidColorBrush(Colors.Red);
-                        lowerRectangle.Opacity = 0;
+
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Foreground = new SolidColorBrush(Colors.White);
                         labelID.Text = studentName + "\ncan no longer receive credit.";
-                        checkBoxNoCredit.IsChecked = false;
+                        buttonNoCredit.IsEnabled = true;
                         Panel.SetZIndex(buttonCancelNoCredit, -1);
                         buttonCancelNoCredit.Opacity = 0;
                         buttonCancelNoCredit.IsEnabled = false;
@@ -399,7 +396,7 @@ namespace CheckerApplication
                     {
                         circleAnimation.Fill = new SolidColorBrush(Colors.Green);
                         MainWindow.AppWindow.Background = new SolidColorBrush(Colors.Green);
-                        lowerRectangle.Opacity = 0;
+
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Foreground = new SolidColorBrush(Colors.White);
                         labelID.Text = studentName + "\nhas already received credit.";
@@ -564,7 +561,7 @@ namespace CheckerApplication
             buttonBlacklistYes.IsEnabled = false;
             buttonBlacklistNo.IsEnabled = false;
 
-            checkBoxNoCredit.IsChecked = false;
+            buttonNoCredit.IsEnabled = true;
             circleAnimation.Opacity = 100;
             if (scanningStarted)
                 scanTimer.Start();
@@ -574,7 +571,7 @@ namespace CheckerApplication
         private void buttonCancelNoCredit_Click(object sender, RoutedEventArgs e)
         {
             noCreditChecked = false;
-            checkBoxNoCredit.IsChecked = false;
+            buttonNoCredit.IsEnabled = true;
             Panel.SetZIndex(buttonCancelNoCredit, -1);
             buttonCancelNoCredit.Opacity = 0;
             buttonCancelNoCredit.IsEnabled = false;
