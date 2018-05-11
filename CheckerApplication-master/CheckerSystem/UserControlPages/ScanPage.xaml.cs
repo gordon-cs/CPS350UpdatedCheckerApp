@@ -241,17 +241,20 @@ namespace CheckerApplication
                     lastNoCreditIDalready = "";
                     lastNoCreditID = "";
                     lastIDforCreditAlready = "";
+                    int screenHeight;
                     Dispatcher.Invoke(() =>
                     {
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Text = "";
                         labelID2.Foreground = new SolidColorBrush(Colors.White);
+
                         screenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
                         labelID2.Width = screenWidth;
+
                         labelID2.Text = "Student was not found in the database.\nTake ID to CTS!";
                     });
 
-                    playFailSound();
+                    //playFailSound();
 
                     if (noCreditChecked)
                     {
@@ -283,6 +286,7 @@ namespace CheckerApplication
                     lastNoCreditIDalready = "";
                     lastNoCreditID = "";
                     lastIDforCreditAlready = "";
+
                     Dispatcher.Invoke(() =>
                     {
                         circleAnimation.Fill = new SolidColorBrush(Colors.Green);
@@ -405,8 +409,8 @@ namespace CheckerApplication
                         labelID2.Foreground = new SolidColorBrush(Colors.White);
                         screenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
                         labelID2.Width = screenWidth;
-                        labelID2.Text = "already received credit.";
-                    
+                        labelID2.Text = "has already received credit.";
+
                     });
                     playHappySound();
                 }
