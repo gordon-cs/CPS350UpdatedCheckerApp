@@ -12,10 +12,12 @@
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="140" Margin="0,0,0,400" Stroke="#FF31342B" VerticalAlignment="Center" Width="400"/>
         <TextBlock x:Name="labelEventTitle" HorizontalAlignment="Center" Margin="0,0,0,400" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Height="120" Width="280" FontFamily="Open Sans Condensed" FontSize="26.667" Foreground="Black" TextAlignment="Center" FontWeight="Bold"/>
         <TextBlock x:Name="textBlockTitle" HorizontalAlignment="Center" Margin="0,0,0,600" TextWrapping="Wrap" VerticalAlignment="Center" Height="50" Width="400" TextAlignment="Center" FontSize="32" FontFamily="Open Sans Condensed" Foreground="#FFEBEAEA" FontWeight="Bold" Text="Scanning complete for:"/>
+
         <TextBlock x:Name="textBlockNumberScanned" HorizontalAlignment="Center" Margin="100,319,100,431" TextWrapping="Wrap" VerticalAlignment="Center" Height="50" Width="400" TextAlignment="Center" FontSize="32" FontFamily="Open Sans Condensed" Foreground="#FFEBEAEA" FontWeight="Bold"/>
         <TextBlock x:Name="textBlockScanTime" HorizontalAlignment="Center" Margin="0,50,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Height="50" Width="400" TextAlignment="Center" FontSize="32" FontFamily="Open Sans Condensed" Foreground="#FFEBEAEA" FontWeight="Bold"/>
         <Button x:Name="buttonEasterEgg" Content="Hidden Button" HorizontalAlignment="Center" Margin="257,36,321,741" VerticalAlignment="Center" Width="22" Height="23" Click="easterEgg" Opacity="0" />
         <TextBlock x:Name="easterEggText"  HorizontalAlignment="Center" Height="124" Margin="100,506,100,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" TextAlignment="Center" FontFamily="Open Sans Condensed" FontSize="32" FontWeight="Bold" Foreground="#FFEBEAEA" Opacity="0"><Run Text="Congratulations, you found an Easter Egg!"/><LineBreak/><Run Text="-Jake and Ben"/></TextBlock>
+
 
     </Grid>
 </UserControl>

@@ -19,7 +19,9 @@
 * upon scanning the first card again
 *
 * Authors: Jonathan Manos, Travis Pullen
-* Last Modified: 4/25/16
+* 
+* Modified By: Jacob Bradley & Benjamin Hills
+* Last Modified: 5/11/18
 *
 */
 
@@ -63,6 +65,8 @@ namespace CheckerApplication
 
         //constants
         private const int SCANOFFSETTIME = 500;
+
+        int screenWidth = 0;
 
         //creates the scan page
         public ScanPage()
@@ -112,12 +116,14 @@ namespace CheckerApplication
             //so boolean from the MainWindow stores if the device is connected.
             deviceConnected = MainWindow.AppWindow.getDeviceConnected();
 
-           // int screenHeight = Screen.PrimaryScreen.Bounds.Height;
-           // int screenWidth = Screen.PrimaryScreen.Bounds.Width;
-            //shows under scan button that the very next scan will recieve credit
-            labelID2.Foreground = new SolidColorBrush(Colors.White);
+            //get the screen width
+            screenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
 
+            //shows under scan button that the very next scan will receive credit
+            labelID2.Foreground = new SolidColorBrush(Colors.White);
             labelID2.Text = "Next Scan Will Receive Credit.";
+            labelID.Text = "";
+            labelID2.Width = screenWidth;
 
             //if the device is not connected, runs through the device connection process
             if (!deviceConnected)
@@ -130,12 +136,19 @@ namespace CheckerApplication
                     MainWindow.AppWindow.textBox2.Text = "Connected to DeviceID: " + DeviceID;
                     this.deviceConnected = true;
                     MainWindow.AppWindow.setDeviceConnected(true);
-                    //labelID.Text = "USB Scanning Device Found.";
+                    labelID.Foreground = new SolidColorBrush(Colors.White);
+                    labelID.Text = "USB Scanning Device Found.";
+                    labelID2.Text = "";
                 }
                 else
                 {
                     MainWindow.AppWindow.textBox2.Text = "No devices found to connect with";
-                    labelID.Text = "USB Scanning Device Not Found: \n Please Connect the USB Scanning Device.";
+                    labelID.Foreground = new SolidColorBrush(Colors.White);
+                    labelID.Text = "USB Scanning Device Not Found";
+                    labelID2.Foreground = new SolidColorBrush(Colors.White);
+                    screenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
+                    labelID2.Width = screenWidth;
+                    labelID2.Text = "Please Connect the USB Scanning Device";
                 }
             }
         }
@@ -159,10 +172,9 @@ namespace CheckerApplication
                     MainWindow.AppWindow.textBox2.Text = "Connected to DeviceID: " + DeviceID;
                     this.deviceConnected = true;
                     MainWindow.AppWindow.setDeviceConnected(true);
-                    //labelID.Text = "USB Scanning Device Found.";
-                    labelID.Text = "";
-                    //get rid of lowerRectangle and "device connected" text
-
+                    labelID.Foreground = new SolidColorBrush(Colors.White);
+                    labelID.Text = "USB Scanning Device Found.";
+                    labelID2.Text = "";
                 }
                 else
                 {
@@ -235,6 +247,10 @@ namespace CheckerApplication
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Text = "";
                         labelID2.Foreground = new SolidColorBrush(Colors.White);
+
+                        screenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
+                        labelID2.Width = screenWidth;
+
                         labelID2.Text = "Student was not found in the database.\nTake ID to CTS!";
                     });
 
@@ -280,6 +296,8 @@ namespace CheckerApplication
                         labelID.Foreground = new SolidColorBrush(Colors.White);
                         labelID.Text = studentName;
                         labelID2.Foreground = new SolidColorBrush(Colors.White);
+                        screenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
+                        labelID2.Width = screenWidth;
                         labelID2.Text = "will receive credit.";
                     });
                     playHappySound();
@@ -310,8 +328,10 @@ namespace CheckerApplication
 
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Foreground = new SolidColorBrush(Colors.White);
-                        labelID2.Foreground = new SolidColorBrush(Colors.White);
                         labelID.Text = studentName;
+                        labelID2.Foreground = new SolidColorBrush(Colors.White);
+                        screenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
+                        labelID2.Width = screenWidth;
                         labelID2.Text = "will not receive credit.";
                         buttonNoCredit.IsEnabled = true;
                         Panel.SetZIndex(buttonCancelNoCredit, -1);
@@ -347,8 +367,10 @@ namespace CheckerApplication
 
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Foreground = new SolidColorBrush(Colors.White);
-                        labelID2.Foreground = new SolidColorBrush(Colors.White);
                         labelID.Text = studentName;
+                        labelID2.Foreground = new SolidColorBrush(Colors.White);
+                        screenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
+                        labelID2.Width = screenWidth;
                         labelID2.Text = "can no longer receive credit.";
                         buttonNoCredit.IsEnabled = true;
                         Panel.SetZIndex(buttonCancelNoCredit, -1);
@@ -376,16 +398,17 @@ namespace CheckerApplication
                     lastNotInDatabaseID = "";
                     lastNoCreditIDalready = "";
                     lastNoCreditID = "";
-                    lastIDforCredit = "";                  
+                    lastIDforCredit = "";
                     Dispatcher.Invoke(() =>
                     {
                         circleAnimation.Fill = new SolidColorBrush(Colors.Green);
                         MainWindow.AppWindow.Background = new SolidColorBrush(Colors.Green);
-
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Foreground = new SolidColorBrush(Colors.White);
                         labelID.Text = studentName;
                         labelID2.Foreground = new SolidColorBrush(Colors.White);
+                        screenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
+                        labelID2.Width = screenWidth;
                         labelID2.Text = "has already received credit.";
 
                     });
@@ -507,7 +530,10 @@ namespace CheckerApplication
             buttonBlacklistNo.IsEnabled = false;
 
             labelID.Foreground = new SolidColorBrush(Colors.Red);
-            labelID.Text = "Next Scan Will Give No Credit.";
+            screenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
+            labelID2.Width = screenWidth;
+            labelID2.Text = "Next Scan Will Give No Credit.";
+            labelID.Text = "";
             lastNoCreditIDalready = "";
             lastIDforCreditAlready = "";
             lastNoCreditID = "";
@@ -554,8 +580,11 @@ namespace CheckerApplication
             Panel.SetZIndex(buttonCancelNoCredit, -1);
             buttonCancelNoCredit.Opacity = 0;
             buttonCancelNoCredit.IsEnabled = false;
-            labelID.Foreground = new SolidColorBrush(Colors.White);
-            labelID.Text = "Next Scan Will Receive Credit.";
+            labelID.Text = "";
+            labelID2.Foreground = new SolidColorBrush(Colors.White);
+            screenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
+            labelID2.Width = screenWidth;
+            labelID2.Text = "Next Scan Will Receive Credit.";
         }
     }
 }

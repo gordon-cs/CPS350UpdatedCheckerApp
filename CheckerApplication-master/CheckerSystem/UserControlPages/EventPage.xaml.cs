@@ -9,8 +9,9 @@
 * if an event has been selected
 *
 * Authors: Jonathan Manos, Travis Pullen
-* Last Modified: 4/25/16
-*
+* 
+* Modified By: Jacob Bradley & Benjamin Hills
+* Last Modified: 5/11/18
 */
 
 using System.Collections.Generic;
