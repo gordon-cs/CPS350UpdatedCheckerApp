@@ -9,7 +9,9 @@
 * Person is not in the database - keeps scanning but prompts to update
 *
 * Authors: Jonathan Manos, Travis Pullen
-* Last Modified: 4/25/16
+* 
+* Modified By: Jacob Bradley & Benjamin Hills
+* Last Modified: 5/11/18
 *
 */
 
@@ -204,6 +206,7 @@ namespace CheckerApplication
 
                         Dispatcher.Invoke(() =>
                         {
+                            MainWindow.AppWindow.Background = new SolidColorBrush(Colors.Green);
                             labelID.Foreground = new SolidColorBrush(Colors.ForestGreen);
                             checkersName = attendanceWriter.getAuthorizedCheckersName(checkerID);
                             labelID.Text = checkersName + "\nis an authorized Christian Life and Worship Credit Checker";
@@ -221,7 +224,7 @@ namespace CheckerApplication
                         {
                             attendanceWriter.setChapelCheckerID(checkerID);
                         });
-                        playHappySound();
+                        //playHappySound();
                     }
                     else
                     {
@@ -230,11 +233,17 @@ namespace CheckerApplication
                         {
                             checkersName = attendanceWriter.getStudentsName(checkerID);
                             if (checkersName.Equals("Student"))
+                            {
                                 labelID.Text = checkersName + " is not in the Database\n\nTry Updating Database";
+                                MainWindow.AppWindow.Background = new SolidColorBrush(Colors.Red);
+                            }
                             else
+                            {
                                 labelID.Text = checkersName + "\nis not an Authorized Christian Life and Worship Credit Checker";
+                                MainWindow.AppWindow.Background = new SolidColorBrush(Colors.Red);
+                            }
                         });
-                        playFailSound();
+                        //playFailSound();
                     }
                 }
             }
@@ -242,6 +251,7 @@ namespace CheckerApplication
             {
                 Dispatcher.Invoke(() =>
                 {
+                    MainWindow.AppWindow.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#014983"));
                     circleAnimationScan.Fill = new SolidColorBrush(Colors.White);
                 }); 
             }
@@ -295,6 +305,7 @@ namespace CheckerApplication
         private void buttonProceed_Click(object sender, RoutedEventArgs e)
         {
             successfulSignIn();
+            MainWindow.AppWindow.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#014983"));
         }
 
         //function if the cancel scan button is clicked
@@ -323,14 +334,14 @@ namespace CheckerApplication
             MainWindow.AppWindow.Background = new SolidColorBrush(Colors.IndianRed);
         }
 
-        //function if secret button 2 is clicked
+        //function if secret button 3 is clicked
         private void backgroundChanger3(object sender, RoutedEventArgs e)
         {
             Brush brush = new SolidColorBrush(Color.FromRgb(1, 73, 131));
             MainWindow.AppWindow.Background = brush;
         }
 
-        //function if secret button 2 is clicked
+        //function if secret button 4 is clicked
         private void backgroundChanger4(object sender, RoutedEventArgs e)
         {
             MainWindow.AppWindow.Background = new SolidColorBrush(Colors.HotPink);

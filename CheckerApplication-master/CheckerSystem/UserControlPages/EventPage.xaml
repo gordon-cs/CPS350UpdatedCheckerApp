@@ -12,9 +12,8 @@
         <Button x:Name="buttonBack" Content="Back" HorizontalAlignment="Center" Margin="0,600,300,0" VerticalAlignment="Center" Width="176" Height="60" FontSize="42.667" FontFamily="Open Sans Condensed" Click="buttonBack_Click" Cursor="Hand" Background="#FFEBEAEA" BorderBrush="#FF31342B" BorderThickness="2" FontWeight="Bold"/>
         <TextBlock x:Name="labelID" HorizontalAlignment="Center" Margin="0,480,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Height="30" Width="350" FontFamily="Malgun Gothic" FontSize="18.667" Foreground="#FFEBEAEA" TextAlignment="Center"/>
 
-        <ScrollViewer HorizontalAlignment="Left" Height="550" VerticalAlignment="Top" Width="550" Margin="25,70,0,0" PanningMode="VerticalOnly" VerticalScrollBarVisibility="Hidden">
-            <ListBox x:Name="eventListBox" HorizontalAlignment="Center" Height="550" Margin="0,0,0,110" VerticalAlignment="Center" Width="550" BorderBrush="Black" SelectionChanged="ListBox_SelectionChanged" Cursor="None" Background="#FFEBEAEA" FontFamily="Open Sans Condensed" FontSize="18" FontWeight="Bold" ScrollViewer.PanningDeceleration="0.001" ScrollViewer.PanningRatio="2"/>
-        </ScrollViewer>
+
+        <ListBox x:Name="eventListBox" HorizontalAlignment="Center" Height="550" Margin="0,0,0,110" VerticalAlignment="Center" Width="550" BorderBrush="Black" SelectionChanged="ListBox_SelectionChanged" Cursor="None" Background="#FFEBEAEA" FontFamily="Open Sans Condensed" FontSize="18" FontWeight="Bold" ScrollViewer.PanningMode="VerticalOnly" ScrollViewer.PanningDeceleration="0.02" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.PanningRatio="2"/>
 
     </Grid>
 </UserControl>

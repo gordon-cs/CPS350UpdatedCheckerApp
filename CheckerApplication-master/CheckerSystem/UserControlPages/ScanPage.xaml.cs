@@ -19,7 +19,9 @@
 * upon scanning the first card again
 *
 * Authors: Jonathan Manos, Travis Pullen
-* Last Modified: 4/25/16
+* 
+* Modified By: Jacob Bradley & Benjamin Hills
+* Last Modified: 5/11/18
 *
 */
 
@@ -63,6 +65,8 @@ namespace CheckerApplication
 
         //constants
         private const int SCANOFFSETTIME = 500;
+
+        int screenWidth = 0;
 
         //creates the scan page
         public ScanPage()
@@ -112,10 +116,14 @@ namespace CheckerApplication
             //so boolean from the MainWindow stores if the device is connected.
             deviceConnected = MainWindow.AppWindow.getDeviceConnected();
 
-            //shows under scan button that the very next scan will recieve credit
-            labelID.Foreground = new SolidColorBrush(Colors.White);
+            //get the screen width
+            screenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
 
-            labelID.Text = "Next Scan Will Receive Credit.";
+            //shows under scan button that the very next scan will receive credit
+            labelID2.Foreground = new SolidColorBrush(Colors.White);
+            labelID2.Text = "Next Scan Will Receive Credit.";
+            labelID.Text = "";
+            labelID2.Width = screenWidth;
 
             //if the device is not connected, runs through the device connection process
             if (!deviceConnected)
@@ -128,12 +136,19 @@ namespace CheckerApplication
                     MainWindow.AppWindow.textBox2.Text = "Connected to DeviceID: " + DeviceID;
                     this.deviceConnected = true;
                     MainWindow.AppWindow.setDeviceConnected(true);
-                    //labelID.Text = "USB Scanning Device Found.";
+                    labelID.Foreground = new SolidColorBrush(Colors.White);
+                    labelID.Text = "USB Scanning Device Found.";
+                    labelID2.Text = "";
                 }
                 else
                 {
                     MainWindow.AppWindow.textBox2.Text = "No devices found to connect with";
-                    labelID.Text = "USB Scanning Device Not Found: \n Please Connect the USB Scanning Device.";
+                    labelID.Foreground = new SolidColorBrush(Colors.White);
+                    labelID.Text = "USB Scanning Device Not Found";
+                    labelID2.Foreground = new SolidColorBrush(Colors.White);
+                    screenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
+                    labelID2.Width = screenWidth;
+                    labelID2.Text = "Please Connect the USB Scanning Device";
                 }
             }
         }
@@ -157,10 +172,9 @@ namespace CheckerApplication
                     MainWindow.AppWindow.textBox2.Text = "Connected to DeviceID: " + DeviceID;
                     this.deviceConnected = true;
                     MainWindow.AppWindow.setDeviceConnected(true);
-                    //labelID.Text = "USB Scanning Device Found.";
-                    labelID.Text = "";
-                    //get rid of lowerRectangle and "device connected" text
-
+                    labelID.Foreground = new SolidColorBrush(Colors.White);
+                    labelID.Text = "USB Scanning Device Found.";
+                    labelID2.Text = "";
                 }
                 else
                 {
@@ -230,8 +244,11 @@ namespace CheckerApplication
                     Dispatcher.Invoke(() =>
                     {
                         studentName = attendanceWriter.getStudentsName(scannedID);
-                        labelID.Foreground = new SolidColorBrush(Colors.White);
-                        labelID.Text = "Student\nwas not found in the database.\nTake ID to CTS!";
+                        labelID.Text = "";
+                        labelID2.Foreground = new SolidColorBrush(Colors.White);
+                        screenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
+                        labelID2.Width = screenWidth;
+                        labelID2.Text = "Student was not found in the database.\nTake ID to CTS!";
                     });
 
                     playFailSound();
@@ -266,8 +283,6 @@ namespace CheckerApplication
                     lastNoCreditIDalready = "";
                     lastNoCreditID = "";
                     lastIDforCreditAlready = "";
-                    //var greenTimer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(0.5) };
-
                     Dispatcher.Invoke(() =>
                     {
                         circleAnimation.Fill = new SolidColorBrush(Colors.Green);
@@ -275,16 +290,12 @@ namespace CheckerApplication
                         studentName = attendanceWriter.getStudentsName(scannedID);
 
                         labelID.Foreground = new SolidColorBrush(Colors.White);
-                        labelID.Text = studentName + "\nwill receive credit.";
-                        //set the background back to blue after half a second
-                    //    greenTimer.Start();
-                    //    greenTimer.Tick += (sender, args) =>
-                    //    {
-                    //        MainWindow.AppWindow.Background = new SolidColorBrush(Colors.DarkSlateBlue);
-                    //    };
-                    //    greenTimer.Stop();
+                        labelID.Text = studentName;
+                        labelID2.Foreground = new SolidColorBrush(Colors.White);
+                        screenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
+                        labelID2.Width = screenWidth;
+                        labelID2.Text = "will receive credit.";
                     });
-                    //MainWindow.AppWindow.Background = new SolidColorBrush(Colors.DarkSlateBlue);
                     playHappySound();
                     creditList.Add(scannedID);
                     attendanceWriter.setNoCredit(0);
@@ -306,7 +317,6 @@ namespace CheckerApplication
                     lastNoCreditIDalready = "";
                     lastIDforCreditAlready = "";
                     lastIDforCredit = "";
-                    //var redTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(0.5) };
                     Dispatcher.Invoke(() =>
                     {
                         circleAnimation.Fill = new SolidColorBrush(Colors.Red);
@@ -314,20 +324,17 @@ namespace CheckerApplication
 
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Foreground = new SolidColorBrush(Colors.White);
-                        labelID.Text = studentName + "\nwill not receive credit.";
+                        labelID.Text = studentName;
+                        labelID2.Foreground = new SolidColorBrush(Colors.White);
+                        screenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
+                        labelID2.Width = screenWidth;
+                        labelID2.Text = "will not receive credit.";
                         buttonNoCredit.IsEnabled = true;
                         Panel.SetZIndex(buttonCancelNoCredit, -1);
                         buttonCancelNoCredit.Opacity = 0;
                         buttonCancelNoCredit.IsEnabled = false;
                         
                     });
-                    //redTimer.Start();
-                    //redTimer.Tick += (sender, args) =>
-                    //{
-                    //    redTimer.Stop();
-                    //    MainWindow.AppWindow.Background = new SolidColorBrush(Colors.DarkSlateBlue);
-                    //};
-                    //playFailSound();
                     noCreditList.Add(scannedID);
                     attendanceWriter.setNoCredit(1);
                     attendanceWriter.WriteAttendanceTextFile(scannedID);
@@ -349,7 +356,6 @@ namespace CheckerApplication
                     lastIDforCreditAlready = "";
                     lastNoCreditID = "";
                     lastIDforCredit = "";
-                    //var redTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(0.5) };
                     Dispatcher.Invoke(() =>
                     {
                         circleAnimation.Fill = new SolidColorBrush(Colors.Red);
@@ -357,19 +363,17 @@ namespace CheckerApplication
 
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Foreground = new SolidColorBrush(Colors.White);
-                        labelID.Text = studentName + "\ncan no longer receive credit.";
+                        labelID.Text = studentName;
+                        labelID2.Foreground = new SolidColorBrush(Colors.White);
+                        screenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
+                        labelID2.Width = screenWidth;
+                        labelID2.Text = "can no longer receive credit.";
                         buttonNoCredit.IsEnabled = true;
                         Panel.SetZIndex(buttonCancelNoCredit, -1);
                         buttonCancelNoCredit.Opacity = 0;
                         buttonCancelNoCredit.IsEnabled = false;
                         
                     });
-                    //redTimer.Start();
-                    //redTimer.Tick += (sender, args) =>
-                    //{
-                    //    redTimer.Stop();
-                    //    MainWindow.AppWindow.Background = new SolidColorBrush(Colors.DarkSlateBlue);
-                    //};
                     noCreditChecked = false;
                     //playFailSound();
                 }
@@ -391,25 +395,19 @@ namespace CheckerApplication
                     lastNoCreditIDalready = "";
                     lastNoCreditID = "";
                     lastIDforCredit = "";
-                    //var greenTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(0.5) };                    
                     Dispatcher.Invoke(() =>
                     {
                         circleAnimation.Fill = new SolidColorBrush(Colors.Green);
                         MainWindow.AppWindow.Background = new SolidColorBrush(Colors.Green);
-
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Foreground = new SolidColorBrush(Colors.White);
-                        labelID.Text = studentName + "\nhas already received credit.";
-                        
+                        labelID.Text = studentName;
+                        labelID2.Foreground = new SolidColorBrush(Colors.White);
+                        screenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
+                        labelID2.Width = screenWidth;
+                        labelID2.Text = "already received credit.";
+                    
                     });
-                    //set the background back to blue after half a second
-
-                    //greenTimer.Start();
-                    //greenTimer.Tick += (sender, args) =>
-                    //{
-                    //    greenTimer.Stop();
-                    //    MainWindow.AppWindow.Background = new SolidColorBrush(Colors.DarkSlateBlue);
-                    //};
                     playHappySound();
                 }
                 else
@@ -528,7 +526,10 @@ namespace CheckerApplication
             buttonBlacklistNo.IsEnabled = false;
 
             labelID.Foreground = new SolidColorBrush(Colors.Red);
-            labelID.Text = "Next Scan Will Give No Credit.";
+            screenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
+            labelID2.Width = screenWidth;
+            labelID2.Text = "Next Scan Will Give No Credit.";
+            labelID.Text = "";
             lastNoCreditIDalready = "";
             lastIDforCreditAlready = "";
             lastNoCreditID = "";
@@ -575,8 +576,11 @@ namespace CheckerApplication
             Panel.SetZIndex(buttonCancelNoCredit, -1);
             buttonCancelNoCredit.Opacity = 0;
             buttonCancelNoCredit.IsEnabled = false;
-            labelID.Foreground = new SolidColorBrush(Colors.White);
-            labelID.Text = "Next Scan Will Receive Credit.";
+            labelID.Text = "";
+            labelID2.Foreground = new SolidColorBrush(Colors.White);
+            screenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
+            labelID2.Width = screenWidth;
+            labelID2.Text = "Next Scan Will Receive Credit.";
         }
     }
 }
