@@ -1,4 +1,1 @@
-bin/*
 obj/
-
-!bin/Debug/pcProxAPI.dll
