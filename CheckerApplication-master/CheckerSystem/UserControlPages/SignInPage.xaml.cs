@@ -221,7 +221,7 @@ namespace CheckerApplication
                         {
                             attendanceWriter.setChapelCheckerID(checkerID);
                         });
-                        playHappySound();
+                        //playHappySound();
                     }
                     else
                     {
@@ -234,7 +234,7 @@ namespace CheckerApplication
                             else
                                 labelID.Text = checkersName + "\nis not an Authorized Christian Life and Worship Credit Checker";
                         });
-                        playFailSound();
+                        //playFailSound();
                     }
                 }
             }

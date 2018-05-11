@@ -112,10 +112,12 @@ namespace CheckerApplication
             //so boolean from the MainWindow stores if the device is connected.
             deviceConnected = MainWindow.AppWindow.getDeviceConnected();
 
+           // int screenHeight = Screen.PrimaryScreen.Bounds.Height;
+           // int screenWidth = Screen.PrimaryScreen.Bounds.Width;
             //shows under scan button that the very next scan will recieve credit
-            labelID.Foreground = new SolidColorBrush(Colors.White);
+            labelID2.Foreground = new SolidColorBrush(Colors.White);
 
-            labelID.Text = "Next Scan Will Receive Credit.";
+            labelID2.Text = "Next Scan Will Receive Credit.";
 
             //if the device is not connected, runs through the device connection process
             if (!deviceConnected)
@@ -227,14 +229,16 @@ namespace CheckerApplication
                     lastNoCreditIDalready = "";
                     lastNoCreditID = "";
                     lastIDforCreditAlready = "";
+                    int screenHeight;
                     Dispatcher.Invoke(() =>
                     {
                         studentName = attendanceWriter.getStudentsName(scannedID);
-                        labelID.Foreground = new SolidColorBrush(Colors.White);
-                        labelID.Text = "Student\nwas not found in the database.\nTake ID to CTS!";
+                        labelID.Text = "";
+                        labelID2.Foreground = new SolidColorBrush(Colors.White);
+                        labelID2.Text = "Student was not found in the database.\nTake ID to CTS!";
                     });
 
-                    playFailSound();
+                    //playFailSound();
 
                     if (noCreditChecked)
                     {
@@ -266,7 +270,6 @@ namespace CheckerApplication
                     lastNoCreditIDalready = "";
                     lastNoCreditID = "";
                     lastIDforCreditAlready = "";
-                    //var greenTimer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(0.5) };
 
                     Dispatcher.Invoke(() =>
                     {
@@ -275,16 +278,10 @@ namespace CheckerApplication
                         studentName = attendanceWriter.getStudentsName(scannedID);
 
                         labelID.Foreground = new SolidColorBrush(Colors.White);
-                        labelID.Text = studentName + "\nwill receive credit.";
-                        //set the background back to blue after half a second
-                    //    greenTimer.Start();
-                    //    greenTimer.Tick += (sender, args) =>
-                    //    {
-                    //        MainWindow.AppWindow.Background = new SolidColorBrush(Colors.DarkSlateBlue);
-                    //    };
-                    //    greenTimer.Stop();
+                        labelID.Text = studentName;
+                        labelID2.Foreground = new SolidColorBrush(Colors.White);
+                        labelID2.Text = "will receive credit.";
                     });
-                    //MainWindow.AppWindow.Background = new SolidColorBrush(Colors.DarkSlateBlue);
                     playHappySound();
                     creditList.Add(scannedID);
                     attendanceWriter.setNoCredit(0);
@@ -306,7 +303,6 @@ namespace CheckerApplication
                     lastNoCreditIDalready = "";
                     lastIDforCreditAlready = "";
                     lastIDforCredit = "";
-                    //var redTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(0.5) };
                     Dispatcher.Invoke(() =>
                     {
                         circleAnimation.Fill = new SolidColorBrush(Colors.Red);
@@ -314,20 +310,15 @@ namespace CheckerApplication
 
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Foreground = new SolidColorBrush(Colors.White);
-                        labelID.Text = studentName + "\nwill not receive credit.";
+                        labelID2.Foreground = new SolidColorBrush(Colors.White);
+                        labelID.Text = studentName;
+                        labelID2.Text = "will not receive credit.";
                         buttonNoCredit.IsEnabled = true;
                         Panel.SetZIndex(buttonCancelNoCredit, -1);
                         buttonCancelNoCredit.Opacity = 0;
                         buttonCancelNoCredit.IsEnabled = false;
                         
                     });
-                    //redTimer.Start();
-                    //redTimer.Tick += (sender, args) =>
-                    //{
-                    //    redTimer.Stop();
-                    //    MainWindow.AppWindow.Background = new SolidColorBrush(Colors.DarkSlateBlue);
-                    //};
-                    //playFailSound();
                     noCreditList.Add(scannedID);
                     attendanceWriter.setNoCredit(1);
                     attendanceWriter.WriteAttendanceTextFile(scannedID);
@@ -349,7 +340,6 @@ namespace CheckerApplication
                     lastIDforCreditAlready = "";
                     lastNoCreditID = "";
                     lastIDforCredit = "";
-                    //var redTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(0.5) };
                     Dispatcher.Invoke(() =>
                     {
                         circleAnimation.Fill = new SolidColorBrush(Colors.Red);
@@ -357,19 +347,15 @@ namespace CheckerApplication
 
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Foreground = new SolidColorBrush(Colors.White);
-                        labelID.Text = studentName + "\ncan no longer receive credit.";
+                        labelID2.Foreground = new SolidColorBrush(Colors.White);
+                        labelID.Text = studentName;
+                        labelID2.Text = "can no longer receive credit.";
                         buttonNoCredit.IsEnabled = true;
                         Panel.SetZIndex(buttonCancelNoCredit, -1);
                         buttonCancelNoCredit.Opacity = 0;
                         buttonCancelNoCredit.IsEnabled = false;
                         
                     });
-                    //redTimer.Start();
-                    //redTimer.Tick += (sender, args) =>
-                    //{
-                    //    redTimer.Stop();
-                    //    MainWindow.AppWindow.Background = new SolidColorBrush(Colors.DarkSlateBlue);
-                    //};
                     noCreditChecked = false;
                     //playFailSound();
                 }
@@ -390,8 +376,7 @@ namespace CheckerApplication
                     lastNotInDatabaseID = "";
                     lastNoCreditIDalready = "";
                     lastNoCreditID = "";
-                    lastIDforCredit = "";
-                    //var greenTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(0.5) };                    
+                    lastIDforCredit = "";                  
                     Dispatcher.Invoke(() =>
                     {
                         circleAnimation.Fill = new SolidColorBrush(Colors.Green);
@@ -399,17 +384,11 @@ namespace CheckerApplication
 
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Foreground = new SolidColorBrush(Colors.White);
-                        labelID.Text = studentName + "\nhas already received credit.";
-                        
-                    });
-                    //set the background back to blue after half a second
+                        labelID.Text = studentName;
+                        labelID2.Foreground = new SolidColorBrush(Colors.White);
+                        labelID2.Text = "has already received credit.";
 
-                    //greenTimer.Start();
-                    //greenTimer.Tick += (sender, args) =>
-                    //{
-                    //    greenTimer.Stop();
-                    //    MainWindow.AppWindow.Background = new SolidColorBrush(Colors.DarkSlateBlue);
-                    //};
+                    });
                     playHappySound();
                 }
                 else
