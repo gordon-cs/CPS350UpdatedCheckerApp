@@ -292,11 +292,12 @@ namespace CheckerApplication
                         circleAnimation.Fill = new SolidColorBrush(Colors.Green);
                         MainWindow.AppWindow.Background = new SolidColorBrush(Colors.Green);
                         studentName = attendanceWriter.getStudentsName(scannedID);
-
+                        screenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
                         labelID.Foreground = new SolidColorBrush(Colors.White);
+                        labelID.Width = screenWidth;
                         labelID.Text = studentName;
                         labelID2.Foreground = new SolidColorBrush(Colors.White);
-                        screenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
+
                         labelID2.Width = screenWidth;
                         labelID2.Text = "will receive credit.";
                     });
@@ -325,12 +326,13 @@ namespace CheckerApplication
                     {
                         circleAnimation.Fill = new SolidColorBrush(Colors.Red);
                         MainWindow.AppWindow.Background = new SolidColorBrush(Colors.Red);
-
+                        screenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Foreground = new SolidColorBrush(Colors.White);
+                        labelID.Width = screenWidth;
                         labelID.Text = studentName;
                         labelID2.Foreground = new SolidColorBrush(Colors.White);
-                        screenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
+
                         labelID2.Width = screenWidth;
                         labelID2.Text = "will not receive credit.";
                         buttonNoCredit.IsEnabled = true;
@@ -364,12 +366,13 @@ namespace CheckerApplication
                     {
                         circleAnimation.Fill = new SolidColorBrush(Colors.Red);
                         MainWindow.AppWindow.Background = new SolidColorBrush(Colors.Red);
-
+                        screenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Foreground = new SolidColorBrush(Colors.White);
+                        labelID.Width = screenWidth;
                         labelID.Text = studentName;
                         labelID2.Foreground = new SolidColorBrush(Colors.White);
-                        screenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
+
                         labelID2.Width = screenWidth;
                         labelID2.Text = "can no longer receive credit.";
                         buttonNoCredit.IsEnabled = true;
@@ -403,11 +406,13 @@ namespace CheckerApplication
                     {
                         circleAnimation.Fill = new SolidColorBrush(Colors.Green);
                         MainWindow.AppWindow.Background = new SolidColorBrush(Colors.Green);
+                        screenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
                         studentName = attendanceWriter.getStudentsName(scannedID);
                         labelID.Foreground = new SolidColorBrush(Colors.White);
+                        labelID.Width = screenWidth;
                         labelID.Text = studentName;
                         labelID2.Foreground = new SolidColorBrush(Colors.White);
-                        screenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
+
                         labelID2.Width = screenWidth;
                         labelID2.Text = "has already received credit.";
 
